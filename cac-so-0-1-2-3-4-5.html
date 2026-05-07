@@ -179,4 +179,23 @@
     }
 
     function goPage(id) {
-        document.querySelectorAll('.page').forEach(p
+        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if(id==='p2') { setTimeout(() => { const rect = canvas.getBoundingClientRect(); canvas.width = rect.width; canvas.height = rect.height; drawT(curNum); }, 100); }
+    }
+
+    function clearCanvas() { drawT(curNum); }
+    function changeColor(c) { ctx.strokeStyle = c; }
+    function ask(el,v) { targetEl=el; correctVal=v; document.getElementById('picker').style.display='flex'; }
+    function check(n) {
+        if(n===correctVal) { 
+            targetEl.innerText=n; targetEl.classList.add('correct'); 
+            new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3').play().catch(()=>{});
+            document.getElementById('picker').style.display='none'; 
+        } else alert("Bé đếm lại nhé!");
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
