@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Trường Học Của Bé</title>
+    <style>
+        :root {
+            --bg-color: #e0f7fa;
+            --primary-text: #006064;
+        }
+
+        body {
+            margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg-color); min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        header {
+            width: 100%; padding: 20px 0; text-align: center;
+            background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;
+        }
+
+        h1 { color: var(--primary-text); margin: 0; font-size: 24px; }
+
+        /* Container cho các màn hình */
+        .screen {
+            display: none; width: 90vw; max-width: 500px;
+            padding: 20px; text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .screen.active { display: block; }
+
+        /* Thiết kế các Icon theo từng lớp */
+        .grid-container {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;
+        }
+
+        .icon-card {
+            background: white; border-radius: 25px; padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            cursor: pointer; transition: 0.2s; border: 5px solid transparent;
+        }
+
+        .icon-card:active { transform: scale(0.95); }
+        .icon-card img, .icon-card .emoji { font-size: 60px; margin-bottom: 10px; display: block; }
+        .icon-card span { font-weight: bold; color: #333; font-size: 18px; }
+
+        /* Màu sắc từng môn học */
+        .math { border-color: #ff5252; }
+        .viet { border-color: #4caf50; }
+        .eng { border-color: #2196f3; }
+
+        .btn-back {
+            margin-top: 20px; padding: 10px 20px; border-radius: 15px;
+            border: none; background: #546e7a; color: white; cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 id="headerTitle">NGÔI TRƯỜNG NHỎ CỦA BÉ</h1>
+</header>
+
+<div id="homeScreen" class="screen active">
+    <div class="grid-container">
+        <div class="icon-card math" onclick="showSubject('math')">
+            <span class="emoji">🔢</span>
+            <span>TOÁN HỌC</span>
+        </div>
+        <div class="icon-card viet" onclick="showSubject('viet')">
+            <span class="emoji">📖</span>
+            <span>TIẾNG VIỆT</span>
+        </div>
+        <div class="icon-card eng" onclick="alert('Thầy đang soạn bài, bé đợi nhé!')">
+            <span class="emoji">🇺🇸</span>
+            <span>TIẾNG ANH</span>
+        </div>
+    </div>
+</div>
+
+<div id="mathScreen" class="screen">
+    <div class="grid-container">
+        <div class="icon-card math" onclick="startLesson('so')">
+            <span class="emoji">🎯</span>
+            <span>Bé làm quen với số</span>
+        </div>
+        <div class="icon-card math" style="opacity: 0.5;">
+            <span class="emoji">➕</span>
+            <span>Phép cộng (Sắp có)</span>
+        </div>
+    </div>
+    <button class="btn-back" onclick="goHome()">Quay lại trang chủ</button>
+</div>
+
+<script>
+    function showSubject(subject) {
+        // Ẩn trang chủ
+        document.getElementById('homeScreen').classList.remove('active');
+        // Hiện trang môn học tương ứng
+        if(subject === 'math') {
+            document.getElementById('mathScreen').classList.add('active');
+            document.getElementById('headerTitle').innerText = 'MÔN TOÁN HỌC';
+        }
+    }
+
+    function goHome() {
+        document.getElementById('mathScreen').classList.remove('active');
+        document.getElementById('homeScreen').classList.add('active');
+        document.getElementById('headerTitle').innerText = 'NGÔI TRƯỜNG NHỎ CỦA BÉ';
+    }
+
+    function startLesson(lessonId) {
+    if(lessonId === 'so') {
+        // Lệnh này sẽ mở file hoc-so.html khi bé chạm vào icon bài học
+        window.location.href = 'hoc-so.html';
+    }
+}
+</script>
+
+</body>
+</html>

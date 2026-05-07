@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quà Tặng Của Thầy - Học Số 0-9</title>
+    <style>
+        body { margin: 0; background: #fffde7; font-family: 'Arial', sans-serif; overflow: hidden; display: flex; flex-direction: column; align-items: center; }
+        
+        #mainBoard {
+            width: 90vw; height: 55vh; max-width: 500px;
+            background: white; border-radius: 30px; margin-top: 20px;
+            box-shadow: 0 10px 0 #ffe082; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; position: relative;
+            border: 6px solid #ffca28; padding: 20px;
+        }
+
+        #bigNumber { font-size: 150px; font-weight: bold; color: #f44336; cursor: pointer; margin: 10px 0; }
+        
+        #visualCount { 
+            display: flex; flex-wrap: wrap; justify-content: center; 
+            gap: 15px; min-height: 120px; align-content: center;
+        }
+        .icon-item { font-size: 50px; animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+        .number-dock {
+            margin-top: 30px; width: 90%; max-width: 500px;
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
+            padding: 15px; background: rgba(255,255,255,0.8); border-radius: 20px;
+        }
+
+        .btn-number {
+            aspect-ratio: 1; border: none; border-radius: 12px; font-size: 24px;
+            font-weight: bold; color: white; cursor: pointer;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.2); transition: 0.1s;
+        }
+        .btn-number:active { transform: translateY(3px); box-shadow: none; }
+
+        @keyframes pop {
+            0% { transform: scale(0) rotate(-15deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+
+        .hint { color: #ff8f00; font-weight: bold; margin-top: 10px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div id="mainBoard">
+    <div id="visualCount"></div>
+    <div id="bigNumber" onclick="readVoice()">1</div>
+    <div class="hint">Chạm vào số để nghe Thầy đọc!</div>
+</div>
+
+<div class="number-dock" id="dock"></div>
+
+<script>
+    const gameData = {
+        current: 1,
+        // Danh sách icon chuẩn cho trẻ em
+        icons: ['🎁', '🍎', '🐱', '🐣', '🚗', '🎈', '⭐', '🌸', '🐳', '🍦'],
+        colors: ['#ff7043', '#42a5f5', '#66bb6a', '#ffa726', '#ab47bc', '#ec407a', '#26a69a', '#78909c', '#8d6e63', '#5c6bc0']
+    };
+
+    function init() {
+        const dock = document.getElementById('dock');
+        dock.innerHTML = '';
+        for (let i = 0; i <= 9; i++) {
+            let btn = document.createElement('button');
+            btn.className = 'btn-number';
+            btn.style.backgroundColor = gameData.colors[i];
+            btn.innerText = i;
+            btn.onclick = () => updateLesson(i);
+            dock.appendChild(btn);
+        }
+        updateLesson(1); // Bắt đầu bằng số 1
+    }
+
+    function updateLesson(n) {
+        gameData.current = n;
+        
+        // 1. Cập nhật con số hiển thị
+        const numEl = document.getElementById('bigNumber');
+        numEl.innerText = n;
+        numEl.style.color = gameData.colors[n];
+
+        // 2. Cập nhật hình minh họa (Số lượng phải khớp với n)
+        const countEl = document.getElementById('visualCount');
+        countEl.innerHTML = ''; 
+        
+        // Vòng lặp chạy đúng n lần để tạo ra n hình ảnh
+        for (let i = 0; i < n; i++) {
+            let span = document.createElement('span');
+            span.className = 'icon-item';
+            span.innerText = gameData.icons[n]; // Lấy đúng icon của số đó
+            span.style.animationDelay = (i * 0.1) + 's';
+            countEl.appendChild(span);
+        }
+
+        // 3. Gọi âm thanh
+        readVoice();
+    }
+
+    function readVoice() {
+    // Ngắt các âm thanh cũ
+    window.speechSynthesis.cancel();
+
+    // Danh sách link âm thanh chuẩn tiếng Việt (Số 0 đến 9)
+    // Đây là các file âm thanh đã được thu âm sẵn cực chuẩn
+    const audioFiles = [
+        "https://www.thivien.net/audio/viet/0.mp3", // Số 0
+        "https://www.thivien.net/audio/viet/1.mp3", // Số 1
+        "https://www.thivien.net/audio/viet/2.mp3", // Số 2 (Đảm bảo không bị "oay")
+        "https://www.thivien.net/audio/viet/3.mp3", // Số 3
+        "https://www.thivien.net/audio/viet/4.mp3", // Số 4
+        "https://www.thivien.net/audio/viet/5.mp3", // Số 5
+        "https://www.thivien.net/audio/viet/6.mp3", // Số 6
+        "https://www.thivien.net/audio/viet/7.mp3", // Số 7
+        "https://www.thivien.net/audio/viet/8.mp3", // Số 8
+        "https://www.thivien.net/audio/viet/9.mp3"  // Số 9
+    ];
+
+    const audio = new Audio(audioFiles[gameData.current]);
+    audio.play().catch(e => {
+        // Nếu link ngoài bị lỗi, mới dùng chị Google làm dự phòng cuối cùng
+        const text = (gameData.current === 0) ? "Số không" : "Số " + gameData.current;
+        const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=vi&client=tw-ob`;
+        new Audio(audioUrl).play();
+    });
+}
+        window.onload = init;
+</script>
+
+</body>
+</html>
