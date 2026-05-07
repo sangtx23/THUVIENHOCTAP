@@ -172,4 +172,29 @@
         const m=(e)=>{ if(!drawing) return; const p=getP(e); ctx.lineTo(p.x,p.y); ctx.stroke(); e.preventDefault(); };
         const st=()=>{ drawing=false; };
         canvas.addEventListener('mousedown',s); canvas.addEventListener('mousemove',m); window.addEventListener('mouseup',st);
-        canvas.addEventListener('touchstart',s,{
+        canvas.addEventListener('touchstart',s,{passive:false}); canvas.addEventListener('touchmove',m,{passive:false}); canvas.addEventListener('touchend',st);
+    }
+
+    function drawT(n) {
+        curNum = n;
+        ctx.clearRect(0,0,280,280);
+        ctx.font="bold 220px Arial"; ctx.fillStyle="#f0f0f0"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(n,140,140);
+        document.getElementById('guideImg').src = `img/so${n}.PNG`;
+    }
+
+    function clearCanvas() { drawT(curNum); }
+    function changeColor(c) { ctx.strokeStyle=c; }
+    function ask(el,v) { targetEl=el; correctVal=v; document.getElementById('picker').style.display='flex'; }
+    function check(n) {
+        if(n===correctVal) { 
+            targetEl.innerText=n; targetEl.classList.add('correct'); 
+            new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3').play().catch(()=>{});
+            document.getElementById('picker').style.display='none'; 
+        }
+        else alert("Bé đếm lại xem nào! ☘️");
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
