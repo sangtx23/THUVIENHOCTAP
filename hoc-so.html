@@ -2,162 +2,116 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Món Quà Của Thầy - Bé Học Số</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bài 1: Các số 0, 1, 2, 3, 4, 5</title>
     <style>
-        /* 1. Trang trí nền Background hấp dẫn */
+        :root {
+            --sky-blue: #e3f2fd;
+            --border-blue: #81d4fa;
+            --text-blue: #01579b;
+        }
+
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0; font-family: 'Arial', sans-serif;
+            background-color: var(--sky-blue);
+            display: flex; flex-direction: column; align-items: center;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            /* Nền màu xanh trời dịu nhẹ với họa tiết vui mắt */
-            background: radial-gradient(circle at 50% 50%, #e0f7fa 0%, #80deea 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
         }
 
-        /* Trang trí thêm các vòng tròn mờ ảo phía sau */
-        body::before {
-            content: ""; position: absolute; top: -10%; left: -10%; width: 40%; height: 40%;
-            background: rgba(255, 255, 255, 0.3); border-radius: 50%; z-index: -1;
+        /* Thanh tiêu đề giống SGK */
+        .header-sgk {
+            width: 100%; background: white; padding: 15px;
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 5px solid #ffca28; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
+        .header-sgk h2 { color: #f44336; margin: 0; font-size: 20px; text-transform: uppercase; }
+        .btn-back { background: #546e7a; color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; }
 
-        /* 2. Bảng hiển thị chính - Cân bằng hơn */
+        /* Bảng hiển thị chính (Bể cá & Số) */
         #mainBoard {
-            width: 90vw;
-            max-width: 450px;
-            height: 50vh;
-            margin-top: 30px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 40px;
-            border: 10px solid #ffffff;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1), inset 0 -10px 0 #eee;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-around;
-            padding: 20px;
-            position: relative;
+            width: 90vw; max-width: 500px; height: 50vh;
+            background: white; border-radius: 30px; margin-top: 20px;
+            border: 8px solid var(--border-blue);
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: space-around; position: relative;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
         }
 
-        #bigNumber {
-            font-size: 160px;
-            font-weight: 900;
-            color: #ff5252;
-            text-shadow: 4px 4px 0px rgba(0,0,0,0.05);
-            cursor: pointer;
-            line-height: 1;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* Mô phỏng bể cá */
+        #fishTank {
+            width: 80%; height: 120px; background: #e1f5fe;
+            border-radius: 15px; border: 3px solid #4fc3f7;
+            display: flex; flex-wrap: wrap; justify-content: center;
+            align-content: center; gap: 10px; position: relative;
         }
-        #bigNumber:active { transform: scale(1.1) rotate(5deg); }
+        #fishTank::after { content: '💧'; position: absolute; top: 5px; right: 10px; opacity: 0.5; }
 
-        /* Vùng chứa icon minh họa - Sắp xếp cân đối */
-        #visualCount {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-content: center;
-            gap: 12px;
-            width: 100%;
-            min-height: 130px;
+        .fish { font-size: 45px; animation: swim 2s ease-in-out infinite; }
+
+        @keyframes swim {
+            0%, 100% { transform: translateX(0) rotate(0); }
+            50% { transform: translateX(10px) rotate(5deg); }
         }
 
-        .icon-item {
-            font-size: 45px;
-            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
-            animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
+        /* Con số và Chữ viết (một, hai, ba...) */
+        .number-display { text-align: center; }
+        #bigNumber { font-size: 140px; font-weight: bold; color: #0288d1; line-height: 1; }
+        #numberText { font-size: 30px; color: #546e7a; font-weight: bold; margin-top: 5px; }
 
-        /* 3. Bàn phím số - To, rõ và rực rỡ */
+        /* Bàn phím số 0-5 */
         .number-dock {
-            width: 90vw;
-            max-width: 450px;
-            margin-top: auto;
-            margin-bottom: 40px;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-            padding: 20px;
-            background: white;
-            border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            width: 90vw; max-width: 500px; margin: 20px 0;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
+            padding: 20px; background: white; border-radius: 20px;
         }
 
-        .btn-number {
-            aspect-ratio: 1;
-            border: none;
-            border-radius: 20px;
-            font-size: 28px;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            position: relative;
-            box-shadow: 0 6px 0 rgba(0,0,0,0.2);
+        .btn-num {
+            height: 70px; border: none; border-radius: 15px;
+            font-size: 32px; font-weight: bold; color: white;
+            cursor: pointer; box-shadow: 0 6px 0 rgba(0,0,0,0.2);
             transition: 0.1s;
         }
-        .btn-number:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 rgba(0,0,0,0.2);
-        }
+        .btn-num:active { transform: translateY(4px); box-shadow: none; }
 
-        .hint {
-            background: #ffeb3b;
-            padding: 8px 20px;
-            border-radius: 20px;
-            color: #827717;
-            font-weight: bold;
-            font-size: 14px;
-            box-shadow: 0 4px 0 #fbc02d;
-            margin-top: 10px;
-        }
+        .hint { color: var(--text-blue); font-weight: bold; margin-bottom: 10px; }
 
-        @keyframes bounceIn {
-            0% { transform: scale(0); opacity: 0; }
-            60% { transform: scale(1.2); }
-            100% { transform: scale(1); opacity: 1; }
-        }
     </style>
 </head>
 <body>
 
+<div class="header-sgk">
+    <button class="btn-back" onclick="window.location.href='index.html'">⬅ QUAY LẠI</button>
+    <h2>CÁC SỐ 0, 1, 2, 3, 4, 5</h2>
+    <div style="width: 70px;"></div>
+</div>
+
 <div id="mainBoard">
-    <div id="visualCount"></div>
-    <div id="bigNumber" onclick="readVoice()">1</div>
-    <div class="hint">Bé chạm số để nghe Thầy đọc!</div>
+    <div class="hint">Khám phá số lượng cá:</div>
+    <div id="fishTank"></div>
+    <div class="number-display">
+        <div id="bigNumber">1</div>
+        <div id="numberText">một</div>
+    </div>
 </div>
 
 <div class="number-dock" id="dock"></div>
 
 <script>
-    const gameData = {
+    const lessonData = {
         current: 1,
-        // Các vật thể gần gũi với trẻ em
-        icons: ['🎁', '🍎', '🐱', '🐣', '🚗', '🎈', '⭐', '🌸', '🐳', '🍦'],
-        colors: [
-            '#FF7043', // 0: Cam
-            '#42A5F5', // 1: Xanh dương
-            '#66BB6A', // 2: Xanh lá
-            '#FFA726', // 3: Vàng cam
-            '#AB47BC', // 4: Tím
-            '#EC407A', // 5: Hồng
-            '#26A69A', // 6: Xanh ngọc
-            '#78909C', // 7: Xám xanh
-            '#8D6E63', // 8: Nâu
-            '#5C6BC0'  // 9: Xanh đậm
-        ]
+        // Dùng icon cá như trong SGK
+        fishIcons: ['🐟', '🐠', '🐡', '🐬', '🐳', '🐋'],
+        words: ['không', 'một', 'hai', 'ba', 'bốn', 'năm'],
+        colors: ['#90a4ae', '#f44336', '#4caf50', '#ff9800', '#9c27b0', '#2196f3']
     };
 
     function init() {
         const dock = document.getElementById('dock');
-        dock.innerHTML = '';
-        for (let i = 0; i <= 9; i++) {
+        // Chỉ hiện từ số 0 đến 5 theo bài học SGK
+        for (let i = 0; i <= 5; i++) {
             let btn = document.createElement('button');
-            btn.className = 'btn-number';
-            btn.style.backgroundColor = gameData.colors[i];
+            btn.className = 'btn-num';
+            btn.style.backgroundColor = lessonData.colors[i];
             btn.innerText = i;
             btn.onclick = () => updateLesson(i);
             dock.appendChild(btn);
@@ -166,39 +120,35 @@
     }
 
     function updateLesson(n) {
-        gameData.current = n;
+        lessonData.current = n;
         
-        const numEl = document.getElementById('bigNumber');
-        numEl.innerText = n;
-        numEl.style.color = gameData.colors[n];
+        // Cập nhật số và chữ viết
+        document.getElementById('bigNumber').innerText = n;
+        document.getElementById('bigNumber').style.color = lessonData.colors[n];
+        document.getElementById('numberText').innerText = lessonData.words[n];
 
-        const countEl = document.getElementById('visualCount');
-        countEl.innerHTML = ''; 
+        // Cập nhật bể cá
+        const tank = document.getElementById('fishTank');
+        tank.innerHTML = '';
         for (let i = 0; i < n; i++) {
-            let span = document.createElement('span');
-            span.className = 'icon-item';
-            span.innerText = gameData.icons[n];
-            span.style.animationDelay = (i * 0.1) + 's';
-            countEl.appendChild(span);
+            let fish = document.createElement('span');
+            fish.className = 'fish';
+            // Lấy ngẫu nhiên các loại cá cho sinh động
+            fish.innerText = lessonData.fishIcons[i % 3]; 
+            tank.appendChild(fish);
         }
 
         readVoice();
     }
 
     function readVoice() {
-        // Đường dẫn file của thầy: audio/0.mp3, audio/1.mp3...
-        const audio = new Audio(`audio/${gameData.current}.mp3`);
-        audio.play().catch(err => console.log("Thiếu file âm thanh!"));
+        // Đường dẫn file âm thanh của thầy: audio/0.mp3...
+        const audio = new Audio(`audio/${lessonData.current}.mp3`);
+        audio.play().catch(e => console.log("Thiếu file âm thanh số " + lessonData.current));
     }
 
     window.onload = init;
 </script>
 
 </body>
-<button onclick="window.location.href='index.html'" 
-    style="position: fixed; top: 10px; left: 10px; z-index: 100; 
-    padding: 8px 15px; border-radius: 10px; border: none; 
-    background: #546e7a; color: white; cursor: pointer; font-weight: bold;">
-    ⬅ Quay lại
-</button>
 </html>
