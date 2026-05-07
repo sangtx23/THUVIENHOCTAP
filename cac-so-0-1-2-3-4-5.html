@@ -1,111 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bài 1: Các số 0, 1, 2, 3, 4, 5</title>
+    <style>
+        :root {
+            --sky-blue: #e3f2fd;
+            --border-blue: #81d4fa;
+            --text-blue: #01579b;
+            --sgk-pink: #f06292;
+        }
+
+        body {
+            margin: 0; padding: 0; font-family: 'Arial', sans-serif;
+            background-color: var(--sky-blue); overflow-x: hidden;
+        }
+
+        .header-sgk {
+            width: 100%; background: white; padding: 15px;
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 5px solid #ffca28; position: sticky; top: 0; z-index: 100;
+        }
+        .header-sgk h2 { color: #f44336; margin: 0; font-size: 18px; text-transform: uppercase; }
+
+        /* Logic hiển thị trang */
+        .page { display: none; width: 100vw; min-height: 90vh; flex-direction: column; align-items: center; padding: 20px 0; }
+        .page.active { display: flex; animation: fadeIn 0.4s ease-in-out; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- PHẦN 1: KHÁM PHÁ --- */
+        #mainBoard {
+            width: 90vw; max-width: 450px; background: white; border-radius: 30px;
+            border: 8px solid var(--border-blue); display: flex; flex-direction: column;
+            align-items: center; justify-content: space-around; padding: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        #fishTank {
+            width: 100%; height: 120px; background: #e1f5fe; border-radius: 20px; border: 3px solid #4fc3f7;
+            display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 10px;
+        }
+        .fish { font-size: 45px; }
+        #bigNumber { font-size: 130px; font-weight: bold; line-height: 1; margin: 10px 0; }
+        
+        .number-dock {
+            width: 90vw; max-width: 450px; display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 15px; padding: 20px;
+        }
+        .btn-num { height: 70px; border: none; border-radius: 15px; font-size: 30px; color: white; font-weight: bold; cursor: pointer; box-shadow: 0 5px 0 rgba(0,0,0,0.2); }
+
+        /* --- PHẦN 2: HOẠT ĐỘNG --- */
+        .activity-container { width: 92vw; max-width: 500px; background: white; border-radius: 30px; padding: 20px; border: 8px solid var(--sgk-pink); }
+        .section-exercise { background: #fff; padding: 10px; border-radius: 15px; margin-bottom: 20px; }
+        .exercise-title { color: #d81b60; font-size: 20px; font-weight: bold; margin-bottom: 15px; }
+
+        .grid-quiz { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .quiz-box { border: 2px solid #fce4ec; border-radius: 15px; padding: 10px; display: flex; flex-direction: column; align-items: center; background: #fffcfd; }
+        .img-content { font-size: 35px; height: 60px; display: flex; align-items: center; }
+        .answer-zone { width: 60px; height: 45px; background: #fff8e1; border: 2px dashed #ffb300; border-radius: 12px; 
+                       display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff6f00; font-size: 24px; cursor: pointer; }
+        .answer-zone.correct { background: #4caf50 !important; border-style: solid !important; border-color: #2e7d32 !important; color: white !important; }
+
+        .flag-line { display: flex; justify-content: space-between; align-items: flex-start; margin-top: 10px; }
+        .flag-item { display: flex; flex-direction: column; align-items: center; width: 15%; }
+        .flag-shape { width: 100%; height: 55px; background: #4caf50; color: white; display: flex; align-items: center; 
+                      justify-content: center; font-weight: bold; font-size: 24px; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 80%, 0% 100%); }
+        .flag-shape.highlight { background: #ffca28; color: #f44336; cursor: pointer; border: 2px solid #f44336; }
+        .dice { margin-top: 8px; font-size: 12px; color: #f44336; font-weight: bold; text-align: center; min-height: 35px; }
+
+        /* Picker */
+        .picker-hidden { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); 
+                         display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .picker-content { background: white; padding: 25px; border-radius: 30px; text-align: center; width: 85%; max-width: 320px; border: 5px solid #0288d1; }
+        .picker-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0; }
+        .picker-grid button { height: 65px; font-size: 28px; border: none; border-radius: 15px; background: #e1f5fe; color: #0288d1; font-weight: bold; cursor: pointer; }
+        
+        .nav-btn { margin: 20px 0; padding: 15px 40px; border-radius: 30px; border: none; background: #ff9800; color: white; font-size: 20px; font-weight: bold; cursor: pointer; box-shadow: 0 6px 0 #e65100; }
+    </style>
+</head>
+<body>
+
+<div class="header-sgk">
+    <button onclick="window.location.href='index.html'" style="background:#546e7a; color:white; border:none; padding:8px 12px; border-radius:10px; font-weight:bold;">⬅ THOÁT</button>
+    <h2 id="stageTitle">BÀI 1: KHÁM PHÁ</h2>
+    <div style="width: 60px;"></div>
+</div>
+
+<div id="pageKhapPha" class="page active">
+    <div id="mainBoard">
+        <div id="fishTank"></div>
+        <div id="bigNumber">1</div>
+        <div id="numberText" style="font-weight:bold; color:#546e7a; font-size: 28px;">một</div>
+    </div>
+    <div class="number-dock" id="dock"></div>
+    <button class="nav-btn" onclick="changePage('pageHoatDong')">LÀM BÀI TẬP ➡</button>
+</div>
+
 <div id="pageHoatDong" class="page">
     <div class="activity-container">
         <div class="section-exercise">
-            <p class="exercise-title"><b>Bài 2:</b> Số ?</p>
+            <p class="exercise-title">Bài 2: Số ?</p>
             <div class="grid-quiz">
-                <div class="quiz-box">
-                    <div class="img-content">🥕🥕🥕</div>
-                    <div class="answer-zone" onclick="showNumberPicker(this, 3)">?</div>
-                </div>
-                <div class="quiz-box">
-                    <div class="img-content">🐱</div>
-                    <div class="answer-zone" onclick="showNumberPicker(this, 1)">?</div>
-                </div>
-                <div class="quiz-box">
-                    <div class="img-content">🧪🐠🐠</div>
-                    <div class="answer-zone" onclick="showNumberPicker(this, 2)">?</div>
-                </div>
-                <div class="quiz-box">
-                    <div class="img-content">🧪</div>
-                    <div class="answer-zone" onclick="showNumberPicker(this, 0)">?</div>
-                </div>
+                <div class="quiz-box"><div class="img-content">🐱</div><div class="answer-zone" onclick="openPicker(this, 1)">?</div></div>
+                <div class="quiz-box"><div class="img-content">🥕🥕🥕</div><div class="answer-zone" onclick="openPicker(this, 3)">?</div></div>
+                <div class="quiz-box"><div class="img-content">🐠🐠</div><div class="answer-zone" onclick="openPicker(this, 2)">?</div></div>
+                <div class="quiz-box"><div class="img-content">🧪</div><div class="answer-zone" onclick="openPicker(this, 0)">?</div></div>
             </div>
         </div>
 
-        <div class="section-exercise" style="margin-top:20px;">
-            <p class="exercise-title"><b>Bài 3:</b> Số ?</p>
+        <div class="section-exercise">
+            <p class="exercise-title">Bài 3: Số ?</p>
             <div class="flag-line">
                 <div class="flag-item"><div class="flag-shape">0</div><div class="dice"></div></div>
                 <div class="flag-item"><div class="flag-shape">1</div><div class="dice">●</div></div>
-                <div class="flag-item"><div class="flag-shape highlight" onclick="showNumberPicker(this, 2)">?</div><div class="dice">●●</div></div>
-                <div class="flag-item"><div class="flag-shape highlight" onclick="showNumberPicker(this, 3)">?</div><div class="dice">●●<br>●</div></div>
+                <div class="flag-item"><div class="flag-shape highlight" onclick="openPicker(this, 2)">?</div><div class="dice">●●</div></div>
+                <div class="flag-item"><div class="flag-shape highlight" onclick="openPicker(this, 3)">?</div><div class="dice">●●<br>●</div></div>
                 <div class="flag-item"><div class="flag-shape">4</div><div class="dice">●●<br>●●</div></div>
                 <div class="flag-item"><div class="flag-shape">5</div><div class="dice">●●●<br>●●</div></div>
             </div>
         </div>
     </div>
-
-    <div id="numberPicker" class="picker-hidden">
-        <div class="picker-content">
-            <p>Bé chọn số mấy?</p>
-            <div class="picker-grid">
-                <button onclick="pickNumber(0)">0</button>
-                <button onclick="pickNumber(1)">1</button>
-                <button onclick="pickNumber(2)">2</button>
-                <button onclick="pickNumber(3)">3</button>
-                <button onclick="pickNumber(4)">4</button>
-                <button onclick="pickNumber(5)">5</button>
-            </div>
-            <button class="btn-close" onclick="closePicker()">Đóng</button>
-        </div>
-    </div>
-
-    <button class="nav-btn" onclick="changePage('pageKhapPha')">⬅ QUAY LẠI HỌC</button>
+    <button class="nav-btn" style="background:#2196f3; box-shadow:0 6px 0 #0d47a1;" onclick="changePage('pageKhapPha')">⬅ QUAY LẠI HỌC</button>
 </div>
 
-<style>
-    /* CSS CHO ĐỘ CHÍNH XÁC CAO */
-    .section-exercise { background: #fff; padding: 15px; border-radius: 20px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
-    .exercise-title { color: #d81b60; margin: 0 0 10px 0; font-size: 18px; }
-    
-    /* Grid cho bài 2 */
-    .grid-quiz { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    .quiz-box { border: 2px solid #e1f5fe; border-radius: 15px; padding: 10px; display: flex; flex-direction: column; align-items: center; }
-    .img-content { font-size: 30px; height: 50px; display: flex; align-items: center; }
-    .answer-zone { width: 50px; height: 40px; background: #fff8e1; border: 2px dashed #ffb300; border-radius: 10px; 
-                   display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff6f00; cursor: pointer; }
-    .answer-zone.correct { background: #4caf50; border-style: solid; border-color: #2e7d32; color: white; }
-
-    /* Style Lá cờ & Xúc xắc bài 3 */
-    .flag-line { display: flex; justify-content: space-between; align-items: flex-start; }
-    .flag-item { display: flex; flex-direction: column; align-items: center; width: 15%; }
-    .flag-shape { width: 100%; height: 50px; background: #4caf50; color: white; display: flex; align-items: center; 
-                  justify-content: center; font-weight: bold; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 80%, 0% 100%); }
-    .flag-shape.highlight { background: #ffca28; color: #f44336; cursor: pointer; }
-    .dice { margin-top: 5px; font-size: 10px; color: #f44336; min-height: 30px; text-align: center; line-height: 1; }
-
-    /* Pop-up chọn số */
-    .picker-hidden { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); 
-                     display: none; justify-content: center; align-items: center; z-index: 1000; }
-    .picker-content { background: white; padding: 25px; border-radius: 30px; text-align: center; width: 80%; max-width: 300px; }
-    .picker-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
-    .picker-grid button { height: 60px; font-size: 24px; border: none; border-radius: 15px; background: #e1f5fe; color: #0288d1; font-weight: bold; }
-    .btn-close { background: #546e7a; color: white; border: none; padding: 10px 20px; border-radius: 10px; }
-</style>
+<div id="numberPicker" class="picker-hidden">
+    <div class="picker-content">
+        <p style="font-weight:bold; color:#0288d1; font-size: 20px;">Bé chọn số mấy?</p>
+        <div class="picker-grid">
+            <button onclick="selectNumber(0)">0</button><button onclick="selectNumber(1)">1</button><button onclick="selectNumber(2)">2</button>
+            <button onclick="selectNumber(3)">3</button><button onclick="selectNumber(4)">4</button><button onclick="selectNumber(5)">5</button>
+        </div>
+        <button onclick="closePicker()" style="background:#cfd8dc; border:none; padding:10px 20px; border-radius:10px;">Hủy</button>
+    </div>
+</div>
 
 <script>
-    let currentTarget = null;
-    let currentCorrectValue = null;
+    const data = {
+        words: ['không', 'một', 'hai', 'ba', 'bốn', 'năm'],
+        colors: ['#90a4ae', '#f44336', '#4caf50', '#ff9800', '#9c27b0', '#2196f3'],
+        fishes: ['🐟', '🐠', '🐡']
+    };
 
-    function showNumberPicker(element, correctVal) {
-        currentTarget = element;
-        currentCorrectValue = correctVal;
-        document.getElementById('numberPicker').style.display = 'flex';
+    let activeTarget = null;
+    let activeCorrect = null;
+
+    function init() {
+        const dock = document.getElementById('dock');
+        dock.innerHTML = ''; // Đảm bảo dock trống trước khi tạo
+        for (let i = 0; i <= 5; i++) {
+            let b = document.createElement('button');
+            b.className = 'btn-num'; b.style.backgroundColor = data.colors[i];
+            b.innerText = i; b.onclick = () => updateKhapPha(i);
+            dock.appendChild(b);
+        }
+        updateKhapPha(1);
     }
 
-    function closePicker() {
-        document.getElementById('numberPicker').style.display = 'none';
+    function updateKhapPha(i) {
+        document.getElementById('bigNumber').innerText = i;
+        document.getElementById('bigNumber').style.color = data.colors[i];
+        document.getElementById('numberText').innerText = data.words[i];
+        const tank = document.getElementById('fishTank'); tank.innerHTML = '';
+        for(let j=0; j<i; j++) tank.innerHTML += `<span class="fish">${data.fishes[j%3]}</span>`;
+        new Audio(`audio/${i}.mp3`).play().catch(()=>{});
     }
 
-    function pickNumber(num) {
-        if (num === currentCorrectValue) {
-            currentTarget.innerText = num;
-            currentTarget.classList.add('correct');
-            new Audio('https://www.soundjay.com/buttons/sounds/button-3.mp3').play().catch(()=>{}); // Âm thanh khen ngợi
-            setTimeout(() => { alert("Đúng rồi! Bé giỏi quá! ✨"); }, 200);
-            closePicker();
+    function changePage(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.getElementById('stageTitle').innerText = (id === 'pageKhapPha') ? "BÀI 1: KHÁM PHÁ" : "BÀI 1: HOẠT ĐỘNG";
+        window.scrollTo(0,0);
+    }
+
+    function openPicker(el, correct) { activeTarget = el; activeCorrect = correct; document.getElementById('numberPicker').style.display = 'flex'; }
+    function closePicker() { document.getElementById('numberPicker').style.display = 'none'; }
+    
+    function selectNumber(n) {
+        if (n === activeCorrect) {
+            activeTarget.innerText = n; activeTarget.classList.add('correct');
+            alert("Đúng rồi! Bé giỏi quá! 🌟"); closePicker();
         } else {
-            alert("Chưa đúng, bé đếm lại nhé!");
+            alert("Chưa đúng, bé đếm lại nhé! ☘️");
         }
     }
+
+    window.onload = init;
 </script>
+</body>
+</html>
