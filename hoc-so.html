@@ -2,46 +2,124 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quà Tặng Của Thầy - Học Số 0-9</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Món Quà Của Thầy - Bé Học Số</title>
     <style>
-        body { margin: 0; background: #fffde7; font-family: 'Arial', sans-serif; overflow: hidden; display: flex; flex-direction: column; align-items: center; }
-        
+        /* 1. Trang trí nền Background hấp dẫn */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            /* Nền màu xanh trời dịu nhẹ với họa tiết vui mắt */
+            background: radial-gradient(circle at 50% 50%, #e0f7fa 0%, #80deea 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Trang trí thêm các vòng tròn mờ ảo phía sau */
+        body::before {
+            content: ""; position: absolute; top: -10%; left: -10%; width: 40%; height: 40%;
+            background: rgba(255, 255, 255, 0.3); border-radius: 50%; z-index: -1;
+        }
+
+        /* 2. Bảng hiển thị chính - Cân bằng hơn */
         #mainBoard {
-            width: 90vw; height: 55vh; max-width: 500px;
-            background: white; border-radius: 30px; margin-top: 20px;
-            box-shadow: 0 10px 0 #ffe082; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; position: relative;
-            border: 6px solid #ffca28; padding: 20px;
+            width: 90vw;
+            max-width: 450px;
+            height: 50vh;
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 40px;
+            border: 10px solid #ffffff;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1), inset 0 -10px 0 #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            padding: 20px;
+            position: relative;
         }
 
-        #bigNumber { font-size: 150px; font-weight: bold; color: #f44336; cursor: pointer; margin: 10px 0; }
-        
-        #visualCount { 
-            display: flex; flex-wrap: wrap; justify-content: center; 
-            gap: 15px; min-height: 120px; align-content: center;
+        #bigNumber {
+            font-size: 160px;
+            font-weight: 900;
+            color: #ff5252;
+            text-shadow: 4px 4px 0px rgba(0,0,0,0.05);
+            cursor: pointer;
+            line-height: 1;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .icon-item { font-size: 50px; animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        #bigNumber:active { transform: scale(1.1) rotate(5deg); }
 
+        /* Vùng chứa icon minh họa - Sắp xếp cân đối */
+        #visualCount {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            gap: 12px;
+            width: 100%;
+            min-height: 130px;
+        }
+
+        .icon-item {
+            font-size: 45px;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+            animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* 3. Bàn phím số - To, rõ và rực rỡ */
         .number-dock {
-            margin-top: 30px; width: 90%; max-width: 500px;
-            display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
-            padding: 15px; background: rgba(255,255,255,0.8); border-radius: 20px;
+            width: 90vw;
+            max-width: 450px;
+            margin-top: auto;
+            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            padding: 20px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
 
         .btn-number {
-            aspect-ratio: 1; border: none; border-radius: 12px; font-size: 24px;
-            font-weight: bold; color: white; cursor: pointer;
-            box-shadow: 0 4px 0 rgba(0,0,0,0.2); transition: 0.1s;
+            aspect-ratio: 1;
+            border: none;
+            border-radius: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 6px 0 rgba(0,0,0,0.2);
+            transition: 0.1s;
         }
-        .btn-number:active { transform: translateY(3px); box-shadow: none; }
-
-        @keyframes pop {
-            0% { transform: scale(0) rotate(-15deg); opacity: 0; }
-            100% { transform: scale(1) rotate(0); opacity: 1; }
+        .btn-number:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.2);
         }
 
-        .hint { color: #ff8f00; font-weight: bold; margin-top: 10px; font-size: 14px; }
+        .hint {
+            background: #ffeb3b;
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: #827717;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px 0 #fbc02d;
+            margin-top: 10px;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -49,7 +127,7 @@
 <div id="mainBoard">
     <div id="visualCount"></div>
     <div id="bigNumber" onclick="readVoice()">1</div>
-    <div class="hint">Chạm vào số để nghe Thầy đọc!</div>
+    <div class="hint">Bé chạm số để nghe Thầy đọc!</div>
 </div>
 
 <div class="number-dock" id="dock"></div>
@@ -57,9 +135,20 @@
 <script>
     const gameData = {
         current: 1,
-        // Danh sách icon chuẩn cho trẻ em
+        // Các vật thể gần gũi với trẻ em
         icons: ['🎁', '🍎', '🐱', '🐣', '🚗', '🎈', '⭐', '🌸', '🐳', '🍦'],
-        colors: ['#ff7043', '#42a5f5', '#66bb6a', '#ffa726', '#ab47bc', '#ec407a', '#26a69a', '#78909c', '#8d6e63', '#5c6bc0']
+        colors: [
+            '#FF7043', // 0: Cam
+            '#42A5F5', // 1: Xanh dương
+            '#66BB6A', // 2: Xanh lá
+            '#FFA726', // 3: Vàng cam
+            '#AB47BC', // 4: Tím
+            '#EC407A', // 5: Hồng
+            '#26A69A', // 6: Xanh ngọc
+            '#78909C', // 7: Xám xanh
+            '#8D6E63', // 8: Nâu
+            '#5C6BC0'  // 9: Xanh đậm
+        ]
     };
 
     function init() {
@@ -73,63 +162,43 @@
             btn.onclick = () => updateLesson(i);
             dock.appendChild(btn);
         }
-        updateLesson(1); // Bắt đầu bằng số 1
+        updateLesson(1);
     }
 
     function updateLesson(n) {
         gameData.current = n;
         
-        // 1. Cập nhật con số hiển thị
         const numEl = document.getElementById('bigNumber');
         numEl.innerText = n;
         numEl.style.color = gameData.colors[n];
 
-        // 2. Cập nhật hình minh họa (Số lượng phải khớp với n)
         const countEl = document.getElementById('visualCount');
         countEl.innerHTML = ''; 
-        
-        // Vòng lặp chạy đúng n lần để tạo ra n hình ảnh
         for (let i = 0; i < n; i++) {
             let span = document.createElement('span');
             span.className = 'icon-item';
-            span.innerText = gameData.icons[n]; // Lấy đúng icon của số đó
+            span.innerText = gameData.icons[n];
             span.style.animationDelay = (i * 0.1) + 's';
             countEl.appendChild(span);
         }
 
-        // 3. Gọi âm thanh
         readVoice();
     }
 
     function readVoice() {
-    // Ngắt các âm thanh cũ
-    window.speechSynthesis.cancel();
+        // Đường dẫn file của thầy: audio/0.mp3, audio/1.mp3...
+        const audio = new Audio(`audio/${gameData.current}.mp3`);
+        audio.play().catch(err => console.log("Thiếu file âm thanh!"));
+    }
 
-    // Danh sách link âm thanh chuẩn tiếng Việt (Số 0 đến 9)
-    // Đây là các file âm thanh đã được thu âm sẵn cực chuẩn
-    const audioFiles = [
-        "https://www.thivien.net/audio/viet/0.mp3", // Số 0
-        "https://www.thivien.net/audio/viet/1.mp3", // Số 1
-        "https://www.thivien.net/audio/viet/2.mp3", // Số 2 (Đảm bảo không bị "oay")
-        "https://www.thivien.net/audio/viet/3.mp3", // Số 3
-        "https://www.thivien.net/audio/viet/4.mp3", // Số 4
-        "https://www.thivien.net/audio/viet/5.mp3", // Số 5
-        "https://www.thivien.net/audio/viet/6.mp3", // Số 6
-        "https://www.thivien.net/audio/viet/7.mp3", // Số 7
-        "https://www.thivien.net/audio/viet/8.mp3", // Số 8
-        "https://www.thivien.net/audio/viet/9.mp3"  // Số 9
-    ];
-
-    const audio = new Audio(audioFiles[gameData.current]);
-    audio.play().catch(e => {
-        // Nếu link ngoài bị lỗi, mới dùng chị Google làm dự phòng cuối cùng
-        const text = (gameData.current === 0) ? "Số không" : "Số " + gameData.current;
-        const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=vi&client=tw-ob`;
-        new Audio(audioUrl).play();
-    });
-}
-        window.onload = init;
+    window.onload = init;
 </script>
 
 </body>
+<button onclick="window.location.href='index.html'" 
+    style="position: fixed; top: 10px; left: 10px; z-index: 100; 
+    padding: 8px 15px; border-radius: 10px; border: none; 
+    background: #546e7a; color: white; cursor: pointer; font-weight: bold;">
+    ⬅ Quay lại
+</button>
 </html>
