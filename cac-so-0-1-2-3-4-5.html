@@ -99,4 +99,94 @@
     </div>
 
     <div style="display:flex; gap:15px; align-items: center; margin-bottom: 10px;">
-        <button onclick="clearCanvas()" style="padding:10px 20px; border-radius
+        <button onclick="clearCanvas()" style="padding:10px 20px; border-radius:10px; border:none; background:#546e7a; color:white; font-weight:bold; box-shadow: 0 3px #37474f;">XÓA</button>
+        <button onclick="changeColor('#f44336')" style="border-radius:50%; border:3px solid white; background:#f44336; width:40px; height:40px;"></button>
+        <button onclick="changeColor('#4caf50')" style="border-radius:50%; border:3px solid white; background:#4caf50; width:40px; height:40px;"></button>
+    </div>
+
+    <div class="nav-bar">
+        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ KHÁM PHÁ</button>
+        <button class="btn-nav" style="background:var(--pink);" onclick="goPage('p3')">BÀI TẬP ➡</button>
+    </div>
+</div>
+
+<div id="p3" class="page">
+    <div class="card">
+        <p class="card-title">Bài 2a: Bé đếm rồi chọn số:</p>
+        <div class="quiz-grid">
+            <div class="quiz-item"><div class="img-wrap"><img src="img/meo.PNG"></div><div class="ans" onclick="ask(this,1)">?</div></div>
+            <div class="quiz-item"><div class="img-wrap"><img src="img/carot.PNG"></div><div class="ans" onclick="ask(this,3)">?</div></div>
+            <div class="quiz-item"><div class="img-wrap"><img src="img/cho.PNG"></div><div class="ans" onclick="ask(this,5)">?</div></div>
+        </div>
+    </div>
+    <div class="nav-bar">
+        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ KHÁM PHÁ</button>
+    </div>
+</div>
+
+<div id="picker" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:none;justify-content:center;align-items:center;z-index:2000;">
+    <div style="background:white;padding:20px;border-radius:20px;width:80%;max-width:300px;text-align:center;">
+        <p><b>Bé chọn số mấy?</b></p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0;" id="pg"></div>
+        <button onclick="document.getElementById('picker').style.display='none'" style="border:none;background:#eee;padding:10px;border-radius:10px;">HỦY</button>
+    </div>
+</div>
+
+<script>
+    const cfg = { words:['không','một','hai','ba','bốn','năm'], clrs:['#90a4ae','#f44336','#4caf50','#ff9800','#9c27b0','#2196f3'], fishes:['🐟','🐠','🐡'] };
+    let canvas, ctx, drawing=false, curNum=1, targetEl=null, correctVal=null;
+
+    function init() {
+        const d = document.getElementById('dock'), wNav = document.getElementById('wNav'), pg = document.getElementById('pg');
+        for(let i=0; i<=5; i++){
+            let b = document.createElement('button'); b.className='btn-n'; b.style.background=cfg.clrs[i]; b.innerText=i; b.onclick=()=>updateKP(i); d.appendChild(b);
+            let b2 = b.cloneNode(true); b2.style.height="40px"; b2.style.fontSize="16px"; b2.onclick=()=>drawT(i); wNav.appendChild(b2);
+            let b3 = document.createElement('button'); b3.innerText=i; b3.style.height="55px"; b3.style.fontSize="22px"; b3.style.borderRadius="12px"; b3.style.border="none"; b3.style.background="#e1f5fe"; b3.style.color="#0288d1"; b3.style.fontWeight="bold"; b3.onclick=()=>check(i); pg.appendChild(b3);
+        }
+        setupC(); updateKP(1);
+    }
+
+    function updateKP(i) {
+        document.getElementById('numBig').innerText=i; document.getElementById('numBig').style.color=cfg.clrs[i]; document.getElementById('txtBig').innerText=cfg.words[i];
+        const t=document.getElementById('tank'); t.innerHTML=''; for(let j=0; j<i; j++) t.innerHTML+=`<span style="font-size:30px">${cfg.fishes[j%3]}</span>`;
+        new Audio(`audio/${i}.mp3`).play().catch(()=>{});
+    }
+
+    function goPage(id) {
+        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active');
+        if(id==='p2') setTimeout(()=>drawT(curNum),100);
+    }
+
+    function setupC() {
+        canvas=document.getElementById('writingBoard'); ctx=canvas.getContext('2d'); ctx.strokeStyle="#4caf50"; ctx.lineWidth=15; ctx.lineCap="round"; ctx.lineJoin="round";
+        const getP=(e)=>{ const r=canvas.getBoundingClientRect(); const c=e.touches?e.touches[0]:e; return {x:c.clientX-r.left, y:c.clientY-r.top}; };
+        const s=(e)=>{ drawing=true; const p=getP(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); e.preventDefault(); };
+        const m=(e)=>{ if(!drawing) return; const p=getP(e); ctx.lineTo(p.x,p.y); ctx.stroke(); e.preventDefault(); };
+        const st=()=>{ drawing=false; };
+        canvas.addEventListener('mousedown',s); canvas.addEventListener('mousemove',m); window.addEventListener('mouseup',st);
+        canvas.addEventListener('touchstart',s,{passive:false}); canvas.addEventListener('touchmove',m,{passive:false}); canvas.addEventListener('touchend',st);
+    }
+
+    function drawT(n) {
+        curNum = n;
+        ctx.clearRect(0,0,280,280);
+        ctx.font="bold 200px Arial"; ctx.fillStyle="#f8f8f8"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(n,140,140);
+        document.getElementById('guideImg').src = `img/so${n}.PNG`;
+    }
+
+    function clearCanvas() { drawT(curNum); }
+    function changeColor(c) { ctx.strokeStyle=c; }
+    function ask(el,v) { targetEl=el; correctVal=v; document.getElementById('picker').style.display='flex'; }
+    function check(n) {
+        if(n===correctVal) { 
+            targetEl.innerText=n; targetEl.classList.add('correct'); 
+            new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3').play().catch(()=>{});
+            document.getElementById('picker').style.display='none'; 
+        }
+        else alert("Bé đếm lại xem nào! ☘️");
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
