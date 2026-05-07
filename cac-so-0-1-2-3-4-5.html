@@ -34,12 +34,11 @@
         .ans { width: 45px; height: 32px; background: #fff8e1; border: 1px dashed #ffb300; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; color: #ff6f00; font-size: 18px; }
         .ans.correct { background: var(--green) !important; color: white !important; border-style: solid !important; }
 
-        /* CSS cho Bài 3 */
         .flag-line { display: flex; justify-content: space-between; width: 100%; margin-top: 5px; }
         .flag { width: 15%; text-align: center; }
         .f-top { height: 35px; color: white; display: flex; align-items: center; justify-content: center; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 80%, 0% 100%); font-weight: bold; font-size: 16px; }
         .f-q { background: #ffca28; color: #f44336; border: 1px solid #f44336; cursor: pointer; }
-        .dot-box { background: #fff8e1; border: 1px solid #ffb300; border-radius: 4px; margin-top: 5px; padding: 2px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #f44336; }
+        .dot-box { background: #fff8e1; border: 1px solid #ffb300; border-radius: 4px; margin-top: 5px; padding: 2px; min-height: 30px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #f44336; line-height: 1; }
 
         .nav-bar { width: 90%; display: flex; gap: 10px; margin-top: auto; padding-bottom: 15px; }
         .btn-nav { flex: 1; padding: 12px; border-radius: 25px; border: none; color: white; font-weight: bold; cursor: pointer; }
@@ -67,7 +66,16 @@
 
 <div id="p2" class="page">
     <div style="display:flex; gap:5px; margin-bottom:10px; flex-wrap:wrap; justify-content:center;" id="wNav"></div>
-    <div class="writing-area"><canvas id="writingBoard" width="280" height="280"></canvas></div>
+    
+    <div id="writingGuidance" style="background: white; border: 2px solid #ffca28; border-radius: 15px; margin-bottom: 10px; padding: 10px; width: 85%; display: flex; flex-direction: column; align-items: center; min-height: 100px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <span style="font-size: 11px; color: #f44336; font-weight: bold; margin-bottom: 5px;">MẪU HƯỚNG DẪN</span>
+        <img id="guideImg" src="" style="max-height: 70px; object-fit: contain;">
+    </div>
+
+    <div class="writing-area">
+        <canvas id="writingBoard" width="280" height="280"></canvas>
+    </div>
+
     <div style="display:flex; gap:10px; margin-top:10px;">
         <button onclick="clearCanvas()" style="padding:10px 20px; border-radius:10px; border:none; background:#546e7a; color:white; font-weight:bold;">XÓA</button>
         <button onclick="changeColor('#f44336')" style="padding:10px; border-radius:50%; border:4px solid white; background:#f44336; width:40px; height:40px;"></button>
@@ -115,7 +123,6 @@
 
     <div class="nav-bar">
         <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ KHÁM PHÁ</button>
-        <div style="flex:1"></div>
     </div>
 </div>
 
@@ -162,15 +169,22 @@
         canvas.addEventListener('touchstart',s,{passive:false}); canvas.addEventListener('touchmove',m,{passive:false}); canvas.addEventListener('touchend',st);
     }
 
-    function drawT(n) { curNum=n; ctx.clearRect(0,0,280,280); ctx.font="bold 200px Arial"; ctx.fillStyle="#f0f0f0"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(n,140,140); }
+    function drawT(n) {
+        curNum = n;
+        ctx.clearRect(0,0,280,280);
+        ctx.font="bold 200px Arial"; ctx.fillStyle="#f8f9fa"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(n,140,140);
+        
+        // Hiển thị hình hướng dẫn nét viết từ file thầy cắt
+        const gImg = document.getElementById('guideImg');
+        gImg.src = `img/so${n}.PNG`;
+    }
+
     function clearCanvas() { drawT(curNum); }
     function changeColor(c) { ctx.strokeStyle=c; }
-
     function ask(el,v) { targetEl=el; correctVal=v; document.getElementById('picker').style.display='flex'; }
     function check(n) {
         if(n===correctVal) { 
-            targetEl.innerText=n; 
-            targetEl.classList.add('correct'); 
+            targetEl.innerText=n; targetEl.classList.add('correct'); 
             new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3').play().catch(()=>{});
             document.getElementById('picker').style.display='none'; 
         }
