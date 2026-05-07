@@ -1,154 +1,111 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bài 1: Các số 0, 1, 2, 3, 4, 5</title>
-    <style>
-        :root {
-            --sky-blue: #e3f2fd;
-            --border-blue: #81d4fa;
-            --text-blue: #01579b;
-        }
+<div id="pageHoatDong" class="page">
+    <div class="activity-container">
+        <div class="section-exercise">
+            <p class="exercise-title"><b>Bài 2:</b> Số ?</p>
+            <div class="grid-quiz">
+                <div class="quiz-box">
+                    <div class="img-content">🥕🥕🥕</div>
+                    <div class="answer-zone" onclick="showNumberPicker(this, 3)">?</div>
+                </div>
+                <div class="quiz-box">
+                    <div class="img-content">🐱</div>
+                    <div class="answer-zone" onclick="showNumberPicker(this, 1)">?</div>
+                </div>
+                <div class="quiz-box">
+                    <div class="img-content">🧪🐠🐠</div>
+                    <div class="answer-zone" onclick="showNumberPicker(this, 2)">?</div>
+                </div>
+                <div class="quiz-box">
+                    <div class="img-content">🧪</div>
+                    <div class="answer-zone" onclick="showNumberPicker(this, 0)">?</div>
+                </div>
+            </div>
+        </div>
 
-        body {
-            margin: 0; padding: 0; font-family: 'Arial', sans-serif;
-            background-color: var(--sky-blue);
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh;
-        }
-
-        /* Thanh tiêu đề giống SGK */
-        .header-sgk {
-            width: 100%; background: white; padding: 15px;
-            display: flex; align-items: center; justify-content: space-between;
-            border-bottom: 5px solid #ffca28; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        .header-sgk h2 { color: #f44336; margin: 0; font-size: 20px; text-transform: uppercase; }
-        .btn-back { background: #546e7a; color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; }
-
-        /* Bảng hiển thị chính (Bể cá & Số) */
-        #mainBoard {
-            width: 90vw; max-width: 500px; height: 50vh;
-            background: white; border-radius: 30px; margin-top: 20px;
-            border: 8px solid var(--border-blue);
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: space-around; position: relative;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-
-        /* Mô phỏng bể cá */
-        #fishTank {
-            width: 80%; height: 120px; background: #e1f5fe;
-            border-radius: 15px; border: 3px solid #4fc3f7;
-            display: flex; flex-wrap: wrap; justify-content: center;
-            align-content: center; gap: 10px; position: relative;
-        }
-        #fishTank::after { content: '💧'; position: absolute; top: 5px; right: 10px; opacity: 0.5; }
-
-        .fish { font-size: 45px; animation: swim 2s ease-in-out infinite; }
-
-        @keyframes swim {
-            0%, 100% { transform: translateX(0) rotate(0); }
-            50% { transform: translateX(10px) rotate(5deg); }
-        }
-
-        /* Con số và Chữ viết (một, hai, ba...) */
-        .number-display { text-align: center; }
-        #bigNumber { font-size: 140px; font-weight: bold; color: #0288d1; line-height: 1; }
-        #numberText { font-size: 30px; color: #546e7a; font-weight: bold; margin-top: 5px; }
-
-        /* Bàn phím số 0-5 */
-        .number-dock {
-            width: 90vw; max-width: 500px; margin: 20px 0;
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
-            padding: 20px; background: white; border-radius: 20px;
-        }
-
-        .btn-num {
-            height: 70px; border: none; border-radius: 15px;
-            font-size: 32px; font-weight: bold; color: white;
-            cursor: pointer; box-shadow: 0 6px 0 rgba(0,0,0,0.2);
-            transition: 0.1s;
-        }
-        .btn-num:active { transform: translateY(4px); box-shadow: none; }
-
-        .hint { color: var(--text-blue); font-weight: bold; margin-bottom: 10px; }
-
-    </style>
-</head>
-<body>
-
-<div class="header-sgk">
-    <button class="btn-back" onclick="window.location.href='index.html'">⬅ QUAY LẠI</button>
-    <h2>CÁC SỐ 0, 1, 2, 3, 4, 5</h2>
-    <div style="width: 70px;"></div>
-</div>
-
-<div id="mainBoard">
-    <div class="hint">Khám phá số lượng cá:</div>
-    <div id="fishTank"></div>
-    <div class="number-display">
-        <div id="bigNumber">1</div>
-        <div id="numberText">một</div>
+        <div class="section-exercise" style="margin-top:20px;">
+            <p class="exercise-title"><b>Bài 3:</b> Số ?</p>
+            <div class="flag-line">
+                <div class="flag-item"><div class="flag-shape">0</div><div class="dice"></div></div>
+                <div class="flag-item"><div class="flag-shape">1</div><div class="dice">●</div></div>
+                <div class="flag-item"><div class="flag-shape highlight" onclick="showNumberPicker(this, 2)">?</div><div class="dice">●●</div></div>
+                <div class="flag-item"><div class="flag-shape highlight" onclick="showNumberPicker(this, 3)">?</div><div class="dice">●●<br>●</div></div>
+                <div class="flag-item"><div class="flag-shape">4</div><div class="dice">●●<br>●●</div></div>
+                <div class="flag-item"><div class="flag-shape">5</div><div class="dice">●●●<br>●●</div></div>
+            </div>
+        </div>
     </div>
+
+    <div id="numberPicker" class="picker-hidden">
+        <div class="picker-content">
+            <p>Bé chọn số mấy?</p>
+            <div class="picker-grid">
+                <button onclick="pickNumber(0)">0</button>
+                <button onclick="pickNumber(1)">1</button>
+                <button onclick="pickNumber(2)">2</button>
+                <button onclick="pickNumber(3)">3</button>
+                <button onclick="pickNumber(4)">4</button>
+                <button onclick="pickNumber(5)">5</button>
+            </div>
+            <button class="btn-close" onclick="closePicker()">Đóng</button>
+        </div>
+    </div>
+
+    <button class="nav-btn" onclick="changePage('pageKhapPha')">⬅ QUAY LẠI HỌC</button>
 </div>
 
-<div class="number-dock" id="dock"></div>
+<style>
+    /* CSS CHO ĐỘ CHÍNH XÁC CAO */
+    .section-exercise { background: #fff; padding: 15px; border-radius: 20px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
+    .exercise-title { color: #d81b60; margin: 0 0 10px 0; font-size: 18px; }
+    
+    /* Grid cho bài 2 */
+    .grid-quiz { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .quiz-box { border: 2px solid #e1f5fe; border-radius: 15px; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+    .img-content { font-size: 30px; height: 50px; display: flex; align-items: center; }
+    .answer-zone { width: 50px; height: 40px; background: #fff8e1; border: 2px dashed #ffb300; border-radius: 10px; 
+                   display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff6f00; cursor: pointer; }
+    .answer-zone.correct { background: #4caf50; border-style: solid; border-color: #2e7d32; color: white; }
+
+    /* Style Lá cờ & Xúc xắc bài 3 */
+    .flag-line { display: flex; justify-content: space-between; align-items: flex-start; }
+    .flag-item { display: flex; flex-direction: column; align-items: center; width: 15%; }
+    .flag-shape { width: 100%; height: 50px; background: #4caf50; color: white; display: flex; align-items: center; 
+                  justify-content: center; font-weight: bold; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 80%, 0% 100%); }
+    .flag-shape.highlight { background: #ffca28; color: #f44336; cursor: pointer; }
+    .dice { margin-top: 5px; font-size: 10px; color: #f44336; min-height: 30px; text-align: center; line-height: 1; }
+
+    /* Pop-up chọn số */
+    .picker-hidden { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); 
+                     display: none; justify-content: center; align-items: center; z-index: 1000; }
+    .picker-content { background: white; padding: 25px; border-radius: 30px; text-align: center; width: 80%; max-width: 300px; }
+    .picker-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
+    .picker-grid button { height: 60px; font-size: 24px; border: none; border-radius: 15px; background: #e1f5fe; color: #0288d1; font-weight: bold; }
+    .btn-close { background: #546e7a; color: white; border: none; padding: 10px 20px; border-radius: 10px; }
+</style>
 
 <script>
-    const lessonData = {
-        current: 1,
-        // Dùng icon cá như trong SGK
-        fishIcons: ['🐟', '🐠', '🐡', '🐬', '🐳', '🐋'],
-        words: ['không', 'một', 'hai', 'ba', 'bốn', 'năm'],
-        colors: ['#90a4ae', '#f44336', '#4caf50', '#ff9800', '#9c27b0', '#2196f3']
-    };
+    let currentTarget = null;
+    let currentCorrectValue = null;
 
-    function init() {
-        const dock = document.getElementById('dock');
-        // Chỉ hiện từ số 0 đến 5 theo bài học SGK
-        for (let i = 0; i <= 5; i++) {
-            let btn = document.createElement('button');
-            btn.className = 'btn-num';
-            btn.style.backgroundColor = lessonData.colors[i];
-            btn.innerText = i;
-            btn.onclick = () => updateLesson(i);
-            dock.appendChild(btn);
+    function showNumberPicker(element, correctVal) {
+        currentTarget = element;
+        currentCorrectValue = correctVal;
+        document.getElementById('numberPicker').style.display = 'flex';
+    }
+
+    function closePicker() {
+        document.getElementById('numberPicker').style.display = 'none';
+    }
+
+    function pickNumber(num) {
+        if (num === currentCorrectValue) {
+            currentTarget.innerText = num;
+            currentTarget.classList.add('correct');
+            new Audio('https://www.soundjay.com/buttons/sounds/button-3.mp3').play().catch(()=>{}); // Âm thanh khen ngợi
+            setTimeout(() => { alert("Đúng rồi! Bé giỏi quá! ✨"); }, 200);
+            closePicker();
+        } else {
+            alert("Chưa đúng, bé đếm lại nhé!");
         }
-        updateLesson(1);
     }
-
-    function updateLesson(n) {
-        lessonData.current = n;
-        
-        // Cập nhật số và chữ viết
-        document.getElementById('bigNumber').innerText = n;
-        document.getElementById('bigNumber').style.color = lessonData.colors[n];
-        document.getElementById('numberText').innerText = lessonData.words[n];
-
-        // Cập nhật bể cá
-        const tank = document.getElementById('fishTank');
-        tank.innerHTML = '';
-        for (let i = 0; i < n; i++) {
-            let fish = document.createElement('span');
-            fish.className = 'fish';
-            // Lấy ngẫu nhiên các loại cá cho sinh động
-            fish.innerText = lessonData.fishIcons[i % 3]; 
-            tank.appendChild(fish);
-        }
-
-        readVoice();
-    }
-
-    function readVoice() {
-        // Đường dẫn file âm thanh của thầy: audio/0.mp3...
-        const audio = new Audio(`audio/${lessonData.current}.mp3`);
-        audio.play().catch(e => console.log("Thiếu file âm thanh số " + lessonData.current));
-    }
-
-    window.onload = init;
 </script>
-
-</body>
-</html>
