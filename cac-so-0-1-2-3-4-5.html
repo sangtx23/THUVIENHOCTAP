@@ -8,7 +8,7 @@
         :root { --sky: #e3f2fd; --pink: #f06292; --blue: #0288d1; --green: #4caf50; --amber: #ff8f00; }
         body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: var(--sky); overflow: hidden; touch-action: manipulation; }
         
-        .header { background: white; height: 50px; display: flex; align-items: center; justify-content: center; border-bottom: 3px solid #ffca28; position: relative; }
+        .header { background: white; height: 50px; display: flex; align-items: center; justify-content: center; border-bottom: 3px solid #ffca28; position: relative; z-index: 10; }
         .header h2 { color: #f44336; margin: 0; font-size: 16px; text-transform: uppercase; }
         .btn-exit { position: absolute; left: 10px; border: none; background: #546e7a; color: white; border-radius: 5px; padding: 5px 10px; font-size: 12px; }
 
@@ -17,52 +17,61 @@
 
         /* Trang 1: Khám phá */
         .box-study { background: white; padding: 10px; border-radius: 20px; border: 5px solid #81d4fa; width: 85%; text-align: center; margin-bottom: 5px; }
-        #tank { height: 70px; background: #e1f5fe; border-radius: 15px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 5px; }
-        #numBig { font-size: 80px; font-weight: bold; line-height: 1; margin: 5px 0; }
+        #tank { height: 60px; background: #e1f5fe; border-radius: 15px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 5px; }
+        #numBig { font-size: 70px; font-weight: bold; line-height: 1; margin: 5px 0; }
         .dock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 90%; padding: 10px; }
-        .btn-n { height: 50px; border: none; border-radius: 12px; color: white; font-size: 24px; font-weight: bold; }
+        .btn-n { height: 45px; border: none; border-radius: 12px; color: white; font-size: 20px; font-weight: bold; }
 
-        /* Trang 2: Tập viết - Đã căn chỉnh lại kích thước mẫu */
-        .write-container { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 15px; width: 98%; margin-bottom: 10px; }
+        /* Trang 2: Tập viết - Căn chỉnh lại để không bị lệch */
+        .write-container { 
+            display: flex; 
+            flex-direction: row; 
+            align-items: stretch; 
+            justify-content: center; 
+            gap: 10px; 
+            width: 95%; 
+            max-width: 500px;
+            margin: 10px 0; 
+        }
         
         .guide-box { 
-            width: 35%; /* Thu nhỏ lại để không bị quá to */
-            aspect-ratio: 1/1; 
+            flex: 2; /* Nhỏ hơn */
             background: white; 
             border: 2px solid #ffca28; 
             border-radius: 15px; 
             display: flex; 
+            flex-direction: column;
             align-items: center; 
-            justify-content: center; 
-            padding: 5px; 
-            position: relative; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            justify-content: center;
+            padding: 5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
         
         .writing-area { 
-            width: 55%; /* Bảng viết to hơn mẫu */
-            aspect-ratio: 1/1; 
+            flex: 3; /* To hơn để bé viết thoải mái */
             background: white; 
             border: 3px solid #90caf9; 
             border-radius: 15px; 
-            background-image: linear-gradient(#b3e5fc 1px, transparent 1px), linear-gradient(90deg, #b3e5fc 1px, transparent 1px); 
-            background-size: 25px 25px; 
+            background-image: linear-gradient(#e1f5fe 1px, transparent 1px), linear-gradient(90deg, #e1f5fe 1px, transparent 1px); 
+            background-size: 20px 20px;
+            position: relative;
+            overflow: hidden;
         }
         
-        canvas { width: 100%; height: 100%; touch-action: none; display: block; }
+        canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; }
 
         /* Trang 3: Bài tập */
         .card { width: 92%; background: white; border-radius: 15px; padding: 12px; border: 3px solid var(--pink); margin-bottom: 10px; box-sizing: border-box; }
         .card-title { color: var(--pink); font-weight: bold; margin: 0 0 10px 0; font-size: 14px; border-left: 4px solid var(--pink); padding-left: 8px; }
         .quiz-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .quiz-item { border: 1px solid #fce4ec; border-radius: 12px; padding: 8px; text-align: center; background: #fffafb; display: flex; flex-direction: column; align-items: center; }
-        .img-wrap { height: 55px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
-        .img-wrap img { max-height: 100%; max-width: 100%; object-fit: contain; }
-        .ans { width: 45px; height: 32px; background: #fff8e1; border: 1px dashed #ffb300; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; color: #ff6f00; font-size: 18px; }
+        .img-wrap { height: 50px; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; }
+        .img-wrap img { max-height: 100%; max-width: 100%; }
+        .ans { width: 40px; height: 30px; background: #fff8e1; border: 1px dashed #ffb300; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff6f00; }
         .ans.correct { background: var(--green) !important; color: white !important; border-style: solid !important; }
-        
-        .nav-bar { width: 90%; display: flex; gap: 10px; margin-top: auto; padding-bottom: 15px; }
-        .btn-nav { flex: 1; padding: 12px; border-radius: 25px; border: none; color: white; font-weight: bold; cursor: pointer; }
+
+        .nav-bar { width: 90%; display: flex; gap: 10px; margin-top: auto; padding-bottom: 10px; }
+        .btn-nav { flex: 1; padding: 12px; border-radius: 25px; border: none; color: white; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -86,22 +95,22 @@
 </div>
 
 <div id="p2" class="page">
-    <div style="display:flex; gap:5px; margin-bottom:15px; flex-wrap:wrap; justify-content:center;" id="wNav"></div>
+    <div style="display:flex; gap:5px; margin-bottom:10px; flex-wrap:wrap; justify-content:center;" id="wNav"></div>
     
     <div class="write-container">
         <div class="guide-box">
-            <span style="position: absolute; top: 2px; left: 5px; font-size: 8px; color: #f44336; font-weight: bold; opacity: 0.6;">MẪU</span>
-            <img id="guideImg" src="" style="width: 85%; height: 85%; object-fit: contain;">
+            <span style="font-size: 10px; color: #f44336; font-weight: bold; margin-bottom: 5px;">MẪU</span>
+            <img id="guideImg" src="" style="width: 100%; object-fit: contain;">
         </div>
-        <div class="writing-area">
-            <canvas id="writingBoard" width="280" height="280"></canvas>
+        <div class="writing-area" id="canvasWrap">
+            <canvas id="writingBoard"></canvas>
         </div>
     </div>
 
-    <div style="display:flex; gap:15px; align-items: center; margin-bottom: 10px;">
-        <button onclick="clearCanvas()" style="padding:10px 20px; border-radius:10px; border:none; background:#546e7a; color:white; font-weight:bold; box-shadow: 0 3px #37474f;">XÓA</button>
-        <button onclick="changeColor('#f44336')" style="border-radius:50%; border:3px solid white; background:#f44336; width:40px; height:40px;"></button>
-        <button onclick="changeColor('#4caf50')" style="border-radius:50%; border:3px solid white; background:#4caf50; width:40px; height:40px;"></button>
+    <div style="display:flex; gap:15px; align-items: center;">
+        <button onclick="clearCanvas()" style="padding:10px 25px; border-radius:10px; border:none; background:#546e7a; color:white; font-weight:bold;">XÓA</button>
+        <button onclick="changeColor('#f44336')" style="border-radius:50%; border:3px solid white; background:#f44336; width:45px; height:45px;"></button>
+        <button onclick="changeColor('#4caf50')" style="border-radius:50%; border:3px solid white; background:#4caf50; width:45px; height:45px;"></button>
     </div>
 
     <div class="nav-bar">
@@ -143,47 +152,78 @@
             let b2 = b.cloneNode(true); b2.style.height="40px"; b2.style.fontSize="16px"; b2.onclick=()=>drawT(i); wNav.appendChild(b2);
             let b3 = document.createElement('button'); b3.innerText=i; b3.style.height="55px"; b3.style.fontSize="22px"; b3.style.borderRadius="12px"; b3.style.border="none"; b3.style.background="#e1f5fe"; b3.style.color="#0288d1"; b3.style.fontWeight="bold"; b3.onclick=()=>check(i); pg.appendChild(b3);
         }
-        setupC(); updateKP(1);
+        setupC();
+        updateKP(1);
+    }
+
+    function setupC() {
+        canvas = document.getElementById('writingBoard');
+        ctx = canvas.getContext('2d');
+        
+        // Sửa lỗi lệch tọa độ bằng cách đặt size canvas trùng với size hiển thị
+        const resize = () => {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            drawT(curNum); // Vẽ lại mẫu mờ sau khi resize
+        };
+        
+        window.addEventListener('resize', resize);
+        setTimeout(resize, 200);
+
+        const getP = (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        };
+
+        const start = (e) => { drawing = true; const p = getP(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); };
+        const move = (e) => { if(!drawing) return; const p = getP(e); ctx.lineTo(p.x, p.y); ctx.lineWidth = 12; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.stroke(); e.preventDefault(); };
+        const stop = () => { drawing = false; };
+
+        canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move); window.addEventListener('mouseup', stop);
+        canvas.addEventListener('touchstart', start, {passive:false}); canvas.addEventListener('touchmove', move, {passive:false}); canvas.addEventListener('touchend', stop);
+    }
+
+    function drawT(n) {
+        curNum = n;
+        if(!canvas) return;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.font = `bold ${canvas.height * 0.8}px Arial`;
+        ctx.fillStyle = "#f3f3f3";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(n, canvas.width/2, canvas.height/2);
+        document.getElementById('guideImg').src = `img/so${n}.PNG`;
     }
 
     function updateKP(i) {
         document.getElementById('numBig').innerText=i; document.getElementById('numBig').style.color=cfg.clrs[i]; document.getElementById('txtBig').innerText=cfg.words[i];
         const t=document.getElementById('tank'); t.innerHTML=''; for(let j=0; j<i; j++) t.innerHTML+=`<span style="font-size:30px">${cfg.fishes[j%3]}</span>`;
-        new Audio(`audio/${i}.mp3`).play().catch(()=>{});
     }
 
     function goPage(id) {
-        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active');
-        if(id==='p2') setTimeout(()=>drawT(curNum),100);
-    }
-
-    function setupC() {
-        canvas=document.getElementById('writingBoard'); ctx=canvas.getContext('2d'); ctx.strokeStyle="#4caf50"; ctx.lineWidth=15; ctx.lineCap="round"; ctx.lineJoin="round";
-        const getP=(e)=>{ const r=canvas.getBoundingClientRect(); const c=e.touches?e.touches[0]:e; return {x:c.clientX-r.left, y:c.clientY-r.top}; };
-        const s=(e)=>{ drawing=true; const p=getP(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); e.preventDefault(); };
-        const m=(e)=>{ if(!drawing) return; const p=getP(e); ctx.lineTo(p.x,p.y); ctx.stroke(); e.preventDefault(); };
-        const st=()=>{ drawing=false; };
-        canvas.addEventListener('mousedown',s); canvas.addEventListener('mousemove',m); window.addEventListener('mouseup',st);
-        canvas.addEventListener('touchstart',s,{passive:false}); canvas.addEventListener('touchmove',m,{passive:false}); canvas.addEventListener('touchend',st);
-    }
-
-    function drawT(n) {
-        curNum = n;
-        ctx.clearRect(0,0,280,280);
-        ctx.font="bold 200px Arial"; ctx.fillStyle="#f8f8f8"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(n,140,140);
-        document.getElementById('guideImg').src = `img/so${n}.PNG`;
+        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if(id==='p2') {
+            setTimeout(() => {
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                drawT(curNum);
+            }, 100);
+        }
     }
 
     function clearCanvas() { drawT(curNum); }
-    function changeColor(c) { ctx.strokeStyle=c; }
+    function changeColor(c) { ctx.strokeStyle = c; }
     function ask(el,v) { targetEl=el; correctVal=v; document.getElementById('picker').style.display='flex'; }
     function check(n) {
         if(n===correctVal) { 
             targetEl.innerText=n; targetEl.classList.add('correct'); 
-            new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3').play().catch(()=>{});
             document.getElementById('picker').style.display='none'; 
-        }
-        else alert("Bé đếm lại xem nào! ☘️");
+        } else alert("Bé đếm lại nhé!");
     }
 
     window.onload = init;
