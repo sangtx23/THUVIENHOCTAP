@@ -118,10 +118,16 @@
         document.getElementById('headerTitle').innerText = 'NGÔI TRƯỜNG NHỎ CỦA BÉ';
     }
 
-    function startLesson(lessonId) {
+   // Hàm điều hướng đến bài học cụ thể
+function goToLesson(url) {
+    // Thầy đảm bảo file cac-so-0-1-2-3-4-5.html nằm cùng thư mục với index.html nhé
+    window.location.href = url;
+}
+
+// Nếu thầy muốn quản lý chuyên nghiệp hơn, hãy sửa hàm startLesson (nếu có) thành:
+function startLesson(lessonId) {
     if(lessonId === 'so') {
-        // Lệnh này sẽ mở file hoc-so.html khi bé chạm vào icon bài học
-        window.location.href = 'hoc-so.html';
+        window.location.href = 'cac-so-0-1-2-3-4-5.html';
     }
 }
 </script>
