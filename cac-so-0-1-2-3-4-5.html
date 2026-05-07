@@ -22,30 +22,35 @@
         .dock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 90%; padding: 10px; }
         .btn-n { height: 45px; border: none; border-radius: 12px; color: white; font-size: 20px; font-weight: bold; }
 
-        /* Trang 2: Tập viết - Mẫu trái nhỏ, Viết phải to */
+        /* Trang 2: Tập viết */
         .write-container { display: flex; flex-direction: row; align-items: stretch; justify-content: center; gap: 10px; width: 95%; max-width: 500px; margin: 10px 0; }
-        .guide-box { flex: 2; background: white; border: 2px solid #ffca28; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); position: relative; }
+        .guide-box { flex: 2; background: white; border: 2px solid #ffca28; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px; position: relative; }
         .writing-area { flex: 3; background: white; border: 3px solid #90caf9; border-radius: 15px; background-image: linear-gradient(#e1f5fe 1px, transparent 1px), linear-gradient(90deg, #e1f5fe 1px, transparent 1px); background-size: 20px 20px; position: relative; overflow: hidden; }
         canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; }
 
-        /* Trang 3: Bài tập */
-        .card { width: 92%; background: white; border-radius: 15px; padding: 12px; border: 3px solid var(--pink); margin-bottom: 10px; box-sizing: border-box; }
-        .card-title { color: var(--pink); font-weight: bold; margin: 0 0 10px 0; font-size: 14px; border-left: 4px solid var(--pink); padding-left: 8px; }
-        .quiz-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .quiz-item { border: 1px solid #fce4ec; border-radius: 12px; padding: 8px; text-align: center; background: #fffafb; display: flex; flex-direction: column; align-items: center; }
-        .img-wrap { height: 50px; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; }
+        /* Trang 3: Bài tập - PHÓNG TO HÌNH ẢNH */
+        .card { width: 94%; background: white; border-radius: 15px; padding: 15px; border: 3px solid var(--pink); margin-bottom: 15px; box-sizing: border-box; }
+        .card-title { color: var(--pink); font-weight: bold; margin: 0 0 12px 0; font-size: 15px; border-left: 5px solid var(--pink); padding-left: 10px; }
+        .quiz-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .quiz-item { border: 1px solid #fce4ec; border-radius: 15px; padding: 10px; text-align: center; background: #fffafb; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+        
+        /* Tăng kích thước hình minh họa */
+        .img-wrap { height: 80px; width: 100%; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
         .img-wrap img { max-height: 100%; max-width: 100%; object-fit: contain; }
-        .ans { width: 40px; height: 30px; background: #fff8e1; border: 1px dashed #ffb300; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff6f00; cursor: pointer; }
-        .ans.correct { background: var(--green) !important; color: white !important; border-style: solid !important; }
+        
+        /* Tăng kích thước nút trả lời */
+        .ans { width: 50px; height: 35px; background: #fff8e1; border: 2px dashed #ffb300; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff6f00; cursor: pointer; font-size: 18px; }
+        .ans.correct { background: var(--green) !important; color: white !important; border-style: solid !important; border-color: white !important; }
 
-        .flag-line { display: flex; justify-content: space-between; width: 100%; }
+        /* Bài 3 bố cục flag */
+        .flag-line { display: flex; justify-content: space-between; width: 100%; margin-top: 10px; }
         .flag { width: 15%; text-align: center; }
-        .f-top { height: 35px; color: white; display: flex; align-items: center; justify-content: center; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 80%, 0% 100%); font-weight: bold; font-size: 14px; }
+        .f-top { height: 40px; color: white; display: flex; align-items: center; justify-content: center; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 80%, 0% 100%); font-weight: bold; font-size: 16px; }
         .f-q { background: #ffca28; color: #f44336; border: 1px solid #f44336; cursor: pointer; }
-        .dot-box { background: #fff8e1; border: 1px solid #ffb300; border-radius: 4px; margin-top: 5px; min-height: 30px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #f44336; }
+        .dot-box { background: #fff8e1; border: 1px solid #ffb300; border-radius: 5px; margin-top: 8px; min-height: 40px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #f44336; line-height: 1.1; }
 
-        .nav-bar { width: 90%; display: flex; gap: 10px; margin-top: auto; padding-bottom: 10px; }
-        .btn-nav { flex: 1; padding: 12px; border-radius: 25px; border: none; color: white; font-weight: bold; cursor: pointer; }
+        .nav-bar { width: 90%; display: flex; gap: 10px; margin-top: auto; padding-bottom: 15px; }
+        .btn-nav { flex: 1; padding: 15px; border-radius: 30px; border: none; color: white; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 4px #ccc; }
     </style>
 </head>
 <body>
@@ -64,7 +69,7 @@
     <div class="dock" id="dock"></div>
     <div class="nav-bar">
         <div style="flex:1"></div>
-        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('p2')">TẬP VIẾT ➡</button>
+        <button class="btn-nav" style="background:var(--amber); box-shadow: 0 4px #b56500;" onclick="goPage('p2')">TẬP VIẾT ➡</button>
     </div>
 </div>
 
@@ -72,7 +77,7 @@
     <div style="display:flex; gap:5px; margin-bottom:10px; flex-wrap:wrap; justify-content:center;" id="wNav"></div>
     <div class="write-container">
         <div class="guide-box">
-            <span style="font-size: 9px; color: #f44336; font-weight: bold; margin-bottom: 2px;">MẪU</span>
+            <span style="font-size: 10px; color: #f44336; font-weight: bold; margin-bottom: 5px;">MẪU</span>
             <img id="guideImg" src="" style="width: 100%; object-fit: contain;">
         </div>
         <div class="writing-area" id="canvasWrap">
@@ -80,13 +85,13 @@
         </div>
     </div>
     <div style="display:flex; gap:15px; align-items: center; margin-bottom: 5px;">
-        <button onclick="clearCanvas()" style="padding:10px 20px; border-radius:10px; border:none; background:#546e7a; color:white; font-weight:bold;">XÓA</button>
-        <button onclick="changeColor('#f44336')" style="border-radius:50%; border:3px solid white; background:#f44336; width:40px; height:40px;"></button>
-        <button onclick="changeColor('#4caf50')" style="border-radius:50%; border:3px solid white; background:#4caf50; width:40px; height:40px;"></button>
+        <button onclick="clearCanvas()" style="padding:10px 25px; border-radius:12px; border:none; background:#546e7a; color:white; font-weight:bold; box-shadow: 0 4px #37474f;">XÓA</button>
+        <button onclick="changeColor('#f44336')" style="border-radius:50%; border:3px solid white; background:#f44336; width:45px; height:45px; box-shadow: 0 3px rgba(0,0,0,0.2);"></button>
+        <button onclick="changeColor('#4caf50')" style="border-radius:50%; border:3px solid white; background:#4caf50; width:45px; height:45px; box-shadow: 0 3px rgba(0,0,0,0.2);"></button>
     </div>
     <div class="nav-bar">
-        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ KHÁM PHÁ</button>
-        <button class="btn-nav" style="background:var(--pink);" onclick="goPage('p3')">BÀI TẬP ➡</button>
+        <button class="btn-nav" style="background:#90a4ae; box-shadow: 0 4px #546e7a;" onclick="goPage('p1')">⬅ KHÁM PHÁ</button>
+        <button class="btn-nav" style="background:var(--pink); box-shadow: 0 4px #ad1457;" onclick="goPage('p3')">BÀI TẬP ➡</button>
     </div>
 </div>
 
@@ -105,7 +110,7 @@
 
     <div class="card">
         <p class="card-title">Bài 2b: Số con cá trong mỗi chậu?</p>
-        <div class="quiz-grid">
+        <div class="quiz-grid" style="grid-template-columns: 1fr 1fr 1fr;">
             <div class="quiz-item"><div class="img-wrap"><img src="img/chau2ca.PNG"></div><div class="ans" onclick="ask(this,2)">?</div></div>
             <div class="quiz-item"><div class="img-wrap"><img src="img/chau1ca.PNG"></div><div class="ans" onclick="ask(this,1)">?</div></div>
             <div class="quiz-item"><div class="img-wrap"><img src="img/chau.PNG"></div><div class="ans" onclick="ask(this,0)">?</div></div>
@@ -125,15 +130,15 @@
     </div>
 
     <div class="nav-bar">
-        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ KHÁM PHÁ</button>
+        <button class="btn-nav" style="background:#90a4ae; box-shadow: 0 4px #546e7a;" onclick="goPage('p1')">⬅ KHÁM PHÁ</button>
     </div>
 </div>
 
 <div id="picker" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:none;justify-content:center;align-items:center;z-index:2000;">
-    <div style="background:white;padding:20px;border-radius:20px;width:80%;max-width:300px;text-align:center;">
-        <p><b>Bé chọn số mấy?</b></p>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0;" id="pg"></div>
-        <button onclick="document.getElementById('picker').style.display='none'" style="border:none;background:#eee;padding:10px;border-radius:10px;font-weight:bold;">HỦY</button>
+    <div style="background:white;padding:20px;border-radius:20px;width:85%;max-width:320px;text-align:center;border:5px solid #ffca28;">
+        <p style="font-size: 20px; margin-top: 0;"><b>Bé chọn số mấy?</b></p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:20px 0;" id="pg"></div>
+        <button onclick="document.getElementById('picker').style.display='none'" style="border:none;background:#eee;padding:12px 25px;border-radius:15px;font-weight:bold;font-size:16px;">HỦY</button>
     </div>
 </div>
 
@@ -146,7 +151,7 @@
         for(let i=0; i<=5; i++){
             let b = document.createElement('button'); b.className='btn-n'; b.style.background=cfg.clrs[i]; b.innerText=i; b.onclick=()=>updateKP(i); d.appendChild(b);
             let b2 = b.cloneNode(true); b2.style.height="40px"; b2.style.fontSize="16px"; b2.onclick=()=>drawT(i); wNav.appendChild(b2);
-            let b3 = document.createElement('button'); b3.innerText=i; b3.style.height="55px"; b3.style.fontSize="22px"; b3.style.borderRadius="12px"; b3.style.border="none"; b3.style.background="#e1f5fe"; b3.style.color="#0288d1"; b3.style.fontWeight="bold"; b3.onclick=()=>check(i); pg.appendChild(b3);
+            let b3 = document.createElement('button'); b3.innerText=i; b3.style.height="60px"; b3.style.fontSize="26px"; b3.style.borderRadius="15px"; b3.style.border="none"; b3.style.background="#fff8e1"; b3.style.color="#ff6f00"; b3.style.fontWeight="bold"; b3.style.boxShadow="0 4px #ffca28"; b3.onclick=()=>check(i); pg.appendChild(b3);
         }
         setupC(); updateKP(1);
     }
@@ -174,7 +179,6 @@
     function updateKP(i) {
         document.getElementById('numBig').innerText=i; document.getElementById('numBig').style.color=cfg.clrs[i]; document.getElementById('txtBig').innerText=cfg.words[i];
         const t=document.getElementById('tank'); t.innerHTML=''; for(let j=0; j<i; j++) t.innerHTML+=`<span style="font-size:30px">${cfg.fishes[j%3]}</span>`;
-        // Đã khôi phục âm thanh
         new Audio(`audio/${i}.mp3`).play().catch(()=>{});
     }
 
@@ -192,7 +196,7 @@
             targetEl.innerText=n; targetEl.classList.add('correct'); 
             new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3').play().catch(()=>{});
             document.getElementById('picker').style.display='none'; 
-        } else alert("Bé đếm lại nhé!");
+        } else alert("Bé đếm lại nhé! ☘️");
     }
 
     window.onload = init;
