@@ -1,229 +1,190 @@
++1
+Lines changed: 1 addition & 0 deletions
+Original file line number	Diff line number	Diff line change
+@@ -1,185 +1,186 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Luyện Tập Trang 12-13</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
+    <title>Trường Học Của Bé</title>
     <style>
-        :root { --sky: #e3f2fd; --blue: #0288d1; --red: #f44336; --green: #2e7d32; --amber: #ffca28; }
-        body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: var(--sky); touch-action: manipulation; }
-        
-        .header { background: white; height: 50px; display: flex; align-items: center; justify-content: center; border-bottom: 3px solid #ffca28; position: sticky; top: 0; z-index: 100; }
-        .header h2 { color: var(--red); margin: 0; font-size: 16px; text-transform: uppercase; }
-        .btn-exit { position: absolute; left: 10px; border: none; background: var(--red); color: white; border-radius: 12px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; }
-
-        .page { display: none; width: 100vw; flex-direction: column; align-items: center; padding: 10px 0; }
-        .page.active { display: flex; }
-        .quiz-container { position: relative; width: 95%; max-width: 650px; background: white; border-radius: 20px; border: 4px solid #90caf9; padding: 5px; box-sizing: border-box; }
-        .quiz-img { width: 100%; display: block; border-radius: 15px; pointer-events: none; }
-
-        /* Vùng chạm Bài 1 & 2 */
-        .touch-point { 
-            position: absolute; border: 2px solid transparent; border-radius: 50%; cursor: pointer; z-index: 10;
-            display: flex; align-items: center; justify-content: center;
+        :root {
+            --bg-color: #e0f7fa;
+            --primary-text: #006064;
+            --math-color: #ff5252;
+            --viet-color: #4caf50;
         }
-        .touch-point.is-correct.active { border-color: var(--blue); background: rgba(2, 136, 209, 0.1); pointer-events: none; }
-        @keyframes wrong-effect {
-            0% { opacity: 0; transform: scale(0.7); }
-            50% { opacity: 1; transform: scale(1); border-color: #ff5252; box-shadow: 0 0 15px #ff5252, inset 0 0 10px white; }
-            100% { opacity: 0; transform: scale(1.2); }
-        }
-        .touch-point.is-wrong.flash { animation: wrong-effect 0.3s ease-out forwards; }
-        .touch-point.is-wrong::after { content: '✖'; color: #f44336; font-size: 18px; font-weight: bold; opacity: 0; }
-        .touch-point.is-wrong.flash::after { opacity: 1; }
 
-        /* Style Bài 3 & 4 (Ô điền số) */
-        .box-ans { 
-            position: absolute; width: 8%; height: 8%; 
-            display: flex; align-items: center; justify-content: center;
-            font-size: 22px; font-weight: bold; color: #ff5722; /* Màu dấu ? */
-            cursor: pointer; z-index: 20; border-radius: 8px;
-            background: rgba(255, 255, 255, 0.5); /* Nền mờ để thấy dấu ? */
+        body {
+            margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg-color); min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
         }
-        .box-ans.filled { color: var(--green); background: white; border: 2px solid var(--green); }
 
-        /* Bảng chọn số Picker (0-5) */
-        #picker { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.8); display: none; justify-content: center; 
-            align-items: center; z-index: 3000; 
+        header {
+            width: 100%; padding: 15px 0; text-align: center;
+            background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;
+            position: sticky; top: 0; z-index: 1000;
         }
-        .picker-content { background: white; padding: 20px; border-radius: 20px; width: 85%; max-width: 320px; text-align: center; }
-        .picker-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
-        .picker-btn { padding: 15px; font-size: 22px; font-weight: bold; border: none; border-radius: 12px; background: #f0f0f0; color: var(--blue); cursor: pointer; }
-        .picker-btn:active { background: #bbdefb; transform: scale(0.9); }
 
-        .nav-bar { width: 90%; display: flex; gap: 10px; margin: 15px 0; }
-        .btn-nav { flex: 1; padding: 12px; border-radius: 25px; border: none; color: white; font-weight: bold; cursor: pointer; box-shadow: 0 4px #ccc; }
+        h1 { color: var(--primary-text); margin: 0; font-size: 20px; text-transform: uppercase; }
+
+        /* Container cho các PAGE ẢO */
+        .screen {
+            display: none; width: 95vw; max-width: 600px;
+            padding: 20px; text-align: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .screen.active { display: block; }
+
+        /* Grid hiển thị Icon */
+        .grid-container {
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); 
+            gap: 15px; margin-top: 20px;
+        }
+
+        .icon-card {
+            background: white; border-radius: 20px; padding: 15px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            cursor: pointer; transition: 0.2s; border: 4px solid transparent;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .icon-card:active { transform: scale(0.9); }
+        .icon-card .emoji { font-size: 40px; margin-bottom: 8px; }
+        .icon-card span { font-weight: bold; color: #333; font-size: 14px; line-height: 1.2; }
+
+        /* Màu sắc định danh */
+        .math { border-color: var(--math-color); }
+        .viet { border-color: var(--viet-color); }
+
+        .btn-back {
+            margin-top: 25px; padding: 12px 25px; border-radius: 20px;
+            border: none; background: #546e7a; color: white; cursor: pointer;
+            font-weight: bold; box-shadow: 0 4px #37474f;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <button class="btn-exit" onclick="location.href='../../index.html'">⬅ THOÁT</button>
-    <h2>LUYỆN TẬP (TRANG 12-13)</h2>
-</div>
+<header>
+    <h1 id="headerTitle">NGÔI TRƯỜNG NHỎ CỦA BÉ</h1>
+</header>
 
-<!-- BÀI 1 -->
-<div id="p1" class="page active">
-    <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 1: Chọn số thích hợp</p>
-    <div class="quiz-container">
-        <img src="../../img/b1-12.PNG" class="quiz-img">
-        <!-- Tọa độ Bài 1 giữ nguyên -->
-        <div class="touch-point is-wrong" style="top:17%; left:85.5%; width:4%; height:5%;"></div>
-        <div class="touch-point is-correct" style="top:11%; left:90%; width:4%; height:6%;"></div>
-        <div class="touch-point is-wrong" style="top:23%; left:89%; width:4%; height:5%;"></div>
-        <div class="touch-point is-wrong" style="top:43%; left:11%; width:4%; height:5%;"></div>
-        <div class="touch-point is-wrong" style="top:48%; left:7%; width:4%; height:5%;"></div>
-        <div class="touch-point is-correct" style="top:53%; left:11%; width:4%; height:6%;"></div> 
-        <div class="touch-point is-correct" style="top:44%; left:89%; width:4%; height:6%;"></div> 
-        <div class="touch-point is-wrong" style="top:50%; left:85%; width:4%; height:5%;"></div>
-        <div class="touch-point is-wrong" style="top:56%; left:89%; width:4%; height:5%;"></div>
-        <div class="touch-point is-wrong" style="top:79%; left:7%; width:4%; height:5%;"></div>
-        <div class="touch-point is-wrong" style="top:73.8%; left:10.7%; width:4%; height:5%;"></div>
-        <div class="touch-point is-correct" style="top:84.7%; left:10.7%; width:4%; height:6%;"></div> 
-        <div class="touch-point is-wrong" style="top:87%; left:89.4%; width:4%; height:5%;"></div>
-        <div class="touch-point is-correct" style="top:81%; left:85.5%; width:4%; height:6%;"></div>
-        <div class="touch-point is-wrong" style="top:75%; left:89.5%; width:4%; height:5%;"></div>
-    </div>
-    <div class="nav-bar">
-        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('p2')">BÀI 2 ➡</button>
+<div id="homeScreen" class="screen active">
+    <div class="grid-container">
+        <div class="icon-card math" onclick="showWeeks('math')">
+            <span class="emoji">🔢</span>
+            <span>TOÁN HỌC</span>
+        </div>
+        <div class="icon-card viet" onclick="showWeeks('viet')">
+            <span class="emoji">📖</span>
+            <span>TIẾNG VIỆT</span>
+        </div>
     </div>
 </div>
 
-<!-- BÀI 2 -->
-<div id="p2" class="page">
-    <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 2: Chọn sơ đồ đúng</p>
-    <div class="quiz-container">
-        <img src="../../img/b2-12.PNG" class="quiz-img">
-        <div class="touch-point is-correct" style="top:42%; left:60%; width:10%; height:12%; border-radius:10px;"></div>
-        <div class="touch-point is-wrong" style="top:42%; left:77%; width:16%; height:15%; border-radius:10px;"></div>
-        <div class="touch-point is-wrong" style="top:78%; left:60%; width:12%; height:15%; border-radius:10px;"></div>
-        <div class="touch-point is-correct" style="top:78%; left:77%; width:17%; height:15%; border-radius:10px;"></div>
-    </div>
-    <div class="nav-bar">
-        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ BÀI 1</button>
-        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('p3')">BÀI 3 ➡</button>
-    </div>
+<div id="weekScreen" class="screen">
+    <div class="grid-container" id="weekGrid">
+        </div>
+    <button class="btn-back" onclick="goBack('home')">⬅ QUAY LẠI</button>
 </div>
 
-<!-- BÀI 3 -->
-<div id="p3" class="page">
-    <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 3: Số?</p>
-    <div class="quiz-container">
-        <img src="../../img/b3-13.PNG" class="quiz-img">
-        <!-- Chỉnh tọa độ box-ans cho khớp dấu ? của đoàn tàu -->
-        <div class="box-ans" style="top:32%; left:45.5%;" onclick="openPicker(this, 4)">?</div>
-        <div class="box-ans" style="top:32%; left:68.5%;" onclick="openPicker(this, 5)">?</div>
-    </div>
-    <div class="nav-bar">
-        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p2')">⬅ BÀI 2</button>
-        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('p4')">BÀI 4 ➡</button>
-    </div>
-</div>
-
-<!-- BÀI 4 -->
-<div id="p4" class="page">
-    <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 4: Số?</p>
-    <div class="quiz-container">
-        <img src="../../img/b4-13.PNG" class="quiz-img">
-        <div class="box-ans" style="top:62.5%; left:43.5%;" onclick="openPicker(this, 3)">?</div>
-        <div class="box-ans" style="top:62.5%; left:88%;" onclick="openPicker(this, 1)">?</div>
-        <div class="box-ans" style="top:84.5%; left:43.5%;" onclick="openPicker(this, 5)">?</div>
-        <div class="box-ans" style="top:84.5%; left:88%;" onclick="openPicker(this, 4)">?</div>
-    </div>
-    <div class="nav-bar">
-        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p3')">⬅ BÀI 3</button>
-    </div>
-</div>
-
-<!-- Bảng chọn số Picker (0-5) -->
-<div id="picker">
-    <div class="picker-content">
-        <p style="font-weight:bold; color:var(--blue);">Bé chọn số mấy?</p>
-        <div class="picker-grid" id="picker-grid"></div>
-        <button onclick="closePicker()" style="margin-top:20px; padding:10px 20px; border-radius:10px; border:none; background:#eee;">Đóng</button>
-    </div>
+<div id="lessonScreen" class="screen">
+    <div class="grid-container" id="lessonGrid">
+        </div>
+    <button class="btn-back" onclick="goBack('week')">⬅ QUAY LẠI CHỌN TUẦN</button>
 </div>
 
 <script>
-    const sndDung = new Audio('../../audio/dung.mp3');
-    const sndSai = new Audio('../../audio/sai.mp3');
-    let currentBox = null;
-    let correctAnswer = null;
+    // Dữ liệu bài học (Thầy sẽ thêm bài mới vào đây)
+    const data = {
+        math: {
+            title: "MÔN TOÁN HỌC",
+            weeks: {
+                1: [
+                    { name: "Bài 1: Các số 0, 1, 2, 3, 4, 5", url: "TOAN/TUAN1/cac-so-0-1-2-3-4-5.html" },
+                    { name: "Bài 2: Luyện Tập", url: "TOAN/TUAN1/lttrang10-11.html" },
+                    { name: "Bài 3: Luyện Tập", url: "TOAN/TUAN1/lttrang12-13.html" },
+                    { name: "Bài 4: Các số 6, 7, 8, 9, 10", url: "TOAN/TUAN1/bai2.html" },
+                ],
+                2: [
+                    { name: "Bài 3: Hình vuông", url: "#" }
+                ]
+                // Thầy có thể thêm đến tuần 35...
+            }
+        },
+        viet: {
+            title: "MÔN TIẾNG VIỆT",
+            weeks: {
+                1: [{ name: "Bài 1: Âm A", url: "#" }]
+            }
+        }
+    };
 
-    function initPicker() {
-        const grid = document.getElementById('picker-grid');
+    let currentSubject = '';
+
+    // Hàm hiển thị 35 Tuần
+    function showWeeks(subject) {
+        currentSubject = subject;
+        document.getElementById('headerTitle').innerText = data[subject].title;
+        const grid = document.getElementById('weekGrid');
         grid.innerHTML = '';
-        for(let i=0; i<=5; i++) {
-            const btn = document.createElement('button');
-            btn.className = 'picker-btn';
-            btn.innerText = i;
-            btn.onclick = () => checkResult(i);
-            grid.appendChild(btn);
+
+        for (let i = 1; i <= 35; i++) {
+            const hasData = data[subject].weeks[i];
+            const div = document.createElement('div');
+            div.className = `icon-card ${subject}`;
+            div.style.opacity = hasData ? "1" : "0.4"; // Mờ đi nếu chưa có bài
+            div.onclick = () => hasData ? showLessons(i) : alert("Thầy đang soạn bài tuần này!");
+            div.innerHTML = `<span class="emoji">📅</span><span>TUẦN ${i}</span>`;
+            grid.appendChild(div);
+        }
+
+        switchPage('weekScreen');
+    }
+
+    // Hàm hiển thị các bài học trong tuần
+    function showLessons(weekNum) {
+        document.getElementById('headerTitle').innerText = `TUẦN ${weekNum}`;
+        const grid = document.getElementById('lessonGrid');
+        grid.innerHTML = '';
+
+        const lessons = data[currentSubject].weeks[weekNum];
+        lessons.forEach(lesson => {
+            const div = document.createElement('div');
+            div.className = `icon-card ${currentSubject}`;
+            div.onclick = () => window.location.href = lesson.url;
+            div.innerHTML = `<span class="emoji">📝</span><span>${lesson.name}</span>`;
+            grid.appendChild(div);
+        });
+
+        switchPage('lessonScreen');
+    }
+
+    function switchPage(pageId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+    }
+
+    function goBack(target) {
+        if (target === 'home') {
+            document.getElementById('headerTitle').innerText = 'NGÔI TRƯỜNG NHỎ CỦA BÉ';
+            switchPage('homeScreen');
+        } else if (target === 'week') {
+            showWeeks(currentSubject);
         }
     }
-
-    function openPicker(box, ans) {
-        if(box.classList.contains('filled')) return;
-        currentBox = box;
-        correctAnswer = ans;
-        document.getElementById('picker').style.display = 'flex';
-    }
-
-    function closePicker() { document.getElementById('picker').style.display = 'none'; }
-
-    function fireConfetti() {
-        let count = 0;
-        const interval = setInterval(() => {
-            confetti({ 
-                particleCount: 100, spread: 70, origin: { y: 0.6 }, zIndex: 4000 
-            });
-            count++;
-            if(count >= 3) clearInterval(interval);
-        }, 400);
-    }
-
-    function checkResult(num) {
-        if(num === correctAnswer) {
-            currentBox.innerText = num;
-            currentBox.classList.add('filled');
-            play(sndDung);
-            fireConfetti();
-            closePicker();
-        } else {
-            play(sndSai);
-            const content = document.querySelector('.picker-content');
-            content.style.transform = 'translateX(10px)';
-            setTimeout(() => content.style.transform = 'translateX(-10px)', 50);
-            setTimeout(() => content.style.transform = 'translateX(0)', 100);
-        }
-    }
-
-    document.addEventListener('click', function(e) {
-        const el = e.target;
-        if (!el.classList.contains('touch-point')) return;
-        if (el.classList.contains('is-correct')) {
-            if (el.classList.contains('active')) return;
-            el.classList.add('active');
-            play(sndDung);
-            fireConfetti();
-        } else {
-            el.classList.add('flash');
-            play(sndSai);
-            setTimeout(() => el.classList.remove('flash'), 300);
-        }
-    });
-
-    function play(s) { s.pause(); s.currentTime = 0; s.play().catch(e=>{}); }
-    function goPage(id) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        window.scrollTo(0,0);
-    }
-
-    window.onload = initPicker;
 </script>
+
 </body>
 </html>
