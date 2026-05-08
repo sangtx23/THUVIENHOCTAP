@@ -19,9 +19,31 @@
         .quiz-container { position: relative; width: 95%; max-width: 600px; margin: 0 auto; background: white; border-radius: 20px; border: 4px solid #90caf9; padding: 5px; box-sizing: border-box; }
         .quiz-img { width: 100%; display: block; border-radius: 15px; }
         
-        /* Ô trống hiển thị dấu ? dạng text thuần */
-        .box-ans { position: absolute; background: white; border: 2px solid #0288d1; width: 10%; height: 8%; display: flex; align-items: center; justify-content: center; font-weight: normal; color: #0288d1; cursor: pointer; border-radius: 8px; font-size: 22px; z-index: 5; }
-        .box-ans.correct { background: #e8f5e9; border: 2px solid #4caf50; color: #2e7d32; font-weight: bold; transform: scale(1.1); }
+        /* CHỈNH SỬA: Bỏ border và background của nhãn, chỉ để lại text ? */
+        .box-ans { 
+            position: absolute; 
+            background: transparent; /* Trong suốt */
+            border: none;           /* Không viền xanh */
+            width: 10%; 
+            height: 8%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: normal; 
+            color: #333;            /* Màu chữ tối để rõ nét */
+            cursor: pointer; 
+            font-size: 28px;        /* Tăng size nhẹ để bé dễ nhìn */
+            z-index: 5; 
+        }
+
+        /* Khi trả lời đúng, số hiển thị rõ và đẹp hơn */
+        .box-ans.correct { 
+            color: #2e7d32; 
+            font-weight: bold; 
+            background: #e8f5e9; 
+            border-radius: 8px;
+            border: 2px solid #4caf50;
+        }
 
         .row-touch { position: absolute; left: 0; width: 100%; height: 12%; cursor: pointer; z-index: 10; }
 
@@ -94,7 +116,7 @@
     <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 4: Số?</p>
     <div class="quiz-container">
         <img src="../../img/b4-10.PNG" class="quiz-img">
-        <div class="box-ans" style="top: 5%; left: 45%; border: 3px solid red;" onclick="ask(this, 3)">?</div>
+        <div class="box-ans" style="top: 5%; left: 45%; color:red; font-weight: bold;" onclick="ask(this, 3)">?</div>
     </div>
     <div class="nav-bar">
         <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('lt3')">⬅ BÀI 3</button>
@@ -139,27 +161,27 @@
         document.getElementById('picker').style.display = 'flex';
     }
 
-    // Hàm nổ pháo hoa 3 lần liên tiếp tại 3 điểm khác nhau
+    // Nâng cấp pháo hoa: Nổ tại 3 điểm khác nhau trên màn hình
     function fireTripleConfetti() {
         if (typeof confetti !== 'function') return;
 
-        const count = 3;
         const positions = [
-            { x: 0.2, y: 0.5 }, // Trái
-            { x: 0.8, y: 0.5 }, // Phải
-            { x: 0.5, y: 0.3 }  // Giữa cao
+            { x: 0.15, y: 0.5 }, // Điểm bên trái
+            { x: 0.85, y: 0.5 }, // Điểm bên phải
+            { x: 0.5, y: 0.25 }  // Điểm ở giữa, hơi cao lên một chút
         ];
 
-        for (let i = 0; i < count; i++) {
+        positions.forEach((pos, index) => {
             setTimeout(() => {
                 confetti({
-                    particleCount: 150,
-                    spread: 100,
-                    origin: positions[i],
-                    zIndex: 3000
+                    particleCount: 120,
+                    spread: 80,
+                    origin: pos,
+                    zIndex: 3000,
+                    colors: ['#FFD700', '#FF4500', '#32CD32', '#1E90FF', '#FF69B4']
                 });
-            }, i * 400); // Mỗi lần nổ cách nhau 0.4 giây
-        }
+            }, index * 300); // Mỗi lần nổ cách nhau 0.3 giây để tạo cảm giác liên tục
+        });
     }
 
     function check(n) {
