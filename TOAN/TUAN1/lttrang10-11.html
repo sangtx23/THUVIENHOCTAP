@@ -19,8 +19,9 @@
         .quiz-container { position: relative; width: 95%; max-width: 600px; margin: 0 auto; background: white; border-radius: 20px; border: 4px solid #90caf9; padding: 5px; box-sizing: border-box; }
         .quiz-img { width: 100%; display: block; border-radius: 15px; }
         
-        .box-ans { position: absolute; background: white; border: 2px solid #0288d1; width: 10%; height: 8%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #0288d1; cursor: pointer; border-radius: 8px; font-size: 18px; z-index: 5; }
-        .box-ans.correct { background: #e8f5e9; border: 2px solid #4caf50; color: #2e7d32; transform: scale(1.1); }
+        /* Ô trống hiển thị dấu ? dạng text thuần */
+        .box-ans { position: absolute; background: white; border: 2px solid #0288d1; width: 10%; height: 8%; display: flex; align-items: center; justify-content: center; font-weight: normal; color: #0288d1; cursor: pointer; border-radius: 8px; font-size: 22px; z-index: 5; }
+        .box-ans.correct { background: #e8f5e9; border: 2px solid #4caf50; color: #2e7d32; font-weight: bold; transform: scale(1.1); }
 
         .row-touch { position: absolute; left: 0; width: 100%; height: 12%; cursor: pointer; z-index: 10; }
 
@@ -102,7 +103,7 @@
 
 <div id="picker" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:none;justify-content:center;align-items:center;z-index:2000;">
     <div style="background:white;padding:20px;border-radius:20px;width:85%;max-width:320px;text-align:center;">
-        <p><b id="pickerTitle">Bé chọn số mấy?</b></p>
+        <p><b>Bé chọn số mấy?</b></p>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:20px 0;" id="pg"></div>
         <button onclick="document.getElementById('picker').style.display='none'" style="border:none;background:#eee;padding:10px 20px;border-radius:10px;">ĐÓNG</button>
     </div>
@@ -121,7 +122,7 @@
         pg.innerHTML = '';
         for(let i=0; i<=5; i++) {
             let btn = document.createElement('button');
-            btn.innerText = i; btn.className = 'btn-num';
+            btn.innerText = i;
             btn.style.cssText = `height:55px; font-size:22px; background:${cfg.clrs[i]}; color:white; border:none; border-radius:10px; cursor:pointer;`;
             btn.onclick = () => check(i);
             pg.appendChild(btn);
@@ -130,23 +131,40 @@
 
     function ask(el, v) { 
         targetEl = el; correctVal = v; 
-        document.getElementById('pickerTitle').innerText = "Bé chọn số mấy?";
         document.getElementById('picker').style.display = 'flex'; 
     }
 
     function askTarget(el, v) {
         targetEl = el; correctVal = v;
-        document.getElementById('pickerTitle').innerText = "Có bao nhiêu củ?";
         document.getElementById('picker').style.display = 'flex';
+    }
+
+    // Hàm nổ pháo hoa 3 lần liên tiếp tại 3 điểm khác nhau
+    function fireTripleConfetti() {
+        if (typeof confetti !== 'function') return;
+
+        const count = 3;
+        const positions = [
+            { x: 0.2, y: 0.5 }, // Trái
+            { x: 0.8, y: 0.5 }, // Phải
+            { x: 0.5, y: 0.3 }  // Giữa cao
+        ];
+
+        for (let i = 0; i < count; i++) {
+            setTimeout(() => {
+                confetti({
+                    particleCount: 150,
+                    spread: 100,
+                    origin: positions[i],
+                    zIndex: 3000
+                });
+            }, i * 400); // Mỗi lần nổ cách nhau 0.4 giây
+        }
     }
 
     function check(n) {
         if(n === correctVal) {
-            // Kiểm tra pháo hoa trước khi gọi để tránh đứng máy
-            if (typeof confetti === 'function') {
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, zIndex: 3000 });
-            }
-            
+            fireTripleConfetti();
             if(targetEl.classList.contains('box-ans')) {
                 targetEl.innerText = n; 
                 targetEl.classList.add('correct');
@@ -154,12 +172,8 @@
                 targetEl.style.background = "rgba(76, 175, 80, 0.2)";
                 targetEl.innerHTML = `<span style='color:green; font-weight:bold; position:absolute; right:10px;'>✓ ${n}</span>`;
             }
-            
             try { new Audio(cfg.sndCorrect).play(); } catch(e) {}
-            
-            setTimeout(() => { 
-                document.getElementById('picker').style.display = 'none'; 
-            }, 500);
+            setTimeout(() => { document.getElementById('picker').style.display = 'none'; }, 500);
         } else {
             try { new Audio(cfg.sndWrong).play(); } catch(e) {}
             if(targetEl) {
@@ -174,7 +188,6 @@
         document.getElementById(id).classList.add('active');
         window.scrollTo(0,0);
     }
-    
     window.onload = init;
 </script>
 </body>
