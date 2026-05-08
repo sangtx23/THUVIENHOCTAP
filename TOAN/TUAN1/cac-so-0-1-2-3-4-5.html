@@ -130,12 +130,12 @@
 </div>
 
 <script>
-    const cfg = { 
-        words:['không','một','hai','ba','bốn','năm'], 
-        clrs:['#90a4ae','#f44336','#4caf50','#ff9800','#9c27b0','#2196f3'], 
-        fishes:['🐟','🐠','🐡'],
-        sndCorrect: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3',
-        sndWrong: 'https://www.soundjay.com/buttons/sounds/button-10.mp3'
+   const cfg = { 
+    words:['không','một','hai','ba','bốn','năm'], 
+    clrs:['#90a4ae','#f44336','#4caf50','#ff9800','#9c27b0','#2196f3'], 
+    fishes:['🐟','🐠','🐡'],
+    sndCorrect: '../../audio/dung.mp3', // Thầy kiểm tra lại đường dẫn thư mục audio nhé
+    sndWrong: '../../audio/sai.mp3'
     };
     let canvas, ctx, drawing=false, curNum=1, targetEl=null, correctVal=null;
 
