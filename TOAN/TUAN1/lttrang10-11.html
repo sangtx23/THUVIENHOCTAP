@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Luyện Tập - Trang 10, 11</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --sky: #e3f2fd; --pink: #f06292; --blue: #0288d1; --green: #4caf50; --amber: #ff8f00; }
-        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: var(--sky); overflow: hidden; touch-action: manipulation; }
+        :root { --sky: #e3f2fd; --blue: #0288d1; --green: #4caf50; --amber: #ff8f00; }
+        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: var(--sky); overflow-x: hidden; touch-action: manipulation; }
         
         .header { background: white; height: 50px; display: flex; align-items: center; justify-content: center; border-bottom: 3px solid #ffca28; position: relative; z-index: 10; }
         .header h2 { color: #f44336; margin: 0; font-size: 16px; text-transform: uppercase; }
@@ -18,12 +19,17 @@
         .quiz-container { position: relative; width: 95%; max-width: 600px; margin: 0 auto; background: white; border-radius: 20px; border: 4px solid #90caf9; padding: 5px; box-sizing: border-box; }
         .quiz-img { width: 100%; display: block; border-radius: 15px; }
         
-        .dot { 
-            position: absolute; background: white; border: 2px solid #0288d1;
-            width: 8%; height: 6%; display: flex; align-items: center; justify-content: center;
-            font-weight: bold; color: #0288d1; cursor: pointer; border-radius: 5px; font-size: 18px;
+        .box-ans { position: absolute; background: white; border: 2px solid #0288d1; width: 10%; height: 8%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #0288d1; cursor: pointer; border-radius: 8px; font-size: 18px; transition: 0.2s; }
+        .box-ans.correct { background: #e8f5e9; border: 2px solid #4caf50; color: #2e7d32; transform: scale(1.1); }
+
+        /* Hiệu ứng rung khi chọn sai */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
         }
-        .dot.correct { background: #e8f5e9; border: 2px solid #4caf50; color: #2e7d32; font-size: 22px; }
 
         .nav-bar { width: 90%; display: flex; gap: 10px; margin: 15px 0; padding-bottom: 20px; }
         .btn-nav { flex: 1; padding: 12px; border-radius: 25px; border: none; color: white; font-weight: bold; cursor: pointer; font-size: 14px; box-shadow: 0 4px #ccc; }
@@ -33,18 +39,18 @@
 
 <div class="header">
     <button class="btn-exit" onclick="location.href='../../index.html'">⬅ THOÁT</button>
-    <h2>BÀI 2: LUYỆN TẬP (T10-11)</h2>
+    <h2>LUYỆN TẬP (TRANG 10-11)</h2>
 </div>
 
 <div id="lt1" class="page active">
-    <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 1: Bé đếm rồi chọn số:</p>
+    <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 1: Số?</p>
     <div class="quiz-container">
         <img src="../../img/b1-10.PNG" class="quiz-img">
-        <div class="dot" style="top: 45%; left: 47%;" onclick="ask(this, 3)">?</div>
-        <div class="dot" style="top: 45%; left: 81%;" onclick="ask(this, 2)">?</div>
-        <div class="dot" style="top: 92%; left: 14%;" onclick="ask(this, 4)">?</div>
-        <div class="dot" style="top: 92%; left: 47%;" onclick="ask(this, 1)">?</div>
-        <div class="dot" style="top: 92%; left: 81%;" onclick="ask(this, 5)">?</div>
+        <div class="box-ans" style="top: 41%; left: 45.5%;" onclick="ask(this, 3)">?</div>
+        <div class="box-ans" style="top: 41%; left: 79%;" onclick="ask(this, 2)">?</div>
+        <div class="box-ans" style="top: 89%; left: 12%;" onclick="ask(this, 4)">?</div>
+        <div class="box-ans" style="top: 89%; left: 45.5%;" onclick="ask(this, 1)">?</div>
+        <div class="box-ans" style="top: 89%; left: 79%;" onclick="ask(this, 5)">?</div>
     </div>
     <div class="nav-bar">
         <div style="flex:1"></div>
@@ -56,8 +62,8 @@
     <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 2: Số?</p>
     <div class="quiz-container">
         <img src="../../img/b2-10.PNG" class="quiz-img">
-        <div class="dot" style="top: 44.5%; left: 34%;" onclick="ask(this, 4)">?</div>
-        <div class="dot" style="top: 44.5%; left: 58.5%;" onclick="ask(this, 2)">?</div>
+        <div class="box-ans" style="top: 39%; left: 36.5%; width: 7.5%; height: 16%;" onclick="ask(this, 4)">?</div>
+        <div class="box-ans" style="top: 39%; left: 56%; width: 7.5%; height: 16%;" onclick="ask(this, 2)">?</div>
     </div>
     <div class="nav-bar">
         <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('lt1')">⬅ BÀI 1</button>
@@ -67,14 +73,14 @@
 
 <div id="lt3" class="page">
     <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 3: Có bao nhiêu củ cà rốt đã tô màu?</p>
-    <div class="quiz-container" style="max-width: 450px;">
-        <img src="../../img/b3-10.PNG" class="quiz-img">
-        <div class="dot" style="top: 11%; right: 5%;" onclick="ask(this, 3)">?</div>
-        <div class="dot" style="top: 26%; right: 5%;" onclick="ask(this, 2)">?</div>
-        <div class="dot" style="top: 41%; right: 5%;" onclick="ask(this, 4)">?</div>
-        <div class="dot" style="top: 55%; right: 5%;" onclick="ask(this, 1)">?</div>
-        <div class="dot" style="top: 70%; right: 5%;" onclick="ask(this, 5)">?</div>
-        <div class="dot" style="top: 85%; right: 5%;" onclick="ask(this, 0)">?</div>
+    <div class="quiz-container">
+        <img src="../../img/b3-10.PNG" class="quiz-img" onclick="wrong()">
+        <div style="position:absolute; top:11%; left:0; width:100%; height:12%;" onclick="askTarget(this, 3)"></div>
+        <div style="position:absolute; top:25%; left:0; width:100%; height:12%;" onclick="askTarget(this, 2)"></div>
+        <div style="position:absolute; top:39%; left:0; width:100%; height:12%;" onclick="askTarget(this, 4)"></div>
+        <div style="position:absolute; top:53%; left:0; width:100%; height:12%;" onclick="askTarget(this, 1)"></div>
+        <div style="position:absolute; top:67%; left:0; width:100%; height:12%;" onclick="askTarget(this, 5)"></div>
+        <div style="position:absolute; top:81%; left:0; width:100%; height:12%;" onclick="askTarget(this, 0)"></div>
     </div>
     <div class="nav-bar">
         <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('lt2')">⬅ BÀI 2</button>
@@ -83,57 +89,4 @@
 </div>
 
 <div id="lt4" class="page">
-    <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 4: Có bao nhiêu con gà ghi số 2?</p>
-    <div class="quiz-container">
-        <img src="../../img/b4-10.PNG" class="quiz-img">
-        <div class="dot" style="bottom: 5%; right: 5%; width: 15%; height: 10%; border: 2px dashed red;" onclick="ask(this, 3)">CHỌN</div>
-    </div>
-    <div class="nav-bar">
-        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('lt3')">⬅ BÀI 3</button>
-        <div style="flex:1"></div>
-    </div>
-</div>
-
-<div id="picker" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:none;justify-content:center;align-items:center;z-index:2000;">
-    <div style="background:white;padding:20px;border-radius:20px;width:85%;max-width:320px;text-align:center;">
-        <p><b>Bé chọn số mấy?</b></p>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:20px 0;" id="pg"></div>
-        <button onclick="document.getElementById('picker').style.display='none'" style="border:none;background:#eee;padding:10px 20px;border-radius:10px;">ĐÓNG</button>
-    </div>
-</div>
-
-<script>
-    const cfg = { clrs:['#90a4ae','#f44336','#4caf50','#ff9800','#9c27b0','#2196f3'], sndCorrect: '../../audio/dung.mp3', sndWrong: '../../audio/sai.mp3' };
-    let targetEl = null, correctVal = null;
-
-    function init() {
-        const pg = document.getElementById('pg');
-        for(let i=0; i<=5; i++) {
-            let btn = document.createElement('button');
-            btn.innerText = i; btn.style.height = "55px"; btn.style.fontSize = "22px";
-            btn.style.background = cfg.clrs[i]; btn.style.color = "white"; btn.style.border = "none"; btn.style.borderRadius = "10px";
-            btn.onclick = () => check(i);
-            pg.appendChild(btn);
-        }
-    }
-
-    function ask(el, v) { targetEl = el; correctVal = v; document.getElementById('picker').style.display = 'flex'; }
-
-    function check(n) {
-        if(n === correctVal) {
-            targetEl.innerText = n; targetEl.classList.add('correct');
-            new Audio(cfg.sndCorrect).play().catch(()=>{});
-            document.getElementById('picker').style.display = 'none';
-        } else {
-            new Audio(cfg.sndWrong).play().catch(()=>{});
-        }
-    }
-
-    function goPage(id) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-    }
-    window.onload = init;
-</script>
-</body>
-</html>
+    <p style="text-align:center; font-weight:bold;
