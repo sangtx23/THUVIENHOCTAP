@@ -6,7 +6,7 @@
     <title>Luyện Tập Trang 12-13</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
     <style>
-        :root { --sky: #e3f2fd; --blue: #0288d1; --red: #f44336; --green: #2e7d32; }
+        :root { --sky: #e3f2fd; --blue: #0288d1; --red: #f44336; --green: #2e7d32; --amber: #ffca28; }
         body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: var(--sky); touch-action: manipulation; }
         
         .header { background: white; height: 50px; display: flex; align-items: center; justify-content: center; border-bottom: 3px solid #ffca28; position: sticky; top: 0; z-index: 100; }
@@ -37,12 +37,13 @@
         .box-ans { 
             position: absolute; width: 8%; height: 8%; 
             display: flex; align-items: center; justify-content: center;
-            font-size: 24px; font-weight: bold; color: transparent; /* Giấu dấu ? của ảnh */
+            font-size: 22px; font-weight: bold; color: #ff5722; /* Màu dấu ? */
             cursor: pointer; z-index: 20; border-radius: 8px;
+            background: rgba(255, 255, 255, 0.5); /* Nền mờ để thấy dấu ? */
         }
-        .box-ans.filled { color: var(--green); background: rgba(255,255,255,0.9); border: 2px solid var(--green); }
+        .box-ans.filled { color: var(--green); background: white; border: 2px solid var(--green); }
 
-        /* Bảng chọn số Picker */
+        /* Bảng chọn số Picker (0-5) */
         #picker { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.8); display: none; justify-content: center; 
@@ -69,6 +70,7 @@
     <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 1: Chọn số thích hợp</p>
     <div class="quiz-container">
         <img src="../../img/b1-12.PNG" class="quiz-img">
+        <!-- Tọa độ Bài 1 giữ nguyên -->
         <div class="touch-point is-wrong" style="top:17%; left:85.5%; width:4%; height:5%;"></div>
         <div class="touch-point is-correct" style="top:11%; left:90%; width:4%; height:6%;"></div>
         <div class="touch-point is-wrong" style="top:23%; left:89%; width:4%; height:5%;"></div>
@@ -86,7 +88,7 @@
         <div class="touch-point is-wrong" style="top:75%; left:89.5%; width:4%; height:5%;"></div>
     </div>
     <div class="nav-bar">
-        <button class="btn-nav" style="background:#ff9800;" onclick="goPage('p2')">BÀI 2 ➡</button>
+        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('p2')">BÀI 2 ➡</button>
     </div>
 </div>
 
@@ -102,30 +104,37 @@
     </div>
     <div class="nav-bar">
         <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ BÀI 1</button>
-        <button class="btn-nav" style="background:#ff9800;" onclick="goPage('p3')">BÀI 3 & 4 ➡</button>
+        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('p3')">BÀI 3 ➡</button>
     </div>
 </div>
 
-<!-- BÀI 3 & 4 -->
+<!-- BÀI 3 -->
 <div id="p3" class="page">
-    <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 3 & 4: Quan sát và điền số (0-5)</p>
+    <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 3: Số?</p>
     <div class="quiz-container">
-        <!-- Bài 3 -->
-        <img src="../../img/b3-13.PNG" class="quiz-img" style="margin-bottom:15px;">
-        <!-- Tọa độ dấu ? Bài 3 - Anh hãy tinh chỉnh lại % theo ảnh thực tế -->
+        <img src="../../img/b3-13.PNG" class="quiz-img">
+        <!-- Chỉnh tọa độ box-ans cho khớp dấu ? của đoàn tàu -->
         <div class="box-ans" style="top:32%; left:45.5%;" onclick="openPicker(this, 4)">?</div>
         <div class="box-ans" style="top:32%; left:68.5%;" onclick="openPicker(this, 5)">?</div>
-
-        <!-- Bài 4 -->
-        <img src="../../img/b4-13.PNG" class="quiz-img">
-        <!-- Tọa độ dấu ? Bài 4 -->
-        <div class="box-ans" style="top:62.5%; left:43.5%;" onclick="openPicker(this, 3)">?</div> <!-- Thỏ -->
-        <div class="box-ans" style="top:62.5%; left:88%;" onclick="openPicker(this, 1)">?</div> <!-- Chó -->
-        <div class="box-ans" style="top:84.5%; left:43.5%;" onclick="openPicker(this, 5)">?</div> <!-- Chim -->
-        <div class="box-ans" style="top:84.5%; left:88%;" onclick="openPicker(this, 4)">?</div> <!-- Mèo -->
     </div>
     <div class="nav-bar">
         <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p2')">⬅ BÀI 2</button>
+        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('p4')">BÀI 4 ➡</button>
+    </div>
+</div>
+
+<!-- BÀI 4 -->
+<div id="p4" class="page">
+    <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 4: Số?</p>
+    <div class="quiz-container">
+        <img src="../../img/b4-13.PNG" class="quiz-img">
+        <div class="box-ans" style="top:62.5%; left:43.5%;" onclick="openPicker(this, 3)">?</div>
+        <div class="box-ans" style="top:62.5%; left:88%;" onclick="openPicker(this, 1)">?</div>
+        <div class="box-ans" style="top:84.5%; left:43.5%;" onclick="openPicker(this, 5)">?</div>
+        <div class="box-ans" style="top:84.5%; left:88%;" onclick="openPicker(this, 4)">?</div>
+    </div>
+    <div class="nav-bar">
+        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p3')">⬅ BÀI 3</button>
     </div>
 </div>
 
@@ -144,7 +153,6 @@
     let currentBox = null;
     let correctAnswer = null;
 
-    // Khởi tạo bảng số 0-5
     function initPicker() {
         const grid = document.getElementById('picker-grid');
         grid.innerHTML = '';
@@ -166,19 +174,15 @@
 
     function closePicker() { document.getElementById('picker').style.display = 'none'; }
 
-    // Hiệu ứng pháo hoa bắn 3 lần
     function fireConfetti() {
         let count = 0;
         const interval = setInterval(() => {
             confetti({ 
-                particleCount: 100, 
-                spread: 70, 
-                origin: { y: 0.6 }, 
-                zIndex: 4000 
+                particleCount: 100, spread: 70, origin: { y: 0.6 }, zIndex: 4000 
             });
             count++;
             if(count >= 3) clearInterval(interval);
-        }, 400); // Cách nhau 0.4 giây mỗi lần bắn
+        }, 400);
     }
 
     function checkResult(num) {
@@ -190,7 +194,6 @@
             closePicker();
         } else {
             play(sndSai);
-            // Hiệu ứng rung bảng chọn khi sai
             const content = document.querySelector('.picker-content');
             content.style.transform = 'translateX(10px)';
             setTimeout(() => content.style.transform = 'translateX(-10px)', 50);
@@ -198,11 +201,9 @@
         }
     }
 
-    // Logic cho Bài 1 & 2
     document.addEventListener('click', function(e) {
         const el = e.target;
         if (!el.classList.contains('touch-point')) return;
-
         if (el.classList.contains('is-correct')) {
             if (el.classList.contains('active')) return;
             el.classList.add('active');
