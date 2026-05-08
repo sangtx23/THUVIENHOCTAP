@@ -3,55 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Luyện Tập - Trang 12, 13</title>
+    <title>Luyện Tập Trang 12-13</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
     <style>
-        :root { --sky: #e3f2fd; --blue: #0288d1; --green: #4caf50; --amber: #ff8f00; --red: #f44336; }
-        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: var(--sky); overflow-x: hidden; touch-action: manipulation; }
+        :root { --sky: #e3f2fd; --blue: #0288d1; --red: #f44336; }
+        body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: var(--sky); touch-action: manipulation; }
         
         .header { background: white; height: 50px; display: flex; align-items: center; justify-content: center; border-bottom: 3px solid #ffca28; position: sticky; top: 0; z-index: 100; }
         .header h2 { color: var(--red); margin: 0; font-size: 16px; text-transform: uppercase; }
-        .btn-exit { position: absolute; left: 10px; border: none; background: var(--red); color: white; border-radius: 12px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 3px #b71c1c; }
+        .btn-exit { position: absolute; left: 10px; border: none; background: var(--red); color: white; border-radius: 12px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
-        .page { display: none; width: 100vw; flex-direction: column; align-items: center; padding: 10px 0; box-sizing: border-box; }
+        .page { display: none; width: 100vw; flex-direction: column; align-items: center; padding: 10px 0; }
         .page.active { display: flex; }
+        .quiz-container { position: relative; width: 95%; max-width: 650px; background: white; border-radius: 20px; border: 4px solid #90caf9; padding: 5px; box-sizing: border-box; }
+        .quiz-img { width: 100%; display: block; border-radius: 15px; pointer-events: none; }
 
-        .quiz-container { position: relative; width: 95%; max-width: 650px; margin: 0 auto; background: white; border-radius: 20px; border: 4px solid #90caf9; padding: 5px; box-sizing: border-box; }
-        .quiz-img { width: 100%; display: block; border-radius: 15px; }
-        
-        /* CHỈNH SỬA VÒNG KHOANH: Nhỏ lại, viền mảnh */
-        .circle-touch { 
-            position: absolute; 
-            border: 2px solid transparent; /* Viền mảnh 2px */
-            border-radius: 50%; 
-            cursor: pointer; 
-            z-index: 5;
-            transition: all 0.3s;
-        }
-        /* Khi đúng hiện vòng tròn xanh mảnh */
-        .circle-touch.correct-show { 
-            border-color: #0288d1; 
-            background: rgba(2, 136, 209, 0.1); 
+        /* Vùng chạm chung */
+        .touch-point { 
+            position: absolute; border: 2px solid transparent; border-radius: 50%; cursor: pointer; z-index: 10;
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .box-ans { 
-            position: absolute; background: transparent; border: none; 
-            width: 8%; height: 7%; display: flex; align-items: center; 
-            justify-content: center; font-weight: normal; color: #333; 
-            cursor: pointer; font-size: 26px; z-index: 5; 
+        /* 1. Hiệu ứng ĐÚNG: Vòng tròn xanh mảnh cố định */
+        .touch-point.is-correct.active { 
+            border-color: var(--blue); background: rgba(2, 136, 209, 0.1); 
+            pointer-events: none; 
         }
-        .box-ans.correct { color: #2e7d32; font-weight: bold; transform: scale(1.2); }
 
-        .nav-bar { width: 90%; display: flex; gap: 10px; margin: 15px 0; padding-bottom: 20px; }
-        .btn-nav { flex: 1; padding: 12px; border-radius: 25px; border: none; color: white; font-weight: bold; cursor: pointer; font-size: 14px; box-shadow: 0 4px #ccc; }
-
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-            100% { transform: translateX(0); }
+        /* 2. Hiệu ứng SAI: Vòng tròn đỏ sáng bóng, nhấp nháy 0.3s rồi biến mất */
+        @keyframes wrong-effect {
+            0% { opacity: 0; transform: scale(0.7); }
+            50% { opacity: 1; transform: scale(1); border-color: #ff5252; box-shadow: 0 0 15px #ff5252, inset 0 0 10px white; background: rgba(255,0,0,0.1); }
+            100% { opacity: 0; transform: scale(1.2); }
         }
+        .touch-point.is-wrong.flash { animation: wrong-effect 0.3s ease-out forwards; }
+        .touch-point.is-wrong::after {
+            content: '✖'; color: #f44336; font-size: 18px; font-weight: bold; opacity: 0;
+        }
+        .touch-point.is-wrong.flash::after { opacity: 1; }
+
+        .nav-bar { width: 90%; display: flex; gap: 10px; margin: 15px 0; }
+        .btn-nav { flex: 1; padding: 12px; border-radius: 25px; border: none; color: white; font-weight: bold; cursor: pointer; box-shadow: 0 4px #ccc; }
     </style>
 </head>
 <body>
@@ -62,37 +54,37 @@
 </div>
 
 <div id="p1" class="page active">
-    <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 1: Chọn số thích hợp</p>
+    <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 1: Chọn số thích hợp</p>
     <div class="quiz-container">
         <img src="../../img/b1-12.PNG" class="quiz-img">
         
-        <div class="circle-touch" style="top: 10%; left: 81.5%; width: 5.5%; height: 8%;" onclick="wrong(this)"></div> <div class="circle-touch" style="top: 10%; left: 88.5%; width: 5.5%; height: 8%;" onclick="right(this)"></div> <div class="circle-touch" style="top: 10%; left: 95.5%; width: 5.5%; height: 8%;" onclick="wrong(this)"></div> <div class="circle-touch" style="top: 54%; left: 3%; width: 5.5%; height: 8%;" onclick="wrong(this)"></div>
-        <div class="circle-touch" style="top: 54%; left: 9.5%; width: 5.5%; height: 8%;" onclick="right(this)"></div>
-        <div class="circle-touch" style="top: 54%; left: 16%; width: 5.5%; height: 8%;" onclick="wrong(this)"></div>
+        <div class="touch-point is-wrong" style="top:12%; left:85.5%; width:5%; height:9%;"></div>
+        <div class="touch-point is-correct" style="top:12%; left:92%; width:5%; height:9%;"></div> <div class="touch-point is-wrong" style="top:12%; left:97.5%; width:5%; height:9%;"></div>
 
-        <div class="circle-touch" style="top: 43%; left: 81.5%; width: 5.5%; height: 8%;" onclick="right(this)"></div>
-        <div class="circle-touch" style="top: 43%; left: 88.5%; width: 5.5%; height: 8%;" onclick="wrong(this)"></div>
-        <div class="circle-touch" style="top: 43%; left: 95.5%; width: 5.5%; height: 8%;" onclick="wrong(this)"></div>
+        <div class="touch-point is-wrong" style="top:56%; left:3.5%; width:5%; height:9%;"></div>
+        <div class="touch-point is-wrong" style="top:56%; left:9.5%; width:5%; height:9%;"></div>
+        <div class="touch-point is-correct" style="top:56%; left:16%; width:5%; height:9%;"></div> <div class="touch-point is-correct" style="top:46%; left:85.5%; width:5%; height:9%;"></div> <div class="touch-point is-wrong" style="top:46%; left:92%; width:5%; height:9%;"></div>
+        <div class="touch-point is-wrong" style="top:46%; left:97.5%; width:5%; height:9%;"></div>
 
-        <div class="circle-touch" style="top: 86%; left: 3%; width: 5.5%; height: 8%;" onclick="wrong(this)"></div>
-        <div class="circle-touch" style="top: 86%; left: 9.5%; width: 5.5%; height: 8%;" onclick="right(this)"></div>
-        <div class="circle-touch" style="top: 86%; left: 16%; width: 5.5%; height: 8%;" onclick="wrong(this)"></div>
-
-        <div class="circle-touch" style="top: 84%; left: 74.5%; width: 5.5%; height: 8%;" onclick="wrong(this)"></div>
-        <div class="circle-touch" style="top: 84%; left: 81.5%; width: 5.5%; height: 8%;" onclick="right(this)"></div>
-        <div class="circle-touch" style="top: 84%; left: 88.5%; width: 5.5%; height: 8%;" onclick="wrong(this)"></div>
+        <div class="touch-point is-wrong" style="top:88%; left:3.5%; width:5%; height:9%;"></div>
+        <div class="touch-point is-wrong" style="top:88%; left:9.5%; width:5%; height:9%;"></div>
+        <div class="touch-point is-correct" style="top:88%; left:16%; width:5%; height:9%;"></div> <div class="touch-point is-wrong" style="top:86%; left:77.5%; width:5%; height:9%;"></div>
+        <div class="touch-point is-correct" style="top:86%; left:83.5%; width:5%; height:9%;"></div> <div class="touch-point is-wrong" style="top:86%; left:89.5%; width:5%; height:9%;"></div>
     </div>
     <div class="nav-bar">
-        <div style="flex:1"></div>
         <button class="btn-nav" style="background:var(--amber);" onclick="goPage('p2')">BÀI 2 ➡</button>
     </div>
 </div>
 
 <div id="p2" class="page">
-    <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 2: Chọn sơ đồ đúng</p>
+    <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 2: Chọn sơ đồ đúng</p>
     <div class="quiz-container">
         <img src="../../img/b2-12.PNG" class="quiz-img">
-        <div class="circle-touch" style="top: 15%; left: 10%; width: 40%; height: 35%; border-radius: 20px;" onclick="right(this)"></div> <div class="circle-touch" style="top: 15%; left: 55%; width: 40%; height: 35%; border-radius: 20px;" onclick="wrong(this)"></div> <div class="circle-touch" style="top: 55%; left: 10%; width: 40%; height: 35%; border-radius: 20px;" onclick="wrong(this)"></div> <div class="circle-touch" style="top: 55%; left: 55%; width: 40%; height: 35%; border-radius: 20px;" onclick="right(this)"></div> </div>
+        <div class="touch-point is-correct" style="top:18%; left:62%; width:10%; height:15%; border-radius:10px;"></div>
+        <div class="touch-point is-wrong" style="top:18%; left:78%; width:10%; height:15%; border-radius:10px;"></div>
+        <div class="touch-point is-wrong" style="top:74%; left:62%; width:10%; height:15%; border-radius:10px;"></div>
+        <div class="touch-point is-correct" style="top:74%; left:78%; width:10%; height:15%; border-radius:10px;"></div>
+    </div>
     <div class="nav-bar">
         <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ BÀI 1</button>
         <button class="btn-nav" style="background:var(--amber);" onclick="goPage('p3')">TRANG 13 ➡</button>
@@ -100,110 +92,44 @@
 </div>
 
 <div id="p3" class="page">
-    <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 3: Số?</p>
+    <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 3 & 4: Điền số vào dấu ?</p>
     <div class="quiz-container">
-        <img src="../../img/b3-13.PNG" class="quiz-img">
-        <div class="box-ans" style="top: 31%; left: 45.5%;" onclick="ask(this, 2)">?</div>
-        <div class="box-ans" style="top: 31%; left: 68.5%;" onclick="ask(this, 4)">?</div>
-        <div class="box-ans" style="top: 64.5%; left: 45.5%;" onclick="ask(this, 5)">?</div>
-        <div class="box-ans" style="top: 64.5%; left: 68.5%;" onclick="ask(this, 3)">?</div>
+        <img src="../../img/b3-13.PNG" class="quiz-img" style="margin-bottom:10px;">
+        <img src="../../img/b4-13.PNG" class="quiz-img">
     </div>
     <div class="nav-bar">
         <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p2')">⬅ BÀI 2</button>
-        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('p4')">BÀI 4 ➡</button>
-    </div>
-</div>
-
-<div id="p4" class="page">
-    <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 4: Số?</p>
-    <div class="quiz-container">
-        <img src="../../img/b4-13.PNG" class="quiz-img">
-        <div class="box-ans" style="top: 89%; left: 7.5%;" onclick="ask(this, 3)">?</div>
-        <div class="box-ans" style="top: 76.5%; left: 45%;" onclick="ask(this, 4)">?</div>
-        <div class="box-ans" style="top: 89%; left: 45%;" onclick="ask(this, 1)">?</div>
-        <div class="box-ans" style="top: 76.5%; left: 82.5%;" onclick="ask(this, 5)">?</div>
-        <div class="box-ans" style="top: 89%; left: 82.5%;" onclick="ask(this, 0)">?</div>
-    </div>
-    <div class="nav-bar">
-        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p3')">⬅ BÀI 3</button>
-    </div>
-</div>
-
-<div id="picker" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:none;justify-content:center;align-items:center;z-index:2000;">
-    <div style="background:white;padding:20px;border-radius:20px;width:85%;max-width:320px;text-align:center;">
-        <p><b>Bé chọn số mấy?</b></p>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:20px 0;" id="pg"></div>
-        <button onclick="document.getElementById('picker').style.display='none'" style="border:none;background:#eee;padding:10px 20px;border-radius:10px;">ĐÓNG</button>
     </div>
 </div>
 
 <script>
-    const cfg = { 
-        clrs: ['#90a4ae','#f44336','#4caf50','#ff9800','#9c27b0','#2196f3'], 
-        sndCorrect: '../../audio/dung.mp3', 
-        sndWrong: '../../audio/sai.mp3' 
-    };
-    let targetEl = null, correctVal = null;
+    const sndDung = new Audio('../../audio/dung.mp3');
+    const sndSai = new Audio('../../audio/sai.mp3');
 
-    function init() {
-        const pg = document.getElementById('pg');
-        for(let i=0; i<=5; i++) {
-            let btn = document.createElement('button');
-            btn.innerText = i;
-            btn.style.cssText = `height:55px; font-size:22px; background:${cfg.clrs[i]}; color:white; border:none; border-radius:10px; cursor:pointer;`;
-            btn.onclick = () => check(i);
-            pg.appendChild(btn);
-        }
-    }
+    document.addEventListener('click', function(e) {
+        const el = e.target;
+        if (!el.classList.contains('touch-point')) return;
 
-    function right(el) {
-        if (el.classList.contains('correct-show')) return;
-        el.classList.add('correct-show');
-        fireTripleConfetti();
-        playSound(cfg.sndCorrect);
-    }
-
-    function wrong(el) {
-        playSound(cfg.sndWrong);
-        el.style.animation = "shake 0.5s";
-        setTimeout(() => { el.style.animation = ""; }, 500);
-    }
-
-    function ask(el, v) { 
-        targetEl = el; correctVal = v; 
-        document.getElementById('picker').style.display = 'flex'; 
-    }
-
-    function check(n) {
-        if(n === correctVal) {
-            fireTripleConfetti();
-            targetEl.innerText = n; 
-            targetEl.classList.add('correct');
-            playSound(cfg.sndCorrect);
-            setTimeout(() => { document.getElementById('picker').style.display = 'none'; }, 500);
+        if (el.classList.contains('is-correct')) {
+            if (el.classList.contains('active')) return;
+            el.classList.add('active');
+            play(sndDung);
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, zIndex: 2000 });
+            }
         } else {
-            playSound(cfg.sndWrong);
+            el.classList.add('flash');
+            play(sndSai);
+            setTimeout(() => el.classList.remove('flash'), 300);
         }
-    }
+    });
 
-    function fireTripleConfetti() {
-        if (typeof confetti !== 'function') return;
-        const pos = [{ x: 0.2, y: 0.5 }, { x: 0.8, y: 0.5 }, { x: 0.5, y: 0.3 }];
-        pos.forEach((p, i) => {
-            setTimeout(() => { confetti({ particleCount: 100, spread: 70, origin: p, zIndex: 3000 }); }, i * 300);
-        });
-    }
-
-    function playSound(src) {
-        try { new Audio(src).play().catch(e => {}); } catch(e) {}
-    }
-
+    function play(s) { s.pause(); s.currentTime = 0; s.play().catch(e=>{}); }
     function goPage(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         window.scrollTo(0,0);
     }
-    window.onload = init;
 </script>
 </body>
 </html>
