@@ -21,10 +21,24 @@
         .dock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 90%; padding: 10px; }
         .btn-n { height: 45px; border: none; border-radius: 12px; color: white; font-size: 20px; font-weight: bold; cursor: pointer; }
 
-        .write-container { display: flex; flex-direction: row; align-items: stretch; justify-content: center; gap: 10px; width: 95%; max-width: 500px; margin: 10px 0; }
-        .guide-box { flex: 2; background: white; border: 2px solid #ffca28; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px; position: relative; }
-        .writing-area { flex: 3; background: white; border: 3px solid #90caf9; border-radius: 15px; background-image: linear-gradient(#e1f5fe 1px, transparent 1px), linear-gradient(90deg, #e1f5fe 1px, transparent 1px); background-size: 20px 20px; position: relative; overflow: hidden; }
-        canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; }
+        /* PHẦN TẬP VIẾT TỐI ƯU CĂN CHỈNH */
+        .write-container { display: flex; flex-direction: row; align-items: stretch; justify-content: center; gap: 10px; width: 95%; max-width: 500px; margin: 10px 0; height: 240px; }
+        .guide-box { flex: 2; background: white; border: 2px solid #ffca28; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px; }
+        
+        .writing-area { 
+            flex: 3; 
+            background: white; 
+            border: 3px solid #90caf9; 
+            border-radius: 15px; 
+            /* Tạo lưới 4 cột - 4 dòng giống ảnh mẫu số 0 */
+            background-image: 
+                linear-gradient(#e1f5fe 2px, transparent 2px), 
+                linear-gradient(90deg, #e1f5fe 2px, transparent 2px);
+            background-size: 25% 25%; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; position: absolute; top: 0; left: 0; }
 
         .card { width: 94%; background: white; border-radius: 15px; padding: 15px; border: 3px solid var(--pink); margin-bottom: 15px; box-sizing: border-box; }
         .card-title { color: var(--pink); font-weight: bold; margin: 0 0 12px 0; font-size: 15px; border-left: 5px solid var(--pink); padding-left: 10px; }
@@ -117,7 +131,13 @@
 </div>
 
 <script>
-    const cfg = { words:['không','một','hai','ba','bốn','năm'], clrs:['#90a4ae','#f44336','#4caf50','#ff9800','#9c27b0','#2196f3'], fishes:['🐟','🐠','🐡'] };
+    const cfg = { 
+        words:['không','một','hai','ba','bốn','năm'], 
+        clrs:['#90a4ae','#f44336','#4caf50','#ff9800','#9c27b0','#2196f3'], 
+        fishes:['🐟','🐠','🐡'],
+        sndCorrect: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3',
+        sndWrong: 'https://www.soundjay.com/buttons/sounds/button-10.mp3'
+    };
     let canvas, ctx, drawing=false, curNum=1, targetEl=null, correctVal=null;
 
     function init() {
@@ -132,8 +152,8 @@
 
     function setupC() {
         canvas = document.getElementById('writingBoard'); ctx = canvas.getContext('2d');
-        const resize = () => { const rect = canvas.getBoundingClientRect(); canvas.width = rect.width; canvas.height = rect.height; drawT(curNum); };
-        window.addEventListener('resize', resize); setTimeout(resize, 200);
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width; canvas.height = rect.height;
         const getP = (e) => { const rect = canvas.getBoundingClientRect(); const clientX = e.touches ? e.touches[0].clientX : e.clientX; const clientY = e.touches ? e.touches[0].clientY : e.clientY; return { x: clientX - rect.left, y: clientY - rect.top }; };
         const start = (e) => { drawing = true; const p = getP(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); };
         const move = (e) => { if(!drawing) return; const p = getP(e); ctx.lineTo(p.x, p.y); ctx.lineWidth = 12; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.stroke(); e.preventDefault(); };
@@ -145,8 +165,17 @@
     function drawT(n) {
         curNum = n; if(!canvas) return;
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.font = `bold ${canvas.height * 0.8}px Arial`; ctx.fillStyle = "#f3f3f3"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-        ctx.fillText(n, canvas.width/2, canvas.height/2);
+        
+        // CĂN CHỈNH SỐ MỜ: Dựa trên ảnh mẫu (Số 0 nằm ở cột 2, dòng 2-3)
+        // Ta dùng Font chữ chuẩn và căn lề trái để khớp với ô ly
+        ctx.font = `bold ${canvas.height * 0.55}px Arial`; 
+        ctx.fillStyle = "rgba(220, 220, 220, 0.4)"; 
+        ctx.textAlign = "left"; 
+        ctx.textBaseline = "top";
+        
+        // Tọa độ này sẽ đẩy số mờ vào vị trí giống hệt số mẫu trong lưới 4x4
+        ctx.fillText(n, canvas.width * 0.28, canvas.height * 0.25);
+        
         document.getElementById('guideImg').src = "../../img/so" + n + ".PNG";
     }
 
@@ -159,22 +188,27 @@
         new Audio("../../audio/" + i + ".mp3").play().catch(()=>{});
     }
 
+    function ask(el,v) { targetEl=el; correctVal=v; document.getElementById('picker').style.display='flex'; }
+
+    function check(n) {
+        if(n===correctVal) { 
+            targetEl.innerText=n; targetEl.classList.add('correct'); 
+            new Audio(cfg.sndCorrect).play().catch(()=>{});
+            document.getElementById('picker').style.display='none'; 
+        } else {
+            new Audio(cfg.sndWrong).play().catch(()=>{});
+            alert("Bé đếm lại nhé! ☘️");
+        }
+    }
+
     function goPage(id) {
         document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        if(id==='p2') { setTimeout(setupC, 100); }
+        if(id==='p2') { setTimeout(() => { setupC(); drawT(curNum); }, 200); }
     }
 
     function clearCanvas() { drawT(curNum); }
     function changeColor(c) { ctx.strokeStyle = c; }
-    function ask(el,v) { targetEl=el; correctVal=v; document.getElementById('picker').style.display='flex'; }
-    function check(n) {
-        if(n===correctVal) { 
-            targetEl.innerText=n; targetEl.classList.add('correct'); 
-            new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3').play().catch(()=>{});
-            document.getElementById('picker').style.display='none'; 
-        } else alert("Bé đếm lại nhé! ☘️");
-    }
     window.onload = init;
 </script>
 </body>
