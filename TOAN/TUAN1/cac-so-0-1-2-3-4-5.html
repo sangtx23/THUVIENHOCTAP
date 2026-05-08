@@ -10,7 +10,9 @@
         
         .header { background: white; height: 50px; display: flex; align-items: center; justify-content: center; border-bottom: 3px solid #ffca28; position: relative; z-index: 10; }
         .header h2 { color: #f44336; margin: 0; font-size: 16px; text-transform: uppercase; }
-        .btn-exit { position: absolute; left: 10px; border: none; background: #546e7a; color: white; border-radius: 5px; padding: 5px 10px; font-size: 12px; }
+        /* Nút thoát thiết kế nổi bật cho bé */
+        .btn-exit { position: absolute; left: 10px; border: none; background: #f44336; color: white; border-radius: 12px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 3px #b71c1c; }
+        .btn-exit:active { transform: translateY(2px); box-shadow: none; }
 
         .page { display: none; width: 100vw; height: calc(100vh - 50px); flex-direction: column; align-items: center; padding: 10px 0; box-sizing: border-box; overflow-y: auto; }
         .page.active { display: flex; }
@@ -20,7 +22,7 @@
         #tank { height: 60px; background: #e1f5fe; border-radius: 15px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 5px; }
         #numBig { font-size: 70px; font-weight: bold; line-height: 1; margin: 5px 0; }
         .dock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 90%; padding: 10px; }
-        .btn-n { height: 45px; border: none; border-radius: 12px; color: white; font-size: 20px; font-weight: bold; }
+        .btn-n { height: 45px; border: none; border-radius: 12px; color: white; font-size: 20px; font-weight: bold; cursor: pointer; }
 
         /* Trang 2: Tập viết */
         .write-container { display: flex; flex-direction: row; align-items: stretch; justify-content: center; gap: 10px; width: 95%; max-width: 500px; margin: 10px 0; }
@@ -28,21 +30,16 @@
         .writing-area { flex: 3; background: white; border: 3px solid #90caf9; border-radius: 15px; background-image: linear-gradient(#e1f5fe 1px, transparent 1px), linear-gradient(90deg, #e1f5fe 1px, transparent 1px); background-size: 20px 20px; position: relative; overflow: hidden; }
         canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; }
 
-        /* Trang 3: Bài tập - PHÓNG TO HÌNH ẢNH */
+        /* Trang 3: Bài tập */
         .card { width: 94%; background: white; border-radius: 15px; padding: 15px; border: 3px solid var(--pink); margin-bottom: 15px; box-sizing: border-box; }
         .card-title { color: var(--pink); font-weight: bold; margin: 0 0 12px 0; font-size: 15px; border-left: 5px solid var(--pink); padding-left: 10px; }
         .quiz-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
         .quiz-item { border: 1px solid #fce4ec; border-radius: 15px; padding: 10px; text-align: center; background: #fffafb; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
-        
-        /* Tăng kích thước hình minh họa */
         .img-wrap { height: 80px; width: 100%; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
         .img-wrap img { max-height: 100%; max-width: 100%; object-fit: contain; }
-        
-        /* Tăng kích thước nút trả lời */
         .ans { width: 50px; height: 35px; background: #fff8e1; border: 2px dashed #ffb300; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff6f00; cursor: pointer; font-size: 18px; }
         .ans.correct { background: var(--green) !important; color: white !important; border-style: solid !important; border-color: white !important; }
 
-        /* Bài 3 bố cục flag */
         .flag-line { display: flex; justify-content: space-between; width: 100%; margin-top: 10px; }
         .flag { width: 15%; text-align: center; }
         .f-top { height: 40px; color: white; display: flex; align-items: center; justify-content: center; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 80%, 0% 100%); font-weight: bold; font-size: 16px; }
@@ -56,7 +53,7 @@
 <body>
 
 <div class="header">
-    <button class="btn-exit" onclick="location.href='index.html'">⬅ THOÁT</button>
+    <button class="btn-exit" onclick="location.href='../../index.html'">⬅ THOÁT</button>
     <h2>CÁC SỐ 0, 1, 2, 3, 4, 5</h2>
 </div>
 
@@ -99,21 +96,21 @@
     <div class="card">
         <p class="card-title">Bài 2a: Bé đếm rồi chọn số:</p>
         <div class="quiz-grid">
-            <div class="quiz-item"><div class="img-wrap"><img src="img/meo.PNG"></div><div class="ans" onclick="ask(this,1)">?</div></div>
-            <div class="quiz-item"><div class="img-wrap"><img src="img/carot.PNG"></div><div class="ans" onclick="ask(this,3)">?</div></div>
-            <div class="quiz-item"><div class="img-wrap"><img src="img/cho.PNG"></div><div class="ans" onclick="ask(this,5)">?</div></div>
-            <div class="quiz-item"><div class="img-wrap"><img src="img/bong.PNG"></div><div class="ans" onclick="ask(this,4)">?</div></div>
-            <div class="quiz-item"><div class="img-wrap"><img src="img/vit.PNG"></div><div class="ans" onclick="ask(this,2)">?</div></div>
-            <div class="quiz-item"><div class="img-wrap"><img src="img/ket.PNG"></div><div class="ans" onclick="ask(this,1)">?</div></div>
+            <div class="quiz-item"><div class="img-wrap"><img src="../../img/meo.PNG"></div><div class="ans" onclick="ask(this,1)">?</div></div>
+            <div class="quiz-item"><div class="img-wrap"><img src="../../img/carot.PNG"></div><div class="ans" onclick="ask(this,3)">?</div></div>
+            <div class="quiz-item"><div class="img-wrap"><img src="../../img/cho.PNG"></div><div class="ans" onclick="ask(this,5)">?</div></div>
+            <div class="quiz-item"><div class="img-wrap"><img src="../../img/bong.PNG"></div><div class="ans" onclick="ask(this,4)">?</div></div>
+            <div class="quiz-item"><div class="img-wrap"><img src="../../img/vit.PNG"></div><div class="ans" onclick="ask(this,2)">?</div></div>
+            <div class="quiz-item"><div class="img-wrap"><img src="../../img/ket.PNG"></div><div class="ans" onclick="ask(this,1)">?</div></div>
         </div>
     </div>
 
     <div class="card">
         <p class="card-title">Bài 2b: Số con cá trong mỗi chậu?</p>
         <div class="quiz-grid" style="grid-template-columns: 1fr 1fr 1fr;">
-            <div class="quiz-item"><div class="img-wrap"><img src="img/chau2ca.PNG"></div><div class="ans" onclick="ask(this,2)">?</div></div>
-            <div class="quiz-item"><div class="img-wrap"><img src="img/chau1ca.PNG"></div><div class="ans" onclick="ask(this,1)">?</div></div>
-            <div class="quiz-item"><div class="img-wrap"><img src="img/chau.PNG"></div><div class="ans" onclick="ask(this,0)">?</div></div>
+            <div class="quiz-item"><div class="img-wrap"><img src="../../img/chau2ca.PNG"></div><div class="ans" onclick="ask(this,2)">?</div></div>
+            <div class="quiz-item"><div class="img-wrap"><img src="../../img/chau1ca.PNG"></div><div class="ans" onclick="ask(this,1)">?</div></div>
+            <div class="quiz-item"><div class="img-wrap"><img src="../../img/chau.PNG"></div><div class="ans" onclick="ask(this,0)">?</div></div>
         </div>
     </div>
 
@@ -173,13 +170,15 @@
         ctx.clearRect(0,0,canvas.width,canvas.height);
         ctx.font = `bold ${canvas.height * 0.8}px Arial`; ctx.fillStyle = "#f3f3f3"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
         ctx.fillText(n, canvas.width/2, canvas.height/2);
-        document.getElementById('guideImg').src = `img/so${n}.PNG`;
+        // CẬP NHẬT: Đường dẫn mẫu viết ở ROOT
+        document.getElementById('guideImg').src = `../../img/so${n}.PNG`;
     }
 
     function updateKP(i) {
         document.getElementById('numBig').innerText=i; document.getElementById('numBig').style.color=cfg.clrs[i]; document.getElementById('txtBig').innerText=cfg.words[i];
         const t=document.getElementById('tank'); t.innerHTML=''; for(let j=0; j<i; j++) t.innerHTML+=`<span style="font-size:30px">${cfg.fishes[j%3]}</span>`;
-        new Audio(`audio/${i}.mp3`).play().catch(()=>{});
+        // CẬP NHẬT: Đường dẫn âm thanh ở ROOT
+        new Audio(`../../audio/${i}.mp3`).play().catch(()=>{});
     }
 
     function goPage(id) {
