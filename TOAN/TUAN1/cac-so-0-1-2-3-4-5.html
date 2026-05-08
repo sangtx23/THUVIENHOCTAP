@@ -155,7 +155,7 @@ function drawT(n) {
     ctx.font = `bold ${canvas.height * 0.8}px Arial`; ctx.fillStyle = "#f3f3f3"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     ctx.fillText(n, canvas.width/2, canvas.height/2);
     
-    // Dùng ../../ để lùi ra ngoài thư mục gốc tìm folder img
+    // Dùng ../../../ để lùi ra ngoài thư mục gốc tìm folder img
     document.getElementById('guideImg').src = "../../../img/so" + n + ".PNG"; 
 }
 
