@@ -15,28 +15,33 @@
         .page { display: none; width: 100vw; height: calc(100vh - 50px); flex-direction: column; align-items: center; padding: 10px 0; box-sizing: border-box; overflow-y: auto; }
         .page.active { display: flex; }
 
-        .box-study { background: white; padding: 10px; border-radius: 20px; border: 5px solid #81d4fa; width: 85%; text-align: center; margin-bottom: 5px; }
-        #tank { height: 60px; background: #e1f5fe; border-radius: 15px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 5px; }
-        #numBig { font-size: 70px; font-weight: bold; line-height: 1; margin: 5px 0; }
-        .dock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 90%; padding: 10px; }
-        .btn-n { height: 45px; border: none; border-radius: 12px; color: white; font-size: 20px; font-weight: bold; cursor: pointer; }
-
-        .write-container { display: flex; flex-direction: row; align-items: stretch; justify-content: center; gap: 10px; width: 95%; max-width: 500px; margin: 10px 0; }
-        .guide-box { flex: 2; background: white; border: 2px solid #ffca28; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px; position: relative; }
-        .writing-area { flex: 3; background: white; border: 3px solid #90caf9; border-radius: 15px; background-image: linear-gradient(#e1f5fe 1px, transparent 1px), linear-gradient(90deg, #e1f5fe 1px, transparent 1px); background-size: 20px 20px; position: relative; overflow: hidden; }
-        canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; }
+        /* Phần Tập Viết được tối ưu dòng kẻ */
+        .write-container { display: flex; flex-direction: row; align-items: stretch; justify-content: center; gap: 10px; width: 95%; max-width: 600px; height: 300px; margin: 10px 0; }
+        .guide-box { flex: 1; background: white; border: 2px solid #ffca28; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px; }
+        .writing-area { 
+            flex: 2; 
+            background: white; 
+            border: 3px solid #90caf9; 
+            border-radius: 15px; 
+            /* Tạo dòng kẻ ô ly chuẩn */
+            background-image: 
+                linear-gradient(rgba(144, 202, 249, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(144, 202, 249, 0.3) 1px, transparent 1px);
+            background-size: 40px 40px; 
+            position: relative; 
+        }
+        canvas { width: 100%; height: 100%; display: block; touch-action: none; }
 
         .card { width: 94%; background: white; border-radius: 15px; padding: 15px; border: 3px solid var(--pink); margin-bottom: 15px; box-sizing: border-box; }
-        .card-title { color: var(--pink); font-weight: bold; margin: 0 0 12px 0; font-size: 15px; border-left: 5px solid var(--pink); padding-left: 10px; }
         .quiz-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        .quiz-item { border: 1px solid #fce4ec; border-radius: 15px; padding: 10px; text-align: center; background: #fffafb; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
-        .img-wrap { height: 80px; width: 100%; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
-        .img-wrap img { max-height: 100%; max-width: 100%; object-fit: contain; }
-        .ans { width: 50px; height: 35px; background: #fff8e1; border: 2px dashed #ffb300; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff6f00; cursor: pointer; font-size: 18px; }
+        .quiz-item { border: 1px solid #fce4ec; border-radius: 15px; padding: 10px; text-align: center; background: #fffafb; display: flex; flex-direction: column; align-items: center; }
+        .img-wrap { height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+        .img-wrap img { max-height: 100%; max-width: 100%; }
+        .ans { width: 50px; height: 35px; background: #fff8e1; border: 2px dashed #ffb300; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff6f00; cursor: pointer; }
         .ans.correct { background: var(--green) !important; color: white !important; border-style: solid !important; }
 
         .nav-bar { width: 90%; display: flex; gap: 10px; margin-top: auto; padding-bottom: 15px; }
-        .btn-nav { flex: 1; padding: 15px; border-radius: 30px; border: none; color: white; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 4px #ccc; }
+        .btn-nav { flex: 1; padding: 15px; border-radius: 30px; border: none; color: white; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -48,14 +53,14 @@
 
 <div id="p1" class="page active">
     <div class="box-study">
-        <div id="tank"></div>
+        <div id="tank" style="min-height:40px"></div>
         <div id="numBig">1</div>
         <div id="txtBig" style="font-weight:bold; color:#546e7a;">một</div>
     </div>
-    <div class="dock" id="dock"></div>
+    <div class="dock" id="dock" style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; width:85%"></div>
     <div class="nav-bar">
         <div style="flex:1"></div>
-        <button class="btn-nav" style="background:var(--amber); box-shadow: 0 4px #b56500;" onclick="goPage('p2')">TẬP VIẾT ➡</button>
+        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('p2')">TẬP VIẾT ➡</button>
     </div>
 </div>
 
@@ -63,8 +68,8 @@
     <div style="display:flex; gap:5px; margin-bottom:10px; flex-wrap:wrap; justify-content:center;" id="wNav"></div>
     <div class="write-container">
         <div class="guide-box">
-            <span style="font-size: 10px; color: #f44336; font-weight: bold; margin-bottom: 5px;">MẪU</span>
-            <img id="guideImg" src="" style="width: 100%; object-fit: contain;">
+            <span style="font-size: 12px; color: #f44336; font-weight: bold;">MẪU</span>
+            <img id="guideImg" src="" style="width: 80%; object-fit: contain;">
         </div>
         <div class="writing-area" id="canvasWrap">
             <canvas id="writingBoard"></canvas>
@@ -72,72 +77,73 @@
     </div>
     <div style="display:flex; gap:15px; align-items: center; margin-bottom: 5px;">
         <button onclick="clearCanvas()" style="padding:10px 25px; border-radius:12px; border:none; background:#546e7a; color:white; font-weight:bold;">XÓA</button>
-        <button onclick="changeColor('#f44336')" style="border-radius:50%; border:3px solid white; background:#f44336; width:45px; height:45px;"></button>
-        <button onclick="changeColor('#4caf50')" style="border-radius:50%; border:3px solid white; background:#4caf50; width:45px; height:45px;"></button>
+        <button onclick="changeColor('#f44336')" style="border-radius:50%; border:3px solid white; background:#f44336; width:40px; height:40px;"></button>
+        <button onclick="changeColor('#4caf50')" style="border-radius:50%; border:3px solid white; background:#4caf50; width:40px; height:40px;"></button>
     </div>
     <div class="nav-bar">
-        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ KHÁM PHÁ</button>
+        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ QUAY LẠI</button>
         <button class="btn-nav" style="background:var(--pink);" onclick="goPage('p3')">BÀI TẬP ➡</button>
     </div>
 </div>
 
 <div id="p3" class="page">
     <div class="card">
-        <p class="card-title">Bài 2a: Bé đếm rồi chọn số:</p>
+        <p style="color:var(--pink); font-weight:bold;">Bé đếm rồi chọn số:</p>
         <div class="quiz-grid">
             <div class="quiz-item"><div class="img-wrap"><img src="../../img/meo.PNG"></div><div class="ans" onclick="ask(this,1)">?</div></div>
             <div class="quiz-item"><div class="img-wrap"><img src="../../img/carot.PNG"></div><div class="ans" onclick="ask(this,3)">?</div></div>
-            <div class="quiz-item"><div class="img-wrap"><img src="../../img/cho.PNG"></div><div class="ans" onclick="ask(this,5)">?</div></div>
-            <div class="quiz-item"><div class="img-wrap"><img src="../../img/bong.PNG"></div><div class="ans" onclick="ask(this,4)">?</div></div>
             <div class="quiz-item"><div class="img-wrap"><img src="../../img/vit.PNG"></div><div class="ans" onclick="ask(this,2)">?</div></div>
-            <div class="quiz-item"><div class="img-wrap"><img src="../../img/ket.PNG"></div><div class="ans" onclick="ask(this,1)">?</div></div>
         </div>
     </div>
-
-    <div class="card">
-        <p class="card-title">Bài 2b: Số con cá trong mỗi chậu?</p>
-        <div class="quiz-grid">
-            <div class="quiz-item"><div class="img-wrap"><img src="../../img/chau2ca.PNG"></div><div class="ans" onclick="ask(this,2)">?</div></div>
-            <div class="quiz-item"><div class="img-wrap"><img src="../../img/chau1ca.PNG"></div><div class="ans" onclick="ask(this,1)">?</div></div>
-            <div class="quiz-item"><div class="img-wrap"><img src="../../img/chau.PNG"></div><div class="ans" onclick="ask(this,0)">?</div></div>
-        </div>
-    </div>
-
     <div class="nav-bar">
-        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ QUAY LẠI</button>
+        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p2')">⬅ QUAY LẠI</button>
     </div>
 </div>
 
 <div id="picker" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:none;justify-content:center;align-items:center;z-index:2000;">
-    <div style="background:white;padding:20px;border-radius:20px;width:85%;max-width:320px;text-align:center;border:5px solid #ffca28;">
-        <p style="font-size: 20px; margin-top: 0;"><b>Bé chọn số mấy?</b></p>
+    <div style="background:white;padding:20px;border-radius:20px;width:85%;max-width:320px;text-align:center;">
+        <p><b>Bé chọn số mấy?</b></p>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:20px 0;" id="pg"></div>
-        <button onclick="document.getElementById('picker').style.display='none'" style="border:none;background:#eee;padding:12px 25px;border-radius:15px;font-weight:bold;">HỦY</button>
+        <button onclick="document.getElementById('picker').style.display='none'" style="border:none;background:#eee;padding:10px 20px;border-radius:10px;">ĐÓNG</button>
     </div>
 </div>
 
 <script>
-    const cfg = { words:['không','một','hai','ba','bốn','năm'], clrs:['#90a4ae','#f44336','#4caf50','#ff9800','#9c27b0','#2196f3'], fishes:['🐟','🐠','🐡'] };
+    const cfg = { 
+        words:['không','một','hai','ba','bốn','năm'], 
+        clrs:['#90a4ae','#f44336','#4caf50','#ff9800','#9c27b0','#2196f3'], 
+        fishes:['🐟','🐠','🐡'],
+        sndCorrect: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3',
+        sndWrong: 'https://www.soundjay.com/buttons/sounds/button-10.mp3'
+    };
+    
     let canvas, ctx, drawing=false, curNum=1, targetEl=null, correctVal=null;
 
     function init() {
         const d = document.getElementById('dock'), wNav = document.getElementById('wNav'), pg = document.getElementById('pg');
         for(let i=0; i<=5; i++){
             let b = document.createElement('button'); b.className='btn-n'; b.style.background=cfg.clrs[i]; b.innerText=i; b.onclick=()=>updateKP(i); d.appendChild(b);
-            let b2 = b.cloneNode(true); b2.style.height="40px"; b2.style.fontSize="16px"; b2.onclick=()=>drawT(i); wNav.appendChild(b2);
-            let b3 = document.createElement('button'); b3.innerText=i; b3.style.height="60px"; b3.style.fontSize="26px"; b3.style.borderRadius="15px"; b3.style.border="none"; b3.style.background="#fff8e1"; b3.style.color="#ff6f00"; b3.style.fontWeight="bold"; b3.onclick=()=>check(i); pg.appendChild(b3);
+            let b2 = b.cloneNode(true); b2.style.height="35px"; b2.style.width="35px"; b2.style.fontSize="14px"; b2.onclick=()=>drawT(i); wNav.appendChild(b2);
+            let b3 = document.createElement('button'); b3.innerText=i; b3.style.height="50px"; b3.style.fontSize="20px"; b3.onclick=()=>check(i); pg.appendChild(b3);
         }
         setupC(); updateKP(1);
     }
 
     function setupC() {
         canvas = document.getElementById('writingBoard'); ctx = canvas.getContext('2d');
-        const resize = () => { const rect = canvas.getBoundingClientRect(); canvas.width = rect.width; canvas.height = rect.height; drawT(curNum); };
-        window.addEventListener('resize', resize); setTimeout(resize, 200);
-        const getP = (e) => { const rect = canvas.getBoundingClientRect(); const clientX = e.touches ? e.touches[0].clientX : e.clientX; const clientY = e.touches ? e.touches[0].clientY : e.clientY; return { x: clientX - rect.left, y: clientY - rect.top }; };
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width; canvas.height = rect.height;
+        
+        const getP = (e) => {
+            const r = canvas.getBoundingClientRect();
+            const cx = e.touches ? e.touches[0].clientX : e.clientX;
+            const cy = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: cx - r.left, y: cy - r.top };
+        };
         const start = (e) => { drawing = true; const p = getP(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); };
-        const move = (e) => { if(!drawing) return; const p = getP(e); ctx.lineTo(p.x, p.y); ctx.lineWidth = 12; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.stroke(); e.preventDefault(); };
+        const move = (e) => { if(!drawing) return; const p = getP(e); ctx.lineTo(p.x, p.y); ctx.lineWidth = 10; ctx.lineCap = "round"; ctx.strokeStyle = "#444"; ctx.stroke(); };
         const stop = () => { drawing = false; };
+
         canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move); window.addEventListener('mouseup', stop);
         canvas.addEventListener('touchstart', start, {passive:false}); canvas.addEventListener('touchmove', move, {passive:false}); canvas.addEventListener('touchend', stop);
     }
@@ -145,8 +151,14 @@
     function drawT(n) {
         curNum = n; if(!canvas) return;
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.font = `bold ${canvas.height * 0.8}px Arial`; ctx.fillStyle = "#f3f3f3"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        
+        // Vẽ chữ số mờ căn theo dòng kẻ (giữa canvas)
+        ctx.font = `bold ${canvas.height * 0.7}px Arial`; 
+        ctx.fillStyle = "rgba(200, 200, 200, 0.2)"; 
+        ctx.textAlign = "center"; 
+        ctx.textBaseline = "middle";
         ctx.fillText(n, canvas.width/2, canvas.height/2);
+        
         document.getElementById('guideImg').src = "../../img/so" + n + ".PNG";
     }
 
@@ -155,26 +167,33 @@
         document.getElementById('numBig').style.color=cfg.clrs[i]; 
         document.getElementById('txtBig').innerText=cfg.words[i];
         const t=document.getElementById('tank'); t.innerHTML=''; 
-        for(let j=0; j<i; j++) t.innerHTML+=`<span style="font-size:30px">${cfg.fishes[j%3]}</span>`;
+        for(let j=0; j<i; j++) t.innerHTML+=`<span style="font-size:25px">${cfg.fishes[j%3]}</span>`;
         new Audio("../../audio/" + i + ".mp3").play().catch(()=>{});
+    }
+
+    function ask(el,v) { targetEl=el; correctVal=v; document.getElementById('picker').style.display='flex'; }
+
+    function check(n) {
+        if(n === correctVal) {
+            targetEl.innerText = n;
+            targetEl.classList.add('correct');
+            new Audio(cfg.sndCorrect).play(); // Phát âm thanh ĐÚNG
+            document.getElementById('picker').style.display = 'none';
+        } else {
+            new Audio(cfg.sndWrong).play(); // Phát âm thanh SAI
+            alert("Bé đếm lại nhé! ☘️");
+        }
     }
 
     function goPage(id) {
         document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        if(id==='p2') { setTimeout(setupC, 100); }
+        if(id==='p2') { setTimeout(setupC, 100); setTimeout(()=>drawT(curNum), 150); }
     }
 
     function clearCanvas() { drawT(curNum); }
     function changeColor(c) { ctx.strokeStyle = c; }
-    function ask(el,v) { targetEl=el; correctVal=v; document.getElementById('picker').style.display='flex'; }
-    function check(n) {
-        if(n===correctVal) { 
-            targetEl.innerText=n; targetEl.classList.add('correct'); 
-            new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3').play().catch(()=>{});
-            document.getElementById('picker').style.display='none'; 
-        } else alert("Bé đếm lại nhé! ☘️");
-    }
+
     window.onload = init;
 </script>
 </body>
