@@ -15,10 +15,10 @@
         .page { display: none; width: 100vw; height: calc(100vh - 50px); flex-direction: column; align-items: center; padding: 10px 0; box-sizing: border-box; overflow-y: auto; }
         .page.active { display: flex; }
 
-        /* KHÁM PHÁ MỚI - SỬ DỤNG ẢNH SGK */
-        .kp-image-container { position: relative; width: 95%; max-width: 500px; margin: 10px auto; }
-        .kp-main-img { width: 100%; display: block; border-radius: 20px; border: 5px solid #81d4fa; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .hotspot-num { position: absolute; width: 12%; height: 8%; background: transparent; cursor: pointer; border-radius: 10px; }
+        /* KHÁM PHÁ - DÙNG ẢNH */
+        .kp-container { position: relative; width: 95%; max-width: 500px; margin: 0 auto; }
+        .kp-img { width: 100%; display: block; border-radius: 20px; border: 5px solid #81d4fa; }
+        .hotspot-num { position: absolute; width: 12%; height: 9%; background: transparent; cursor: pointer; border-radius: 50%; }
 
         /* TẬP VIẾT */
         .write-container { display: flex; flex-direction: row; align-items: flex-start; justify-content: center; gap: 10px; width: 98%; max-width: 650px; margin: 5px 0; }
@@ -26,12 +26,7 @@
         .writing-area { flex: 2.5; background: white; border: 3px solid #90caf9; border-radius: 15px; position: relative; aspect-ratio: 1 / 1; max-height: 55vh; background-image: linear-gradient(#90caf9 2px, transparent 2px), linear-gradient(90deg, #90caf9 2px, transparent 2px); background-size: 25% 25%; }
         canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; position: absolute; top: 0; left: 0; }
 
-        /* BÀI TẬP 3 */
-        .flag-container { position: relative; width: 100%; max-width: 400px; margin: 0 auto; }
-        .flag-img { width: 100%; display: block; border-radius: 10px; }
-        .flag-touch { position: absolute; top: 15%; width: 12%; height: 25%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #d32f2f; }
-        .flag-touch.solved { color: #212121; font-size: 28px; background: transparent; }
-        
+        /* BÀI TẬP */
         .card { width: 94%; background: white; border-radius: 15px; padding: 15px; border: 3px solid var(--pink); margin-bottom: 15px; box-sizing: border-box; }
         .quiz-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
         .quiz-item { border: 1px solid #fce4ec; border-radius: 15px; padding: 10px; text-align: center; background: #fffafb; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
@@ -39,6 +34,12 @@
         .img-wrap img { max-height: 100%; max-width: 100%; object-fit: contain; }
         .ans { width: 50px; height: 35px; background: #fff8e1; border: 2px dashed #ffb300; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff6f00; cursor: pointer; font-size: 18px; }
         .ans.correct { background: var(--green) !important; color: white !important; border-style: solid !important; }
+
+        /* LÁ CỜ BÀI 3 */
+        .flag-container { position: relative; width: 100%; max-width: 400px; margin: 0 auto; }
+        .flag-img { width: 100%; display: block; border-radius: 10px; }
+        .flag-touch { position: absolute; top: 15%; width: 12%; height: 25%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #d32f2f; }
+        .flag-touch.solved { color: #212121; font-size: 28px; background: transparent; }
 
         .nav-bar { width: 90%; display: flex; gap: 10px; margin-top: auto; padding-bottom: 15px; }
         .btn-nav { flex: 1; padding: 15px; border-radius: 30px; border: none; color: white; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 4px #ccc; }
@@ -53,124 +54,15 @@
 </div>
 
 <div id="p1" class="page active">
-    <div class="kp-image-container">
-        <img src="../../img/khampha.png" class="kp-main-img">
-        
-        <div class="hotspot-num" style="top: 5.5%; right: 18%;" onclick="playSnd(1)"></div>
-        <div class="hotspot-num" style="top: 21.5%; right: 18%;" onclick="playSnd(2)"></div>
-        <div class="hotspot-num" style="top: 38%; right: 18%;" onclick="playSnd(3)"></div>
-        <div class="hotspot-num" style="top: 54%; right: 18%;" onclick="playSnd(4)"></div>
-        <div class="hotspot-num" style="top: 70%; right: 18%;" onclick="playSnd(5)"></div>
-        <div class="hotspot-num" style="top: 86.5%; right: 18%;" onclick="playSnd(0)"></div>
+    <div class="kp-container">
+        <img src="../../img/khampha.png" class="kp-img">
+        <div class="hotspot-num" style="top: 7%; right: 18%;" onclick="playSnd(1)"></div>
+        <div class="hotspot-num" style="top: 23%; right: 18%;" onclick="playSnd(2)"></div>
+        <div class="hotspot-num" style="top: 39%; right: 18%;" onclick="playSnd(3)"></div>
+        <div class="hotspot-num" style="top: 55%; right: 18%;" onclick="playSnd(4)"></div>
+        <div class="hotspot-num" style="top: 71%; right: 18%;" onclick="playSnd(5)"></div>
+        <div class="hotspot-num" style="top: 87%; right: 18%;" onclick="playSnd(0)"></div>
     </div>
-    
     <div class="nav-bar">
         <div style="flex:1"></div>
-        <button class="btn-nav" style="background:var(--amber); box-shadow: 0 4px #b56500;" onclick="goPage('p2')">TẬP VIẾT ➡</button>
-    </div>
-</div>
-
-<div id="p2" class="page">
-    <div style="display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; justify-content:center;" id="wNav"></div>
-    <div class="write-container">
-        <div class="guide-box">
-            <span style="font-size: 10px; color: #f44336; font-weight: bold; margin-bottom: 5px;">MẪU</span>
-            <img id="guideImg" src="" style="width: 100%; object-fit: contain;">
-        </div>
-        <div class="writing-area" id="canvasWrap">
-            <canvas id="writingBoard"></canvas>
-        </div>
-    </div>
-    <div style="display:flex; gap:15px; align-items: center;">
-        <button onclick="clearCanvas()" style="padding:10px 25px; border-radius:12px; border:none; background:#546e7a; color:white; font-weight:bold;">XÓA</button>
-        <button onclick="changeColor('#f44336')" style="border-radius:50%; border:3px solid white; background:#f44336; width:45px; height:45px;"></button>
-        <button onclick="changeColor('#4caf50')" style="border-radius:50%; border:3px solid white; background:#4caf50; width:45px; height:45px;"></button>
-    </div>
-    <div class="nav-bar">
-        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ KHÁM PHÁ</button>
-        <button class="btn-nav" style="background:var(--pink);" onclick="goPage('p3')">BÀI TẬP ➡</button>
-    </div>
-</div>
-
-<div id="p3" class="page">
-    <div class="card">
-        <p style="color:var(--pink); font-weight:bold; margin-bottom:10px;">Bài 2a: Bé đếm rồi chọn số:</p>
-        <div class="quiz-grid" id="q2a"></div>
-    </div>
-    <div class="card">
-        <p style="color:var(--pink); font-weight:bold; margin-bottom:10px;">Bài 2b: Số con cá trong mỗi chậu?</p>
-        <div class="quiz-grid" id="q2b"></div>
-    </div>
-    <div class="card">
-        <p style="color:var(--pink); font-weight:bold; margin-bottom:10px;">Bài 3: Nhấn vào ? để tìm số trên lá cờ:</p>
-        <div class="flag-container">
-            <img src="../../img/bai3.png" class="flag-img">
-            <div id="f-green" class="flag-touch" style="left: 35.5%;" onclick="askFlag('f-green', 2)">?</div>
-            <div id="f-orange" class="flag-touch" style="left: 51.5%;" onclick="askFlag('f-orange', 3)">?</div>
-        </div>
-    </div>
-    <div class="nav-bar">
-        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p2')">⬅ TẬP VIẾT</button>
-    </div>
-</div>
-
-<div id="picker" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:none;justify-content:center;align-items:center;z-index:2000;">
-    <div style="background:white;padding:20px;border-radius:20px;width:85%;max-width:320px;text-align:center;border:5px solid #ffca28;">
-        <p><b>Bé chọn số mấy?</b></p>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:20px 0;" id="pg"></div>
-        <button onclick="document.getElementById('picker').style.display='none'" style="border:none;background:#eee;padding:10px 20px;border-radius:10px;">ĐÓNG</button>
-    </div>
-</div>
-
-<script>
-    const cfg = { 
-        clrs:['#90a4ae','#f44336','#4caf50','#ff9800','#9c27b0','#2196f3'], 
-        sndCorrect: '../../audio/dung.mp3',
-        sndWrong: '../../audio/sai.mp3'
-    };
-    let canvas, ctx, drawing=false, curNum=1, targetEl=null, correctVal=null;
-
-    function init() {
-        const wNav = document.getElementById('wNav'), pg = document.getElementById('pg');
-        for(let i=0; i<=5; i++){
-            // Nút điều hướng tập viết
-            let b2 = document.createElement('button'); b2.className='btn-n'; b2.style.background=cfg.clrs[i]; 
-            b2.innerText=i; b2.style.height="40px"; b2.style.width="40px"; b2.onclick=()=>drawT(i); wNav.appendChild(b2);
-            // Nút trong bảng chọn số
-            let b3 = document.createElement('button'); b3.innerText=i; b3.style.height="55px"; b3.style.fontSize="22px"; b3.onclick=()=>check(i); pg.appendChild(b3);
-        }
-
-        const d2a = [{i:'meo.PNG', v:1}, {i:'carot.PNG', v:3}, {i:'cho.PNG', v:5}, {i:'bong.PNG', v:4}, {i:'vit.PNG', v:2}, {i:'ket.PNG', v:1}];
-        d2a.forEach(x => { document.getElementById('q2a').innerHTML += `<div class="quiz-item"><div class="img-wrap"><img src="../../img/${x.i}"></div><div class="ans" onclick="ask(this,${x.v})">?</div></div>`; });
-        const d2b = [{i:'chau2ca.PNG', v:2}, {i:'chau1ca.PNG', v:1}, {i:'chau.PNG', v:0}];
-        d2b.forEach(x => { document.getElementById('q2b').innerHTML += `<div class="quiz-item"><div class="img-wrap"><img src="../../img/${x.i}"></div><div class="ans" onclick="ask(this,${x.v})">?</div></div>`; });
-
-        setupC();
-    }
-
-    function playSnd(n) { new Audio("../../audio/" + n + ".mp3").play().catch(()=>{}); }
-
-    function playFireworks() {
-        for (let i = 0; i < 15; i++) {
-            const fw = document.createElement('div'); fw.innerText = "✨"; fw.style.position = 'fixed';
-            fw.style.left = Math.random() * 100 + 'vw'; fw.style.top = Math.random() * 100 + 'vh';
-            fw.style.fontSize = '30px'; fw.style.zIndex = '3000'; fw.style.transition = 'all 1s ease-out';
-            document.body.appendChild(fw);
-            setTimeout(() => {
-                fw.style.transform = `scale(3) translate(${(Math.random()-0.5)*200}px, ${(Math.random()-0.5)*200}px)`;
-                fw.style.opacity = '0';
-            }, 10);
-            setTimeout(() => fw.remove(), 1000);
-        }
-    }
-
-    function setupC() {
-        canvas = document.getElementById('writingBoard'); ctx = canvas.getContext('2d');
-        const rect = canvas.parentElement.getBoundingClientRect();
-        canvas.width = rect.width; canvas.height = rect.height;
-        const getP = (e) => { const r = canvas.getBoundingClientRect(); const cx = e.touches ? e.touches[0].clientX : e.clientX; const cy = e.touches ? e.touches[0].clientY : e.clientY; return { x: (cx - r.left) * (canvas.width / r.width), y: (cy - r.top) * (canvas.height / r.height) }; };
-        const start = (e) => { drawing = true; const p = getP(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); };
-        const move = (e) => { if(!drawing) return; const p = getP(e); ctx.lineTo(p.x, p.y); ctx.lineWidth = 14; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.stroke(); e.preventDefault(); };
-        const stop = () => { drawing = false; };
-        canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move); window.addEventListener('mouseup', stop);
-        canvas.addEventListener('touchstart', start, {passive:false});
+        <button class="btn-nav" style="background:var(--amber); box-shadow: 0 4px #b56500;" onclick="goPage('p
