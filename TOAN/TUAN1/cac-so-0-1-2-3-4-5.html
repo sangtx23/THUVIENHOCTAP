@@ -15,10 +15,10 @@
         .page { display: none; width: 100vw; height: calc(100vh - 50px); flex-direction: column; align-items: center; padding: 10px 0; box-sizing: border-box; overflow-y: auto; }
         .page.active { display: flex; }
 
-        /* KHÁM PHÁ - ĐÃ ĐIỀU CHỈNH KHÔNG BỊ TEO NHỎ */
-        .kp-box { background: white; padding: 20px; border-radius: 20px; border: 5px solid #81d4fa; width: 85%; min-height: 250px; text-align: center; margin-bottom: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        #tank { min-height: 80px; width: 100%; background: #e1f5fe; border-radius: 15px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 10px; margin-bottom: 15px; }
-        #numBig { font-size: 100px; font-weight: bold; line-height: 1; margin: 5px 0; }
+        /* KHÁM PHÁ MỚI - SỬ DỤNG ẢNH SGK */
+        .kp-image-container { position: relative; width: 95%; max-width: 500px; margin: 10px auto; }
+        .kp-main-img { width: 100%; display: block; border-radius: 20px; border: 5px solid #81d4fa; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .hotspot-num { position: absolute; width: 12%; height: 8%; background: transparent; cursor: pointer; border-radius: 10px; }
 
         /* TẬP VIẾT */
         .write-container { display: flex; flex-direction: row; align-items: flex-start; justify-content: center; gap: 10px; width: 98%; max-width: 650px; margin: 5px 0; }
@@ -26,22 +26,10 @@
         .writing-area { flex: 2.5; background: white; border: 3px solid #90caf9; border-radius: 15px; position: relative; aspect-ratio: 1 / 1; max-height: 55vh; background-image: linear-gradient(#90caf9 2px, transparent 2px), linear-gradient(90deg, #90caf9 2px, transparent 2px); background-size: 25% 25%; }
         canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; position: absolute; top: 0; left: 0; }
 
-        /* BÀI TẬP 3 - TƯƠNG TÁC TRÊN ẢNH SẠCH */
+        /* BÀI TẬP 3 */
         .flag-container { position: relative; width: 100%; max-width: 400px; margin: 0 auto; }
         .flag-img { width: 100%; display: block; border-radius: 10px; }
-        .flag-touch { 
-            position: absolute; 
-            top: 15%; 
-            width: 12%; 
-            height: 25%; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 24px; 
-            font-weight: bold; 
-            color: #d32f2f; 
-        }
+        .flag-touch { position: absolute; top: 15%; width: 12%; height: 25%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #d32f2f; }
         .flag-touch.solved { color: #212121; font-size: 28px; background: transparent; }
         
         .card { width: 94%; background: white; border-radius: 15px; padding: 15px; border: 3px solid var(--pink); margin-bottom: 15px; box-sizing: border-box; }
@@ -65,12 +53,17 @@
 </div>
 
 <div id="p1" class="page active">
-    <div class="kp-box">
-        <div id="tank"></div>
-        <div id="numBig">1</div>
-        <div id="txtBig" style="font-weight:bold; color:#546e7a; font-size: 20px;">một</div>
+    <div class="kp-image-container">
+        <img src="../../img/khampha.png" class="kp-main-img">
+        
+        <div class="hotspot-num" style="top: 5.5%; right: 18%;" onclick="playSnd(1)"></div>
+        <div class="hotspot-num" style="top: 21.5%; right: 18%;" onclick="playSnd(2)"></div>
+        <div class="hotspot-num" style="top: 38%; right: 18%;" onclick="playSnd(3)"></div>
+        <div class="hotspot-num" style="top: 54%; right: 18%;" onclick="playSnd(4)"></div>
+        <div class="hotspot-num" style="top: 70%; right: 18%;" onclick="playSnd(5)"></div>
+        <div class="hotspot-num" style="top: 86.5%; right: 18%;" onclick="playSnd(0)"></div>
     </div>
-    <div id="dock" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 85%;"></div>
+    
     <div class="nav-bar">
         <div style="flex:1"></div>
         <button class="btn-nav" style="background:var(--amber); box-shadow: 0 4px #b56500;" onclick="goPage('p2')">TẬP VIẾT ➡</button>
@@ -130,39 +123,20 @@
 </div>
 
 <script>
-   const cfg = { 
-    words:['không','một','hai','ba','bốn','năm'], 
-    clrs:['#90a4ae','#f44336','#4caf50','#ff9800','#9c27b0','#2196f3'], 
-    fishes:['🐟','🐠','🐡'],
-    sndCorrect: '../../audio/dung.mp3', // Thầy kiểm tra lại đường dẫn thư mục audio nhé
-    sndWrong: '../../audio/sai.mp3'
+    const cfg = { 
+        clrs:['#90a4ae','#f44336','#4caf50','#ff9800','#9c27b0','#2196f3'], 
+        sndCorrect: '../../audio/dung.mp3',
+        sndWrong: '../../audio/sai.mp3'
     };
     let canvas, ctx, drawing=false, curNum=1, targetEl=null, correctVal=null;
-function playFireworks() {
-    for (let i = 0; i < 15; i++) {
-        const firework = document.createElement('div');
-        firework.innerText = "✨";
-        firework.style.position = 'fixed';
-        firework.style.left = Math.random() * 100 + 'vw';
-        firework.style.top = Math.random() * 100 + 'vh';
-        firework.style.fontSize = '30px';
-        firework.style.zIndex = '3000';
-        firework.style.transition = 'all 1s ease-out';
-        document.body.appendChild(firework);
-        
-        setTimeout(() => {
-            firework.style.transform = `scale(3) translate(${(Math.random()-0.5)*200}px, ${(Math.random()-0.5)*200}px)`;
-            firework.style.opacity = '0';
-        }, 10);
-        
-        setTimeout(() => firework.remove(), 1000);
-    }
-}
+
     function init() {
-        const d = document.getElementById('dock'), wNav = document.getElementById('wNav'), pg = document.getElementById('pg');
+        const wNav = document.getElementById('wNav'), pg = document.getElementById('pg');
         for(let i=0; i<=5; i++){
-            let b = document.createElement('button'); b.className='btn-n'; b.style.background=cfg.clrs[i]; b.innerText=i; b.onclick=()=>updateKP(i); d.appendChild(b);
-            let b2 = b.cloneNode(true); b2.style.height="40px"; b2.style.width="40px"; b2.onclick=()=>drawT(i); wNav.appendChild(b2);
+            // Nút điều hướng tập viết
+            let b2 = document.createElement('button'); b2.className='btn-n'; b2.style.background=cfg.clrs[i]; 
+            b2.innerText=i; b2.style.height="40px"; b2.style.width="40px"; b2.onclick=()=>drawT(i); wNav.appendChild(b2);
+            // Nút trong bảng chọn số
             let b3 = document.createElement('button'); b3.innerText=i; b3.style.height="55px"; b3.style.fontSize="22px"; b3.onclick=()=>check(i); pg.appendChild(b3);
         }
 
@@ -171,7 +145,23 @@ function playFireworks() {
         const d2b = [{i:'chau2ca.PNG', v:2}, {i:'chau1ca.PNG', v:1}, {i:'chau.PNG', v:0}];
         d2b.forEach(x => { document.getElementById('q2b').innerHTML += `<div class="quiz-item"><div class="img-wrap"><img src="../../img/${x.i}"></div><div class="ans" onclick="ask(this,${x.v})">?</div></div>`; });
 
-        setupC(); updateKP(1);
+        setupC();
+    }
+
+    function playSnd(n) { new Audio("../../audio/" + n + ".mp3").play().catch(()=>{}); }
+
+    function playFireworks() {
+        for (let i = 0; i < 15; i++) {
+            const fw = document.createElement('div'); fw.innerText = "✨"; fw.style.position = 'fixed';
+            fw.style.left = Math.random() * 100 + 'vw'; fw.style.top = Math.random() * 100 + 'vh';
+            fw.style.fontSize = '30px'; fw.style.zIndex = '3000'; fw.style.transition = 'all 1s ease-out';
+            document.body.appendChild(fw);
+            setTimeout(() => {
+                fw.style.transform = `scale(3) translate(${(Math.random()-0.5)*200}px, ${(Math.random()-0.5)*200}px)`;
+                fw.style.opacity = '0';
+            }, 10);
+            setTimeout(() => fw.remove(), 1000);
+        }
     }
 
     function setupC() {
@@ -183,111 +173,4 @@ function playFireworks() {
         const move = (e) => { if(!drawing) return; const p = getP(e); ctx.lineTo(p.x, p.y); ctx.lineWidth = 14; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.stroke(); e.preventDefault(); };
         const stop = () => { drawing = false; };
         canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move); window.addEventListener('mouseup', stop);
-        canvas.addEventListener('touchstart', start, {passive:false}); canvas.addEventListener('touchmove', move, {passive:false}); canvas.addEventListener('touchend', stop);
-    }
-
-    function drawT(n) {
-    curNum = n; if(!canvas) return;
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    
-    // Khai báo biến tọa độ mặc định
-    let posX = canvas.width * 0.5;
-    let posY = canvas.height * 0.75;
-    let fontSize = canvas.height * 0.48; // Mặc định cao khoảng 2 ô ly
-
-    // Tinh chỉnh riêng cho từng số ở đây
-    switch(n) {
-        case 0:
-            posX = canvas.width * 0.38;
-            posY = canvas.height * 0.81;
-            fontSize = canvas.height * 0.71;
-            break;
-        case 1:
-            posX = canvas.width * 0.48; // Số 1 thường lệch trái nên đẩy sang phải xíu
-            posY = canvas.height * 0.81;
-            fontSize = canvas.height * 0.71;
-            break;
-        case 2:
-            posX = canvas.width * 0.5;
-            posY = canvas.height * 0.74; // Ví dụ: số 2 hơi thấp thì đẩy lên xíu
-            fontSize = canvas.height * 0.73;
-            break;
-        case 3:
-            posX = canvas.width * 0.5;
-            posY = canvas.height * 0.75;
-            fontSize = canvas.height * 0.73;
-            break;
-        case 4:
-            posX = canvas.width * 0.5;
-            posY = canvas.height * 0.75;
-            fontSize = canvas.height * 0.73;
-            break;
-        case 5:
-            posX = canvas.width * 0.5;
-            posY = canvas.height * 0.62; // Số 5 có bụng bầu, có thể cần hạ thấp xíu
-            fontSize = canvas.height * 0.73;
-            break;
-    }
-
-    // Tiến hành vẽ với thông số đã chỉnh
-    ctx.font = `bold ${fontSize}px Arial`; 
-    ctx.fillStyle = "rgba(220, 220, 220, 0.4)"; 
-    ctx.textAlign = "center"; // Dùng center để dễ căn chỉnh trục dọc
-    ctx.textBaseline = "middle"; 
-    
-    ctx.fillText(n, posX, posY); 
-    
-    document.getElementById('guideImg').src = "../../img/so" + n + ".PNG";
-}
-
-    function updateKP(i) {
-        document.getElementById('numBig').innerText=i; document.getElementById('numBig').style.color=cfg.clrs[i]; document.getElementById('txtBig').innerText=cfg.words[i];
-        const t=document.getElementById('tank'); t.innerHTML=''; for(let j=0; j<i; j++) t.innerHTML+=`<span style="font-size:35px">${cfg.fishes[j%3]}</span>`;
-        new Audio("../../audio/" + i + ".mp3").play().catch(()=>{});
-    }
-
-    function ask(el,v) { targetEl=el; correctVal=v; document.getElementById('picker').style.display='flex'; }
-    function askFlag(id, v) { 
-        if(document.getElementById(id).classList.contains('solved')) return;
-        targetEl = document.getElementById(id); correctVal = v; document.getElementById('picker').style.display='flex'; 
-    }
-
-   function check(n) {
-    if(n === correctVal) {
-        targetEl.innerText = n; 
-        targetEl.classList.add('correct');
-        if(targetEl.classList.contains('flag-touch')) targetEl.classList.add('solved');
-        
-        // Phát âm thanh đúng
-        new Audio(cfg.sndCorrect).play().catch(e => console.log("Lỗi âm thanh:", e));
-        
-        // Hiệu ứng pháo hoa
-        playFireworks();
-        
-        // Đóng bảng chọn sau khi đúng
-        setTimeout(() => {
-            document.getElementById('picker').style.display = 'none';
-        }, 500);
-    } else {
-        // Phát âm thanh sai
-        new Audio(cfg.sndWrong).play().catch(e => console.log("Lỗi âm thanh:", e));
-        
-        // Hiệu ứng rung nhẹ bảng chọn để báo sai
-        const p = document.getElementById('picker').firstElementChild;
-        p.style.transform = "translateX(10px)";
-        setTimeout(()=> p.style.transform = "translateX(-10px)", 50);
-        setTimeout(()=> p.style.transform = "translateX(0)", 100);
-    }
-}
-
-    function goPage(id) {
-        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        if(id==='p2') { setTimeout(() => { setupC(); drawT(curNum); }, 150); }
-    }
-    function clearCanvas() { drawT(curNum); }
-    function changeColor(c) { ctx.strokeStyle = c; }
-    window.onload = init;
-</script>
-</body>
-</html>
+        canvas.addEventListener('touchstart', start, {passive:false});
