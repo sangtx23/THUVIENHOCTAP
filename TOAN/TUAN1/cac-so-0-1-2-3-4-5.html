@@ -22,7 +22,7 @@
         .dock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 90%; }
         .btn-n { height: 45px; border: none; border-radius: 12px; color: white; font-size: 20px; font-weight: bold; cursor: pointer; }
 
-        /* TẬP VIẾT - TỐI ƯU Ô VUÔNG TUYỆT ĐỐI */
+        /* TẬP VIẾT - Ô VUÔNG CHUẨN MẪU */
         .write-container { display: flex; flex-direction: row; align-items: flex-start; justify-content: center; gap: 10px; width: 98%; max-width: 650px; margin: 5px 0; }
         .guide-box { flex: 1; background: white; border: 2px solid #ffca28; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px; min-height: 180px; }
         .writing-area { 
@@ -31,16 +31,16 @@
             border: 3px solid #90caf9; 
             border-radius: 15px; 
             position: relative; 
-            aspect-ratio: 1 / 1; /* Đảm bảo ô vuông bằng nhau */
+            aspect-ratio: 1 / 1; 
             max-height: 55vh;
             background-image: 
                 linear-gradient(#90caf9 2px, transparent 2px), 
                 linear-gradient(90deg, #90caf9 2px, transparent 2px);
-            background-size: 25% 25%; /* Lưới 4x4 */
+            background-size: 25% 25%; 
         }
         canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; position: absolute; top: 0; left: 0; }
 
-        /* BÀI TẬP */
+        /* BÀI TẬP GIỮ NGUYÊN */
         .card { width: 94%; background: white; border-radius: 15px; padding: 15px; border: 3px solid var(--pink); margin-bottom: 15px; box-sizing: border-box; }
         .quiz-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
         .quiz-item { border: 1px solid #fce4ec; border-radius: 15px; padding: 10px; text-align: center; background: #fffafb; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
@@ -139,15 +139,10 @@
             let b3 = document.createElement('button'); b3.innerText=i; b3.style.height="55px"; b3.style.fontSize="22px"; b3.onclick=()=>check(i); pg.appendChild(b3);
         }
         
-        // Render Bài tập 2a
         const d2a = [{i:'meo.PNG', v:1}, {i:'carot.PNG', v:3}, {i:'cho.PNG', v:5}, {i:'bong.PNG', v:4}, {i:'vit.PNG', v:2}, {i:'ket.PNG', v:1}];
         d2a.forEach(x => { document.getElementById('q2a').innerHTML += `<div class="quiz-item"><div class="img-wrap"><img src="../../img/${x.i}"></div><div class="ans" onclick="ask(this,${x.v})">?</div></div>`; });
-        
-        // Render Bài tập 2b
         const d2b = [{i:'chau2ca.PNG', v:2}, {i:'chau1ca.PNG', v:1}, {i:'chau.PNG', v:0}];
         d2b.forEach(x => { document.getElementById('q2b').innerHTML += `<div class="quiz-item"><div class="img-wrap"><img src="../../img/${x.i}"></div><div class="ans" onclick="ask(this,${x.v})">?</div></div>`; });
-
-        // Render Bài tập 3 (Ví dụ các hình khác)
         const d3 = [{i:'ga.PNG', v:3}, {i:'tao.PNG', v:4}, {i:'chuoi.PNG', v:2}];
         d3.forEach(x => { document.getElementById('q3').innerHTML += `<div class="quiz-item"><div class="img-wrap"><img src="../../img/${x.i}"></div><div class="ans" onclick="ask(this,${x.v})">?</div></div>`; });
 
@@ -170,16 +165,16 @@
         curNum = n; if(!canvas) return;
         ctx.clearRect(0,0,canvas.width,canvas.height);
         
-        // CHỈNH SỬA THEO GHI CHÚ MỰC ĐỎ:
-        // Chữ số nằm gọn trong 2 ô ly đầu tiên, chân chạm dòng kẻ dưới cùng.
-        const unit = canvas.width / 4; 
+        // CĂN CHỈNH CHUẨN MẪU: Chân chạm đáy, trục số trùng đường kẻ dọc 1
+        const line1X = canvas.width * 0.25; // Đường kẻ dọc ngăn cột 1 và 2
+        
         ctx.font = `bold ${canvas.height * 0.7}px Arial`; 
         ctx.fillStyle = "rgba(220, 220, 220, 0.4)"; 
         ctx.textAlign = "center"; 
         ctx.textBaseline = "bottom";
         
-        // X = unit (tâm của 2 cột đầu), Y = sát đáy
-        ctx.fillText(n, unit, canvas.height - 5);
+        // Vẽ số mờ tại vị trí line1X (đường kẻ dọc 1)
+        ctx.fillText(n, line1X, canvas.height - 5);
         document.getElementById('guideImg').src = "../../img/so" + n + ".PNG";
     }
 
