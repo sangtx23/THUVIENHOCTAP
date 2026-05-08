@@ -148,22 +148,28 @@
         canvas.addEventListener('touchstart', start, {passive:false}); canvas.addEventListener('touchmove', move, {passive:false}); canvas.addEventListener('touchend', stop);
     }
 
-    function drawT(n) {
-        curNum = n; if(!canvas) return;
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.font = `bold ${canvas.height * 0.8}px Arial`; ctx.fillStyle = "#f3f3f3"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-        ctx.fillText(n, canvas.width/2, canvas.height/2);
-        document.getElementById('guideImg').src = "/img/so" + n + ".PNG";
-    }
+   // Hàm vẽ mẫu
+function drawT(n) {
+    curNum = n; if(!canvas) return;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = `bold ${canvas.height * 0.8}px Arial`; ctx.fillStyle = "#f3f3f3"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText(n, canvas.width/2, canvas.height/2);
+    
+    // Dùng ../../ để lùi ra ngoài thư mục gốc tìm folder img
+    document.getElementById('guideImg').src = "../../img/so" + n + ".PNG"; 
+}
 
-    function updateKP(i) {
-        document.getElementById('numBig').innerText=i; 
-        document.getElementById('numBig').style.color=cfg.clrs[i]; 
-        document.getElementById('txtBig').innerText=cfg.words[i];
-        const t=document.getElementById('tank'); t.innerHTML=''; 
-        for(let j=0; j<i; j++) t.innerHTML+=`<span style="font-size:30px">${cfg.fishes[j%3]}</span>`;
-        new Audio("/audio/" + i + ".mp3").play().catch(()=>{});
-    }
+// Hàm cập nhật âm thanh
+function updateKP(i) {
+    document.getElementById('numBig').innerText=i; 
+    document.getElementById('numBig').style.color=cfg.clrs[i]; 
+    document.getElementById('txtBig').innerText=cfg.words[i];
+    const t=document.getElementById('tank'); t.innerHTML=''; 
+    for(let j=0; j<i; j++) t.innerHTML+=`<span style="font-size:30px">${cfg.fishes[j%3]}</span>`;
+    
+    // Dùng ../../ để tìm folder audio
+    new Audio("../../audio/" + i + ".mp3").play().catch(()=>{});
+}
 
     function goPage(id) {
         document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
