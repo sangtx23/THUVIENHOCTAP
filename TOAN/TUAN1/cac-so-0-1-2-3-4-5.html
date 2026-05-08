@@ -21,20 +21,21 @@
         .dock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 90%; padding: 10px; }
         .btn-n { height: 45px; border: none; border-radius: 12px; color: white; font-size: 20px; font-weight: bold; cursor: pointer; }
 
-        /* PHẦN TẬP VIẾT TỐI ƯU CĂN CHỈNH */
-        .write-container { display: flex; flex-direction: row; align-items: stretch; justify-content: center; gap: 10px; width: 95%; max-width: 500px; margin: 10px 0; height: 240px; }
-        .guide-box { flex: 2; background: white; border: 2px solid #ffca28; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px; }
+        /* PHẦN TẬP VIẾT PHÓNG TO & DÒNG KẺ CHUẨN */
+        .write-container { display: flex; flex-direction: row; align-items: stretch; justify-content: center; gap: 10px; width: 98%; max-width: 600px; margin: 5px 0; height: 320px; }
+        .guide-box { flex: 1.5; background: white; border: 2px solid #ffca28; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px; }
         
         .writing-area { 
-            flex: 3; 
+            flex: 3.5; 
             background: white; 
             border: 3px solid #90caf9; 
             border-radius: 15px; 
-            /* Tạo lưới 4 cột - 4 dòng giống ảnh mẫu số 0 */
+            /* Lưới 4x4 chuẩn, dòng kẻ đậm dưới cùng */
             background-image: 
-                linear-gradient(#e1f5fe 2px, transparent 2px), 
-                linear-gradient(90deg, #e1f5fe 2px, transparent 2px);
-            background-size: 25% 25%; 
+                linear-gradient(#90caf9 2px, transparent 2px), 
+                linear-gradient(90deg, #e1f5fe 1px, transparent 1px);
+            background-size: 100% 25%, 25% 100%; 
+            background-position: bottom;
             position: relative; 
             overflow: hidden; 
         }
@@ -107,7 +108,6 @@
             <div class="quiz-item"><div class="img-wrap"><img src="../../img/ket.PNG"></div><div class="ans" onclick="ask(this,1)">?</div></div>
         </div>
     </div>
-
     <div class="card">
         <p class="card-title">Bài 2b: Số con cá trong mỗi chậu?</p>
         <div class="quiz-grid">
@@ -116,7 +116,6 @@
             <div class="quiz-item"><div class="img-wrap"><img src="../../img/chau.PNG"></div><div class="ans" onclick="ask(this,0)">?</div></div>
         </div>
     </div>
-
     <div class="nav-bar">
         <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ QUAY LẠI</button>
     </div>
@@ -156,7 +155,7 @@
         canvas.width = rect.width; canvas.height = rect.height;
         const getP = (e) => { const rect = canvas.getBoundingClientRect(); const clientX = e.touches ? e.touches[0].clientX : e.clientX; const clientY = e.touches ? e.touches[0].clientY : e.clientY; return { x: clientX - rect.left, y: clientY - rect.top }; };
         const start = (e) => { drawing = true; const p = getP(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); };
-        const move = (e) => { if(!drawing) return; const p = getP(e); ctx.lineTo(p.x, p.y); ctx.lineWidth = 12; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.stroke(); e.preventDefault(); };
+        const move = (e) => { if(!drawing) return; const p = getP(e); ctx.lineTo(p.x, p.y); ctx.lineWidth = 14; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.stroke(); e.preventDefault(); };
         const stop = () => { drawing = false; };
         canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move); window.addEventListener('mouseup', stop);
         canvas.addEventListener('touchstart', start, {passive:false}); canvas.addEventListener('touchmove', move, {passive:false}); canvas.addEventListener('touchend', stop);
@@ -166,15 +165,15 @@
         curNum = n; if(!canvas) return;
         ctx.clearRect(0,0,canvas.width,canvas.height);
         
-        // CĂN CHỈNH SỐ MỜ: Dựa trên ảnh mẫu (Số 0 nằm ở cột 2, dòng 2-3)
-        // Ta dùng Font chữ chuẩn và căn lề trái để khớp với ô ly
-        ctx.font = `bold ${canvas.height * 0.55}px Arial`; 
+        // HẠ CHỮ SỐ CHẠM DÒNG KẺ 1 (Dòng kẻ đậm dưới cùng)
+        // Kích thước chữ lớn hơn (0.75 canvas height thay vì 0.55)
+        ctx.font = `bold ${canvas.height * 0.75}px Arial`; 
         ctx.fillStyle = "rgba(220, 220, 220, 0.4)"; 
         ctx.textAlign = "left"; 
-        ctx.textBaseline = "top";
+        ctx.textBaseline = "bottom"; // Căn lề dưới để chân số chạm dòng kẻ
         
-        // Tọa độ này sẽ đẩy số mờ vào vị trí giống hệt số mẫu trong lưới 4x4
-        ctx.fillText(n, canvas.width * 0.28, canvas.height * 0.25);
+        // Đẩy sang phải một chút để khớp cột 2
+        ctx.fillText(n, canvas.width * 0.28, canvas.height * 0.98);
         
         document.getElementById('guideImg').src = "../../img/so" + n + ".PNG";
     }
@@ -193,10 +192,10 @@
     function check(n) {
         if(n===correctVal) { 
             targetEl.innerText=n; targetEl.classList.add('correct'); 
-            new Audio(cfg.sndCorrect).play().catch(()=>{});
+            new Audio(cfg.sndCorrect).play().catch(()=>{}); // Âm thanh ĐÚNG cho bài tập 2 & 3
             document.getElementById('picker').style.display='none'; 
         } else {
-            new Audio(cfg.sndWrong).play().catch(()=>{});
+            new Audio(cfg.sndWrong).play().catch(()=>{}); // Âm thanh SAI cho bài tập 2 & 3
             alert("Bé đếm lại nhé! ☘️");
         }
     }
