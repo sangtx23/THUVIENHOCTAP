@@ -210,17 +210,33 @@ function playFireworks() {
         targetEl = document.getElementById(id); correctVal = v; document.getElementById('picker').style.display='flex'; 
     }
 
-    function check(n) {
-        if(n === correctVal) {
-            targetEl.innerText = n; 
-            targetEl.classList.add('correct');
-            if(targetEl.classList.contains('flag-touch')) targetEl.classList.add('solved');
-            new Audio(cfg.sndCorrect).play();
+   function check(n) {
+    if(n === correctVal) {
+        targetEl.innerText = n; 
+        targetEl.classList.add('correct');
+        if(targetEl.classList.contains('flag-touch')) targetEl.classList.add('solved');
+        
+        // Phát âm thanh đúng
+        new Audio(cfg.sndCorrect).play().catch(e => console.log("Lỗi âm thanh:", e));
+        
+        // Hiệu ứng pháo hoa
+        playFireworks();
+        
+        // Đóng bảng chọn sau khi đúng
+        setTimeout(() => {
             document.getElementById('picker').style.display = 'none';
-        } else {
-            new Audio(cfg.sndWrong).play();
-        }
+        }, 500);
+    } else {
+        // Phát âm thanh sai
+        new Audio(cfg.sndWrong).play().catch(e => console.log("Lỗi âm thanh:", e));
+        
+        // Hiệu ứng rung nhẹ bảng chọn để báo sai
+        const p = document.getElementById('picker').firstElementChild;
+        p.style.transform = "translateX(10px)";
+        setTimeout(()=> p.style.transform = "translateX(-10px)", 50);
+        setTimeout(()=> p.style.transform = "translateX(0)", 100);
     }
+}
 
     function goPage(id) {
         document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
