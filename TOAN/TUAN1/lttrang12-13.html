@@ -32,9 +32,10 @@
         .circle-ans { 
             position: absolute; border: 4px solid transparent; border-radius: 50%; 
             cursor: pointer; display: flex; align-items: center; justify-content: center; 
-            color: transparent; font-size: 22px; font-weight: bold; z-index: 5;
+            color: transparent; z-index: 5;
         }
-        .circle-ans.show { border-color: #0288d1; color: #0288d1; background: rgba(2, 136, 209, 0.1); }
+        /* Khi đúng hiện vòng tròn xanh */
+        .circle-ans.show { border-color: #0288d1; background: rgba(2, 136, 209, 0.1); }
 
         .nav-bar { width: 90%; display: flex; gap: 10px; margin: 15px 0; padding-bottom: 20px; }
         .btn-nav { flex: 1; padding: 12px; border-radius: 25px; border: none; color: white; font-weight: bold; cursor: pointer; font-size: 14px; box-shadow: 0 4px #ccc; }
@@ -51,12 +52,12 @@
     <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 1: Chọn số thích hợp</p>
     <div class="quiz-container">
         <img src="../../img/b1-12.PNG" class="quiz-img">
-        <div class="circle-ans" style="top: 15%; left: 43.5%; width: 6%; height: 7%;" onclick="checkCircle(this)"></div>
-        <div class="circle-ans" style="top: 12%; left: 91.5%; width: 6%; height: 7%;" onclick="checkCircle(this)"></div>
-        <div class="circle-ans" style="top: 56.5%; left: 8.5%; width: 6%; height: 7%;" onclick="checkCircle(this)"></div>
-        <div class="circle-ans" style="top: 45.5%; left: 91.5%; width: 6%; height: 7%;" onclick="checkCircle(this)"></div>
-        <div class="circle-ans" style="top: 88.5%; left: 8.5%; width: 6%; height: 7%;" onclick="checkCircle(this)"></div>
-        <div class="circle-ans" style="top: 86.5%; left: 85%; width: 6%; height: 7%;" onclick="checkCircle(this)"></div>
+        <div class="circle-ans" style="top: 13%; left: 42%; width: 9%; height: 11%;" onclick="checkCircle(this)"></div>
+        <div class="circle-ans" style="top: 10%; left: 89%; width: 9%; height: 11%;" onclick="checkCircle(this)"></div>
+        <div class="circle-ans" style="top: 54%; left: 6%; width: 9%; height: 11%;" onclick="checkCircle(this)"></div>
+        <div class="circle-ans" style="top: 43%; left: 89%; width: 9%; height: 11%;" onclick="checkCircle(this)"></div>
+        <div class="circle-ans" style="top: 86%; left: 6%; width: 9%; height: 11%;" onclick="checkCircle(this)"></div>
+        <div class="circle-ans" style="top: 84%; left: 82%; width: 9%; height: 11%;" onclick="checkCircle(this)"></div>
     </div>
     <div class="nav-bar">
         <div style="flex:1"></div>
@@ -128,7 +129,8 @@
         pg.innerHTML = '';
         for(let i=0; i<=5; i++) {
             let btn = document.createElement('button');
-            btn.innerText = i; btn.style.cssText = `height:55px; font-size:22px; background:${cfg.clrs[i]}; color:white; border:none; border-radius:10px; cursor:pointer;`;
+            btn.innerText = i; btn.className = 'btn-num';
+            btn.style.cssText = `height:55px; font-size:22px; background:${cfg.clrs[i]}; color:white; border:none; border-radius:10px; cursor:pointer;`;
             btn.onclick = () => check(i);
             pg.appendChild(btn);
         }
@@ -136,4 +138,55 @@
 
     function ask(el, v) { 
         targetEl = el; correctVal = v; 
-        document.getElementById
+        document.getElementById('picker').style.display = 'flex'; 
+    }
+
+    function checkCircle(el) {
+        if (el.classList.contains('show')) return; // Đã chọn rồi thì thôi
+        el.classList.add('show');
+        fireTripleConfetti();
+        playSound(cfg.sndCorrect);
+    }
+
+    function fireTripleConfetti() {
+        // Kiểm tra an toàn trước khi gọi pháo hoa
+        if (typeof confetti !== 'function') return;
+        const positions = [{ x: 0.2, y: 0.5 }, { x: 0.8, y: 0.5 }, { x: 0.5, y: 0.3 }];
+        positions.forEach((pos, i) => {
+            setTimeout(() => {
+                confetti({ particleCount: 100, spread: 70, origin: pos, zIndex: 3000 });
+            }, i * 300);
+        });
+    }
+
+    function playSound(src) {
+        try {
+            const audio = new Audio(src);
+            audio.play().catch(e => console.log("Audio play blocked"));
+        } catch(e) {}
+    }
+
+    function check(n) {
+        if(n === correctVal) {
+            fireTripleConfetti();
+            if(targetEl) {
+                targetEl.innerText = n; 
+                targetEl.classList.add('correct');
+            }
+            playSound(cfg.sndCorrect);
+            setTimeout(() => { document.getElementById('picker').style.display = 'none'; }, 500);
+        } else {
+            playSound(cfg.sndWrong);
+        }
+    }
+
+    function goPage(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
