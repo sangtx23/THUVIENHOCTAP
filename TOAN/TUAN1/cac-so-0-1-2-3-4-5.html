@@ -15,7 +15,7 @@
         .page { display: none; width: 100vw; height: calc(100vh - 50px); flex-direction: column; align-items: center; padding: 10px 0; box-sizing: border-box; overflow-y: auto; }
         .page.active { display: flex; }
 
-        /* KHÁM PHÁ - ĐÃ ĐIỀU CHỈNH KÍCH THƯỚC */
+        /* KHÁM PHÁ - GIỮ KÍCH THƯỚC LỚN */
         .kp-box { background: white; padding: 20px; border-radius: 20px; border: 5px solid #81d4fa; width: 85%; min-height: 250px; text-align: center; margin-bottom: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         #tank { min-height: 80px; width: 100%; background: #e1f5fe; border-radius: 15px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 10px; margin-bottom: 15px; }
         #numBig { font-size: 100px; font-weight: bold; line-height: 1; margin: 5px 0; }
@@ -26,11 +26,30 @@
         .writing-area { flex: 2.5; background: white; border: 3px solid #90caf9; border-radius: 15px; position: relative; aspect-ratio: 1 / 1; max-height: 55vh; background-image: linear-gradient(#90caf9 2px, transparent 2px), linear-gradient(90deg, #90caf9 2px, transparent 2px); background-size: 25% 25%; }
         canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; position: absolute; top: 0; left: 0; }
 
-        /* BÀI TẬP 3 - TƯƠNG TÁC TRÊN LÁ CỜ */
+        /* BÀI TẬP 3 - TẤM NỀN CHE DẤU ? */
         .flag-container { position: relative; width: 100%; max-width: 400px; margin: 0 auto; }
         .flag-img { width: 100%; display: block; }
-        .flag-touch { position: absolute; top: 15%; width: 11%; height: 25%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: red; transition: all 0.3s; }
-        .flag-touch.solved { color: black; font-size: 28px; background: transparent; }
+        .flag-touch { 
+            position: absolute; 
+            top: 14%; 
+            width: 12%; 
+            height: 26%; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 24px; 
+            font-weight: bold; 
+            color: #d32f2f; 
+        }
+        /* Lớp nền che dấu ? khi đã giải xong */
+        .flag-touch.solved { 
+            color: #212121; 
+            font-size: 28px; 
+            border-radius: 4px;
+        }
+        #f-green.solved { background-color: #76c67a; } /* Màu xanh lá của lá cờ */
+        #f-orange.solved { background-color: #f69d51; } /* Màu cam của lá cờ */
         
         .card { width: 94%; background: white; border-radius: 15px; padding: 15px; border: 3px solid var(--pink); margin-bottom: 15px; box-sizing: border-box; }
         .quiz-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
@@ -174,13 +193,18 @@
     }
 
     function ask(el,v) { targetEl=el; correctVal=v; document.getElementById('picker').style.display='flex'; }
-    function askFlag(id, v) { targetEl = document.getElementById(id); correctVal = v; document.getElementById('picker').style.display='flex'; }
+    function askFlag(id, v) { 
+        if(document.getElementById(id).classList.contains('solved')) return;
+        targetEl = document.getElementById(id); correctVal = v; document.getElementById('picker').style.display='flex'; 
+    }
 
     function check(n) {
         if(n === correctVal) {
             targetEl.innerText = n; 
             targetEl.classList.add('correct');
-            if(targetEl.classList.contains('flag-touch')) targetEl.classList.add('solved');
+            if(targetEl.classList.contains('flag-touch')) {
+                targetEl.classList.add('solved');
+            }
             new Audio(cfg.sndCorrect).play();
             document.getElementById('picker').style.display = 'none';
         } else {
