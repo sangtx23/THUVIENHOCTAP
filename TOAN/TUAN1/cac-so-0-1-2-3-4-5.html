@@ -171,11 +171,11 @@
         curNum = n; if(!canvas) return;
         ctx.clearRect(0,0,canvas.width,canvas.height);
         const line2X = canvas.width * 0.62; 
-        ctx.font = `bold ${canvas.height * 0.72}px Arial`; 
+        ctx.font = `bold ${canvas.height * 0.9}px Arial`; 
         ctx.fillStyle = "rgba(220, 220, 220, 0.4)"; 
         ctx.textAlign = "right"; 
         ctx.textBaseline = "bottom";
-        ctx.fillText(n, line2X, canvas.height + 50); 
+        ctx.fillText(n, line2X, canvas.height + 55); 
         document.getElementById('guideImg').src = "../../img/so" + n + ".PNG";
     }
 
