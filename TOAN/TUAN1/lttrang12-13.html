@@ -1,1 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Luyện Tập - Trang 12, 13</title>
+    <style>
+        :root { --sky: #e3f2fd; --pink: #f06292; --blue: #0288d1; --green: #4caf50; --amber: #ff8f00; }
+        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: var(--sky); overflow: hidden; touch-action: manipulation; }
+        
+        .header { background: white; height: 50px; display: flex; align-items: center; justify-content: center; border-bottom: 3px solid #ffca28; position: relative; z-index: 10; }
+        .header h2 { color: #f44336; margin: 0; font-size: 16px; text-transform: uppercase; }
+        .btn-exit { position: absolute; left: 10px; border: none; background: #f44336; color: white; border-radius: 12px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 3px #b71c1c; }
 
+        .page { display: none; width: 100vw; height: calc(100vh - 50px); flex-direction: column; align-items: center; padding: 10px 0; box-sizing: border-box; overflow-y: auto; }
+        .page.active { display: flex; }
+
+        .quiz-container { position: relative; width: 95%; max-width: 600px; margin: 0 auto; background: white; border-radius: 20px; border: 4px solid #90caf9; padding: 5px; box-sizing: border-box; }
+        .quiz-img { width: 100%; display: block; border-radius: 15px; }
+        
+        /* CÁC LOẠI ĐIỂM NHẤN */
+        .dot { position: absolute; background: rgba(255, 255, 255, 0.4); border: 2px dashed #0288d1; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .dot.correct-circle { border: 4px solid #4caf50; background: transparent; }
+        
+        .box-ans { position: absolute; background: white; border: 2px solid #0288d1; width: 8%; height: 6%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #0288d1; cursor: pointer; border-radius: 5px; }
+        .box-ans.correct { background: #e8f5e9; border: 2px solid #4caf50; color: #2e7d32; }
+
+        .nav-bar { width: 90%; display: flex; gap: 10px; margin: 15px 0; padding-bottom: 20px; }
+        .btn-nav { flex: 1; padding: 12px; border-radius: 25px; border: none; color: white; font-weight: bold; cursor: pointer; font-size: 14px; box-shadow: 0 4px #ccc; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <button class="btn-exit" onclick="location.href='../../index.html'">⬅ THOÁT</button>
+    <h2>BÀI 2: LUYỆN TẬP (T12-13)</h2>
+</div>
+
+<div id="lt1" class="page active">
+    <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 1: Chọn số thích hợp với số con vật:</p>
+    <div class="quiz-container">
+        <img src="../../img/b1-12.jpg" class="quiz-img">
+        <div class="dot" style="top: 13.5%; right: 7%; width: 9%; height: 7%;" onclick="markCorrect(this)"></div> <div class="dot" style="top: 13.5%; right: 3%; width: 9%; height: 7%;" onclick="wrong()"></div> <div class="dot" style="top: 18.5%; right: 18%; width: 6%; height: 5%;" onclick="markCorrect(this)"></div> <div class="dot" style="top: 48%; left: 7%; width: 6%; height: 5%;" onclick="markCorrect(this)"></div> <div class="dot" style="top: 57%; right: 3%; width: 6%; height: 5%;" onclick="markCorrect(this)"></div> <div class="dot" style="top: 88%; left: 10%; width: 6%; height: 5%;" onclick="markCorrect(this)"></div> <div class="dot" style="top: 90.5%; right: 10%; width: 6%; height: 5%;" onclick="markCorrect(this)"></div> </div>
+    <div class="nav-bar">
+        <div style="flex:1"></div>
+        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('lt2')">BÀI 2 ➡</button>
+    </div>
+</div>
+
+<div id="lt2" class="page">
+    <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 2: Chọn câu trả lời đúng:</p>
+    <div class="quiz-container">
+        <img src="../../img/b2-12.PNG" class="quiz-img">
+        <div class="dot" style="top: 47%; right: 29%; width: 10%; height: 10%;" onclick="markCorrect(this)"></div> <div class="dot" style="top: 47%; right: 6%; width: 15%; height: 10%;" onclick="wrong()"></div> <div class="dot" style="top: 88%; right: 29%; width: 10%; height: 10%;" onclick="wrong()"></div> <div class="dot" style="top: 88%; right: 6%; width: 15%; height: 10%;" onclick="markCorrect(this)"></div> </div>
+    <div class="nav-bar">
+        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('lt1')">⬅ BÀI 1</button>
+        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('lt3')">BÀI 3 ➡</button>
+    </div>
+</div>
+
+<div id="lt3" class="page">
+    <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 3: Số?</p>
+    <div class="quiz-container">
+        <img src="../../img/b3-13.jpg" class="quiz-img">
+        <div class="box-ans" style="top: 36%; left: 45%;" onclick="ask(this, 2)">?</div>
+        <div class="box-ans" style="top: 36%; left: 69%;" onclick="ask(this, 4)">?</div>
+        <div class="box-ans" style="top: 66.5%; left: 42%;" onclick="ask(this, 5)">?</div>
+        <div class="box-ans" style="top: 66.5%; left: 66%;" onclick="ask(this, 3)">?</div>
+    </div>
+    <div class="nav-bar">
+        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('lt2')">⬅ BÀI 2</button>
+        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('lt4')">BÀI 4 ➡</button>
+    </div>
+</div>
+
+<div id="lt4" class="page">
+    <p style="text-align:center; font-weight:bold; color:#0288d1; margin: 5px;">Bài 4: Số?</p>
+    <div class="quiz-container">
+        <img src="../../img/b4-13.jpg" class="quiz-img">
+        <div class="box-ans" style="bottom: 14%; left: 44.5%;" onclick="ask(this, 4)">?</div> <div class="box-ans" style="bottom: 14%; right: 14.5%;" onclick="ask(this, 4)">?</div> <div class="box-ans" style="bottom: 3%; left: 8.5%;" onclick="ask(this, 3)">?</div> <div class="box-ans" style="bottom: 3%; left: 44.5%;" onclick="ask(this, 1)">?</div> <div class="box-ans" style="bottom: 3%; right: 14.5%;" onclick="ask(this, 0)">?</div> </div>
+    <div class="nav-bar">
+        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('lt3')">⬅ BÀI 3</button>
+        <div style="flex:1"></div>
+    </div>
+</div>
+
+<div id="picker" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:none;justify-content:center;align-items:center;z-index:2000;">
+    <div style="background:white;padding:20px;border-radius:20px;width:85%;max-width:320px;text-align:center;">
+        <p><b>Bé chọn số mấy?</b></p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:20px 0;" id="pg"></div>
+        <button onclick="document.getElementById('picker').style.display='none'" style="border:none;background:#eee;padding:10px 20px;border-radius:10px;">ĐÓNG</button>
+    </div>
+</div>
+
+<script>
+    const cfg = { clrs:['#90a4ae','#f44336','#4caf50','#ff9800','#9c27b0','#2196f3'], sndCorrect: '../../audio/dung.mp3', sndWrong: '../../audio/sai.mp3' };
+    let targetEl = null, correctVal = null;
+
+    function init() {
+        const pg = document.getElementById('pg');
+        for(let i=0; i<=5; i++) {
+            let btn = document.createElement('button');
+            btn.innerText = i; btn.style.height = "55px"; btn.style.fontSize = "22px";
+            btn.style.background = cfg.clrs[i]; btn.style.color = "white"; btn.style.border = "none"; btn.style.borderRadius = "10px";
+            btn.onclick = () => check(i);
+            pg.appendChild(btn);
+        }
+    }
+
+    function ask(el, v) { targetEl = el; correctVal = v; document.getElementById('picker').style.display = 'flex'; }
+    
+    function markCorrect(el) {
+        if(el.classList.contains('correct-circle')) return;
+        el.classList.add('correct-circle');
+        new Audio(cfg.sndCorrect).play().catch(()=>{});
+    }
+
+    function wrong() { new Audio(cfg.sndWrong).play().catch(()=>{}); }
+
+    function check(n) {
+        if(n === correctVal) {
+            targetEl.innerText = n; targetEl.classList.add('correct');
+            new Audio(cfg.sndCorrect).play().catch(()=>{});
+            setTimeout(() => { document.getElementById('picker').style.display = 'none'; }, 500);
+        } else {
+            new Audio(cfg.sndWrong).play().catch(()=>{});
+        }
+    }
+
+    function goPage(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
