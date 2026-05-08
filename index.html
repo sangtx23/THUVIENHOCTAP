@@ -8,6 +8,8 @@
         :root {
             --bg-color: #e0f7fa;
             --primary-text: #006064;
+            --math-color: #ff5252;
+            --viet-color: #4caf50;
         }
 
         body {
@@ -17,45 +19,49 @@
         }
 
         header {
-            width: 100%; padding: 20px 0; text-align: center;
+            width: 100%; padding: 15px 0; text-align: center;
             background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;
+            position: sticky; top: 0; z-index: 1000;
         }
 
-        h1 { color: var(--primary-text); margin: 0; font-size: 24px; }
+        h1 { color: var(--primary-text); margin: 0; font-size: 20px; text-transform: uppercase; }
 
-        /* Container cho các màn hình */
+        /* Container cho các PAGE ẢO */
         .screen {
-            display: none; width: 90vw; max-width: 500px;
+            display: none; width: 95vw; max-width: 600px;
             padding: 20px; text-align: center;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.4s ease;
         }
 
         .screen.active { display: block; }
 
-        /* Thiết kế các Icon theo từng lớp */
+        /* Grid hiển thị Icon */
         .grid-container {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); 
+            gap: 15px; margin-top: 20px;
         }
 
         .icon-card {
-            background: white; border-radius: 25px; padding: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            cursor: pointer; transition: 0.2s; border: 5px solid transparent;
+            background: white; border-radius: 20px; padding: 15px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            cursor: pointer; transition: 0.2s; border: 4px solid transparent;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        .icon-card:active { transform: scale(0.95); }
-        .icon-card img, .icon-card .emoji { font-size: 60px; margin-bottom: 10px; display: block; }
-        .icon-card span { font-weight: bold; color: #333; font-size: 18px; }
+        .icon-card:active { transform: scale(0.9); }
+        .icon-card .emoji { font-size: 40px; margin-bottom: 8px; }
+        .icon-card span { font-weight: bold; color: #333; font-size: 14px; line-height: 1.2; }
 
-        /* Màu sắc từng môn học */
-        .math { border-color: #ff5252; }
-        .viet { border-color: #4caf50; }
-        .eng { border-color: #2196f3; }
+        /* Màu sắc định danh */
+        .math { border-color: var(--math-color); }
+        .viet { border-color: var(--viet-color); }
 
         .btn-back {
-            margin-top: 20px; padding: 10px 20px; border-radius: 15px;
+            margin-top: 25px; padding: 12px 25px; border-radius: 20px;
             border: none; background: #546e7a; color: white; cursor: pointer;
+            font-weight: bold; box-shadow: 0 4px #37474f;
         }
 
         @keyframes fadeIn {
@@ -72,80 +78,106 @@
 
 <div id="homeScreen" class="screen active">
     <div class="grid-container">
-        <div class="icon-card math" onclick="showSubject('math')">
+        <div class="icon-card math" onclick="showWeeks('math')">
             <span class="emoji">🔢</span>
             <span>TOÁN HỌC</span>
         </div>
-        <div class="icon-card viet" onclick="showSubject('viet')">
+        <div class="icon-card viet" onclick="showWeeks('viet')">
             <span class="emoji">📖</span>
             <span>TIẾNG VIỆT</span>
         </div>
-        <div class="icon-card eng" onclick="alert('Thầy đang soạn bài, bé đợi nhé!')">
-            <span class="emoji">🇺🇸</span>
-            <span>TIẾNG ANH</span>
-        </div>
     </div>
 </div>
 
-<div id="mathScreen" class="screen">
-    <div class="grid-container">
-        <div class="icon-card math" onclick="startLesson('so')">
-            <span class="emoji">🎯</span>
-            <span>Bé làm quen với số</span>
+<div id="weekScreen" class="screen">
+    <div class="grid-container" id="weekGrid">
         </div>
-        <div class="icon-card math" style="opacity: 0.5;">
-            <span class="emoji">➕</span>
-            <span>Phép cộng (Sắp có)</span>
+    <button class="btn-back" onclick="goBack('home')">⬅ QUAY LẠI</button>
+</div>
+
+<div id="lessonScreen" class="screen">
+    <div class="grid-container" id="lessonGrid">
         </div>
-    </div>
-    <button class="btn-back" onclick="goHome()">Quay lại trang chủ</button>
+    <button class="btn-back" onclick="goBack('week')">⬅ QUAY LẠI CHỌN TUẦN</button>
 </div>
 
 <script>
-   function showSubject(subject) {
-        // Ẩn trang chủ
-        document.getElementById('homeScreen').classList.remove('active');
-        
-        if(subject === 'math') {
-            // Thay vì hiện màn hình giả, ta chuyển hướng thẳng đến danh sách tuần của môn Toán
-            window.location.href = 'TOAN/tuan_list.html';
-        } else if(subject === 'viet') {
-            alert('Môn Tiếng Việt đang được thầy soạn, bé chờ nhé!');
+    // Dữ liệu bài học (Thầy sẽ thêm bài mới vào đây)
+    const data = {
+        math: {
+            title: "MÔN TOÁN HỌC",
+            weeks: {
+                1: [
+                    { name: "Bài 1: Các số 0-5", url: "TOAN/TUAN1/cac-so-0-1-2-3-4-5.html" },
+                    { name: "Bài 2: Tập viết số", url: "#" }
+                ],
+                2: [
+                    { name: "Bài 3: Hình vuông", url: "#" }
+                ]
+                // Thầy có thể thêm đến tuần 35...
+            }
+        },
+        viet: {
+            title: "MÔN TIẾNG VIỆT",
+            weeks: {
+                1: [{ name: "Bài 1: Âm A", url: "#" }]
+            }
+        }
+    };
+
+    let currentSubject = '';
+
+    // Hàm hiển thị 35 Tuần
+    function showWeeks(subject) {
+        currentSubject = subject;
+        document.getElementById('headerTitle').innerText = data[subject].title;
+        const grid = document.getElementById('weekGrid');
+        grid.innerHTML = '';
+
+        for (let i = 1; i <= 35; i++) {
+            const hasData = data[subject].weeks[i];
+            const div = document.createElement('div');
+            div.className = `icon-card ${subject}`;
+            div.style.opacity = hasData ? "1" : "0.4"; // Mờ đi nếu chưa có bài
+            div.onclick = () => hasData ? showLessons(i) : alert("Thầy đang soạn bài tuần này!");
+            div.innerHTML = `<span class="emoji">📅</span><span>TUẦN ${i}</span>`;
+            grid.appendChild(div);
+        }
+
+        switchPage('weekScreen');
+    }
+
+    // Hàm hiển thị các bài học trong tuần
+    function showLessons(weekNum) {
+        document.getElementById('headerTitle').innerText = `TUẦN ${weekNum}`;
+        const grid = document.getElementById('lessonGrid');
+        grid.innerHTML = '';
+
+        const lessons = data[currentSubject].weeks[weekNum];
+        lessons.forEach(lesson => {
+            const div = document.createElement('div');
+            div.className = `icon-card ${currentSubject}`;
+            div.onclick = () => window.location.href = lesson.url;
+            div.innerHTML = `<span class="emoji">📝</span><span>${lesson.name}</span>`;
+            grid.appendChild(div);
+        });
+
+        switchPage('lessonScreen');
+    }
+
+    function switchPage(pageId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+    }
+
+    function goBack(target) {
+        if (target === 'home') {
+            document.getElementById('headerTitle').innerText = 'NGÔI TRƯỜNG NHỎ CỦA BÉ';
+            switchPage('homeScreen');
+        } else if (target === 'week') {
+            showWeeks(currentSubject);
         }
     }
-
-    function goHome() {
-        document.getElementById('mathScreen').classList.remove('active');
-        document.getElementById('homeScreen').classList.add('active');
-        document.getElementById('headerTitle').innerText = 'NGÔI TRƯỜNG NHỎ CỦA BÉ';
-    }
-
-    // Hàm điều hướng theo cấu trúc thư mục mới
-    function startLesson(lessonId) {
-        if(lessonId === 'so') {
-            // Đường dẫn đến bài học nằm trong TUAN1 của môn TOAN
-            window.location.href = 'TOAN/TUAN1/cac-so-0-1-2-3-4-5.html';
-        }
-    }
-
-    function goHome() {
-        document.getElementById('mathScreen').classList.remove('active');
-        document.getElementById('homeScreen').classList.add('active');
-        document.getElementById('headerTitle').innerText = 'NGÔI TRƯỜNG NHỎ CỦA BÉ';
-    }
-
-   // Hàm điều hướng đến bài học cụ thể
-function goToLesson(url) {
-    // Thầy đảm bảo file cac-so-0-1-2-3-4-5.html nằm cùng thư mục với index.html nhé
-    window.location.href = url;
-}
-
-// Nếu thầy muốn quản lý chuyên nghiệp hơn, hãy sửa hàm startLesson (nếu có) thành:
-function startLesson(lessonId) {
-    if(lessonId === 'so') {
-        window.location.href = 'cac-so-0-1-2-3-4-5.html';
-    }
-}
 </script>
 
 </body>
