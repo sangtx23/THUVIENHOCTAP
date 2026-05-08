@@ -15,7 +15,7 @@
         .page { display: none; width: 100vw; height: calc(100vh - 50px); flex-direction: column; align-items: center; padding: 10px 0; box-sizing: border-box; overflow-y: auto; }
         .page.active { display: flex; }
 
-        /* KHÁM PHÁ - GIỮ KÍCH THƯỚC LỚN */
+        /* KHÁM PHÁ - ĐÃ ĐIỀU CHỈNH KHÔNG BỊ TEO NHỎ */
         .kp-box { background: white; padding: 20px; border-radius: 20px; border: 5px solid #81d4fa; width: 85%; min-height: 250px; text-align: center; margin-bottom: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         #tank { min-height: 80px; width: 100%; background: #e1f5fe; border-radius: 15px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 10px; margin-bottom: 15px; }
         #numBig { font-size: 100px; font-weight: bold; line-height: 1; margin: 5px 0; }
@@ -26,14 +26,14 @@
         .writing-area { flex: 2.5; background: white; border: 3px solid #90caf9; border-radius: 15px; position: relative; aspect-ratio: 1 / 1; max-height: 55vh; background-image: linear-gradient(#90caf9 2px, transparent 2px), linear-gradient(90deg, #90caf9 2px, transparent 2px); background-size: 25% 25%; }
         canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; position: absolute; top: 0; left: 0; }
 
-        /* BÀI TẬP 3 - TẤM NỀN CHE DẤU ? */
+        /* BÀI TẬP 3 - TƯƠNG TÁC TRÊN ẢNH SẠCH */
         .flag-container { position: relative; width: 100%; max-width: 400px; margin: 0 auto; }
-        .flag-img { width: 100%; display: block; }
+        .flag-img { width: 100%; display: block; border-radius: 10px; }
         .flag-touch { 
             position: absolute; 
-            top: 14%; 
+            top: 15%; 
             width: 12%; 
-            height: 26%; 
+            height: 25%; 
             cursor: pointer; 
             display: flex; 
             align-items: center; 
@@ -42,14 +42,7 @@
             font-weight: bold; 
             color: #d32f2f; 
         }
-        /* Lớp nền che dấu ? khi đã giải xong */
-        .flag-touch.solved { 
-            color: #212121; 
-            font-size: 28px; 
-            border-radius: 4px;
-        }
-        #f-green.solved { background-color: #76c67a; } /* Màu xanh lá của lá cờ */
-        #f-orange.solved { background-color: #f69d51; } /* Màu cam của lá cờ */
+        .flag-touch.solved { color: #212121; font-size: 28px; background: transparent; }
         
         .card { width: 94%; background: white; border-radius: 15px; padding: 15px; border: 3px solid var(--pink); margin-bottom: 15px; box-sizing: border-box; }
         .quiz-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
@@ -116,9 +109,9 @@
         <div class="quiz-grid" id="q2b"></div>
     </div>
     <div class="card">
-        <p style="color:var(--pink); font-weight:bold; margin-bottom:10px;">Bài 3: Nhấn vào dấu ? trên lá cờ để chọn số:</p>
+        <p style="color:var(--pink); font-weight:bold; margin-bottom:10px;">Bài 3: Nhấn vào ? để tìm số trên lá cờ:</p>
         <div class="flag-container">
-            <img src="../../img/bai3.PNG" class="flag-img">
+            <img src="../../img/bai3.png" class="flag-img">
             <div id="f-green" class="flag-touch" style="left: 41.5%;" onclick="askFlag('f-green', 2)">?</div>
             <div id="f-orange" class="flag-touch" style="left: 57.5%;" onclick="askFlag('f-orange', 3)">?</div>
         </div>
@@ -202,9 +195,7 @@
         if(n === correctVal) {
             targetEl.innerText = n; 
             targetEl.classList.add('correct');
-            if(targetEl.classList.contains('flag-touch')) {
-                targetEl.classList.add('solved');
-            }
+            if(targetEl.classList.contains('flag-touch')) targetEl.classList.add('solved');
             new Audio(cfg.sndCorrect).play();
             document.getElementById('picker').style.display = 'none';
         } else {
