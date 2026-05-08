@@ -15,25 +15,23 @@
         .page { display: none; width: 100vw; height: calc(100vh - 50px); flex-direction: column; align-items: center; padding: 10px 0; box-sizing: border-box; overflow-y: auto; }
         .page.active { display: flex; }
 
+        /* KHÁM PHÁ - ĐÃ ĐIỀU CHỈNH KÍCH THƯỚC */
+        .kp-box { background: white; padding: 20px; border-radius: 20px; border: 5px solid #81d4fa; width: 85%; min-height: 250px; text-align: center; margin-bottom: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        #tank { min-height: 80px; width: 100%; background: #e1f5fe; border-radius: 15px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 10px; margin-bottom: 15px; }
+        #numBig { font-size: 100px; font-weight: bold; line-height: 1; margin: 5px 0; }
+
         /* TẬP VIẾT */
         .write-container { display: flex; flex-direction: row; align-items: flex-start; justify-content: center; gap: 10px; width: 98%; max-width: 650px; margin: 5px 0; }
         .guide-box { flex: 1; background: white; border: 2px solid #ffca28; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px; min-height: 180px; }
-        .writing-area { 
-            flex: 2.5; 
-            background: white; 
-            border: 3px solid #90caf9; 
-            border-radius: 15px; 
-            position: relative; 
-            aspect-ratio: 1 / 1; 
-            max-height: 55vh;
-            background-image: 
-                linear-gradient(#90caf9 2px, transparent 2px), 
-                linear-gradient(90deg, #90caf9 2px, transparent 2px);
-            background-size: 25% 25%; 
-        }
+        .writing-area { flex: 2.5; background: white; border: 3px solid #90caf9; border-radius: 15px; position: relative; aspect-ratio: 1 / 1; max-height: 55vh; background-image: linear-gradient(#90caf9 2px, transparent 2px), linear-gradient(90deg, #90caf9 2px, transparent 2px); background-size: 25% 25%; }
         canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; position: absolute; top: 0; left: 0; }
 
-        /* BÀI TẬP */
+        /* BÀI TẬP 3 - TƯƠNG TÁC TRÊN LÁ CỜ */
+        .flag-container { position: relative; width: 100%; max-width: 400px; margin: 0 auto; }
+        .flag-img { width: 100%; display: block; }
+        .flag-touch { position: absolute; top: 15%; width: 11%; height: 25%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: red; transition: all 0.3s; }
+        .flag-touch.solved { color: black; font-size: 28px; background: transparent; }
+        
         .card { width: 94%; background: white; border-radius: 15px; padding: 15px; border: 3px solid var(--pink); margin-bottom: 15px; box-sizing: border-box; }
         .quiz-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
         .quiz-item { border: 1px solid #fce4ec; border-radius: 15px; padding: 10px; text-align: center; background: #fffafb; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
@@ -44,6 +42,7 @@
 
         .nav-bar { width: 90%; display: flex; gap: 10px; margin-top: auto; padding-bottom: 15px; }
         .btn-nav { flex: 1; padding: 15px; border-radius: 30px; border: none; color: white; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 4px #ccc; }
+        .btn-n { border: none; border-radius: 10px; color: white; font-weight: bold; cursor: pointer; height: 45px; font-size: 18px; box-shadow: 0 3px #999; }
     </style>
 </head>
 <body>
@@ -54,12 +53,12 @@
 </div>
 
 <div id="p1" class="page active">
-    <div style="background: white; padding: 15px; border-radius: 20px; border: 5px solid #81d4fa; width: 85%; text-align: center; margin-bottom: 10px;">
-        <div id="tank" style="height: 60px; background: #e1f5fe; border-radius: 15px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 5px;"></div>
-        <div id="numBig" style="font-size: 75px; font-weight: bold; line-height: 1; margin: 10px 0;">1</div>
-        <div id="txtBig" style="font-weight:bold; color:#546e7a;">một</div>
+    <div class="kp-box">
+        <div id="tank"></div>
+        <div id="numBig">1</div>
+        <div id="txtBig" style="font-weight:bold; color:#546e7a; font-size: 20px;">một</div>
     </div>
-    <div class="dock" id="dock" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 90%;"></div>
+    <div id="dock" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 85%;"></div>
     <div class="nav-bar">
         <div style="flex:1"></div>
         <button class="btn-nav" style="background:var(--amber); box-shadow: 0 4px #b56500;" onclick="goPage('p2')">TẬP VIẾT ➡</button>
@@ -98,11 +97,12 @@
         <div class="quiz-grid" id="q2b"></div>
     </div>
     <div class="card">
-        <p style="color:var(--pink); font-weight:bold; margin-bottom:10px;">Bài 3: Bé quan sát xúc xắc và tìm số trên lá cờ:</p>
-        <div style="text-align: center; margin-bottom: 15px;">
-            <img src="../../img/bai3.PNG" style="width: 100%; max-width: 400px; border-radius: 10px;">
+        <p style="color:var(--pink); font-weight:bold; margin-bottom:10px;">Bài 3: Nhấn vào dấu ? trên lá cờ để chọn số:</p>
+        <div class="flag-container">
+            <img src="../../img/bai3.PNG" class="flag-img">
+            <div id="f-green" class="flag-touch" style="left: 41.5%;" onclick="askFlag('f-green', 2)">?</div>
+            <div id="f-orange" class="flag-touch" style="left: 57.5%;" onclick="askFlag('f-orange', 3)">?</div>
         </div>
-        <div class="quiz-grid" id="q3" style="grid-template-columns: 1fr 1fr;"></div>
     </div>
     <div class="nav-bar">
         <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p2')">⬅ TẬP VIẾT</button>
@@ -140,13 +140,6 @@
         const d2b = [{i:'chau2ca.PNG', v:2}, {i:'chau1ca.PNG', v:1}, {i:'chau.PNG', v:0}];
         d2b.forEach(x => { document.getElementById('q2b').innerHTML += `<div class="quiz-item"><div class="img-wrap"><img src="../../img/${x.i}"></div><div class="ans" onclick="ask(this,${x.v})">?</div></div>`; });
 
-        // Bài 3: Lá cờ xanh lá có xúc xắc 2 chấm, lá cờ cam có xúc xắc 3 chấm
-        const d3 = [
-            {label:'Lá cờ màu xanh lá:', v:2}, 
-            {label:'Lá cờ màu cam:', v:3}
-        ];
-        d3.forEach(x => { document.getElementById('q3').innerHTML += `<div class="quiz-item" style="padding:15px;"><span style="font-size:13px; font-weight:bold; margin-bottom:10px;">${x.label}</span><div class="ans" onclick="ask(this,${x.v})">?</div></div>`; });
-
         setupC(); updateKP(1);
     }
 
@@ -176,21 +169,25 @@
 
     function updateKP(i) {
         document.getElementById('numBig').innerText=i; document.getElementById('numBig').style.color=cfg.clrs[i]; document.getElementById('txtBig').innerText=cfg.words[i];
-        const t=document.getElementById('tank'); t.innerHTML=''; for(let j=0; j<i; j++) t.innerHTML+=`<span style="font-size:28px">${cfg.fishes[j%3]}</span>`;
+        const t=document.getElementById('tank'); t.innerHTML=''; for(let j=0; j<i; j++) t.innerHTML+=`<span style="font-size:35px">${cfg.fishes[j%3]}</span>`;
         new Audio("../../audio/" + i + ".mp3").play().catch(()=>{});
     }
 
     function ask(el,v) { targetEl=el; correctVal=v; document.getElementById('picker').style.display='flex'; }
+    function askFlag(id, v) { targetEl = document.getElementById(id); correctVal = v; document.getElementById('picker').style.display='flex'; }
+
     function check(n) {
         if(n === correctVal) {
-            targetEl.innerText = n; targetEl.classList.add('correct');
+            targetEl.innerText = n; 
+            targetEl.classList.add('correct');
+            if(targetEl.classList.contains('flag-touch')) targetEl.classList.add('solved');
             new Audio(cfg.sndCorrect).play();
             document.getElementById('picker').style.display = 'none';
         } else {
             new Audio(cfg.sndWrong).play();
-            alert("Bé đếm chấm trên xúc xắc nhé! ☘️");
         }
     }
+
     function goPage(id) {
         document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
