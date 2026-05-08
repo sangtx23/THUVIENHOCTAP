@@ -15,6 +15,13 @@
         .page { display: none; width: 100vw; height: calc(100vh - 50px); flex-direction: column; align-items: center; padding: 10px 0; box-sizing: border-box; overflow-y: auto; }
         .page.active { display: flex; }
 
+        /* KHÁM PHÁ */
+        .box-study { background: white; padding: 15px; border-radius: 20px; border: 5px solid #81d4fa; width: 85%; text-align: center; margin-bottom: 10px; }
+        #tank { height: 60px; background: #e1f5fe; border-radius: 15px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 5px; }
+        #numBig { font-size: 75px; font-weight: bold; line-height: 1; margin: 10px 0; }
+        .dock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 90%; }
+        .btn-n { height: 45px; border: none; border-radius: 12px; color: white; font-size: 20px; font-weight: bold; cursor: pointer; }
+
         /* TẬP VIẾT - Ô VUÔNG CHUẨN MẪU */
         .write-container { display: flex; flex-direction: row; align-items: flex-start; justify-content: center; gap: 10px; width: 98%; max-width: 650px; margin: 5px 0; }
         .guide-box { flex: 1; background: white; border: 2px solid #ffca28; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px; min-height: 180px; }
@@ -33,7 +40,7 @@
         }
         canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; position: absolute; top: 0; left: 0; }
 
-        /* BÀI TẬP */
+        /* BÀI TẬP GIỮ NGUYÊN */
         .card { width: 94%; background: white; border-radius: 15px; padding: 15px; border: 3px solid var(--pink); margin-bottom: 15px; box-sizing: border-box; }
         .quiz-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
         .quiz-item { border: 1px solid #fce4ec; border-radius: 15px; padding: 10px; text-align: center; background: #fffafb; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
@@ -54,12 +61,12 @@
 </div>
 
 <div id="p1" class="page active">
-    <div style="background: white; padding: 15px; border-radius: 20px; border: 5px solid #81d4fa; width: 85%; text-align: center; margin-bottom: 10px;">
-        <div id="tank" style="height: 60px; background: #e1f5fe; border-radius: 15px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 5px;"></div>
-        <div id="numBig" style="font-size: 75px; font-weight: bold; line-height: 1; margin: 10px 0;">1</div>
+    <div class="box-study">
+        <div id="tank"></div>
+        <div id="numBig">1</div>
         <div id="txtBig" style="font-weight:bold; color:#546e7a;">một</div>
     </div>
-    <div class="dock" id="dock" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 90%;"></div>
+    <div class="dock" id="dock"></div>
     <div class="nav-bar">
         <div style="flex:1"></div>
         <button class="btn-nav" style="background:var(--amber); box-shadow: 0 4px #b56500;" onclick="goPage('p2')">TẬP VIẾT ➡</button>
@@ -131,12 +138,14 @@
             let b2 = b.cloneNode(true); b2.style.height="40px"; b2.style.width="40px"; b2.onclick=()=>drawT(i); wNav.appendChild(b2);
             let b3 = document.createElement('button'); b3.innerText=i; b3.style.height="55px"; b3.style.fontSize="22px"; b3.onclick=()=>check(i); pg.appendChild(b3);
         }
+        
         const d2a = [{i:'meo.PNG', v:1}, {i:'carot.PNG', v:3}, {i:'cho.PNG', v:5}, {i:'bong.PNG', v:4}, {i:'vit.PNG', v:2}, {i:'ket.PNG', v:1}];
         d2a.forEach(x => { document.getElementById('q2a').innerHTML += `<div class="quiz-item"><div class="img-wrap"><img src="../../img/${x.i}"></div><div class="ans" onclick="ask(this,${x.v})">?</div></div>`; });
         const d2b = [{i:'chau2ca.PNG', v:2}, {i:'chau1ca.PNG', v:1}, {i:'chau.PNG', v:0}];
         d2b.forEach(x => { document.getElementById('q2b').innerHTML += `<div class="quiz-item"><div class="img-wrap"><img src="../../img/${x.i}"></div><div class="ans" onclick="ask(this,${x.v})">?</div></div>`; });
         const d3 = [{i:'ga.PNG', v:3}, {i:'tao.PNG', v:4}, {i:'chuoi.PNG', v:2}];
         d3.forEach(x => { document.getElementById('q3').innerHTML += `<div class="quiz-item"><div class="img-wrap"><img src="../../img/${x.i}"></div><div class="ans" onclick="ask(this,${x.v})">?</div></div>`; });
+
         setupC(); updateKP(1);
     }
 
@@ -156,20 +165,16 @@
         curNum = n; if(!canvas) return;
         ctx.clearRect(0,0,canvas.width,canvas.height);
         
-        // ĐIỀU CHỈNH THEO YÊU CẦU MỚI:
-        // Cạnh phải chữ số chạm vào đường kẻ dọc thứ 2.
-        const line2X = canvas.width * 0.5; // Đường kẻ dọc giữa (ngăn cột 2 và 3)
+        // CĂN CHỈNH CHUẨN MẪU: Chân chạm đáy, trục số trùng đường kẻ dọc 1
+        const line1X = canvas.width * 0.25; // Đường kẻ dọc ngăn cột 1 và 2
         
-        ctx.font = `bold ${canvas.height * 0.72}px Arial`; 
+        ctx.font = `bold ${canvas.height * 0.7}px Arial`; 
         ctx.fillStyle = "rgba(220, 220, 220, 0.4)"; 
-        
-        // Thay đổi textAlign sang "right" để cạnh phải chữ số chạm vào line2X
-        ctx.textAlign = "right"; 
+        ctx.textAlign = "center"; 
         ctx.textBaseline = "bottom";
         
-        // Vẽ số mờ: Chân chạm dòng kẻ đáy (canvas.height), cạnh phải chạm line2X
-        ctx.fillText(n, line2X, canvas.height); 
-        
+        // Vẽ số mờ tại vị trí line1X (đường kẻ dọc 1)
+        ctx.fillText(n, line1X, canvas.height - 5);
         document.getElementById('guideImg').src = "../../img/so" + n + ".PNG";
     }
 
@@ -180,6 +185,7 @@
     }
 
     function ask(el,v) { targetEl=el; correctVal=v; document.getElementById('picker').style.display='flex'; }
+
     function check(n) {
         if(n === correctVal) {
             targetEl.innerText = n; targetEl.classList.add('correct');
@@ -190,11 +196,13 @@
             alert("Bé đếm lại nhé! ☘️");
         }
     }
+
     function goPage(id) {
         document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         if(id==='p2') { setTimeout(() => { setupC(); drawT(curNum); }, 150); }
     }
+
     function clearCanvas() { drawT(curNum); }
     function changeColor(c) { ctx.strokeStyle = c; }
     window.onload = init;
