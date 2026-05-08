@@ -187,16 +187,52 @@ function playFireworks() {
     }
 
     function drawT(n) {
-        curNum = n; if(!canvas) return;
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        const line2X = canvas.width * 0.63; 
-        ctx.font = `bold ${canvas.height * 0.75}px Arial`; 
-        ctx.fillStyle = "rgba(220, 220, 220, 0.4)"; 
-        ctx.textAlign = "right"; 
-        ctx.textBaseline = "bottom";
-        ctx.fillText(n, line2X, canvas.height + 68); 
-        document.getElementById('guideImg').src = "../../img/so" + n + ".PNG";
+    curNum = n; if(!canvas) return;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    
+    // Khai báo biến tọa độ mặc định
+    let posX = canvas.width * 0.5;
+    let posY = canvas.height * 0.75;
+    let fontSize = canvas.height * 0.48; // Mặc định cao khoảng 2 ô ly
+
+    // Tinh chỉnh riêng cho từng số ở đây
+    switch(n) {
+        case 0:
+            posX = canvas.width * 0.5;
+            posY = canvas.height * 0.75;
+            break;
+        case 1:
+            posX = canvas.width * 0.52; // Số 1 thường lệch trái nên đẩy sang phải xíu
+            posY = canvas.height * 0.75;
+            break;
+        case 2:
+            posX = canvas.width * 0.5;
+            posY = canvas.height * 0.74; // Ví dụ: số 2 hơi thấp thì đẩy lên xíu
+            break;
+        case 3:
+            posX = canvas.width * 0.5;
+            posY = canvas.height * 0.75;
+            break;
+        case 4:
+            posX = canvas.width * 0.5;
+            posY = canvas.height * 0.75;
+            break;
+        case 5:
+            posX = canvas.width * 0.5;
+            posY = canvas.height * 0.76; // Số 5 có bụng bầu, có thể cần hạ thấp xíu
+            break;
     }
+
+    // Tiến hành vẽ với thông số đã chỉnh
+    ctx.font = `bold ${fontSize}px Arial`; 
+    ctx.fillStyle = "rgba(220, 220, 220, 0.4)"; 
+    ctx.textAlign = "center"; // Dùng center để dễ căn chỉnh trục dọc
+    ctx.textBaseline = "middle"; 
+    
+    ctx.fillText(n, posX, posY); 
+    
+    document.getElementById('guideImg').src = "../../img/so" + n + ".PNG";
+}
 
     function updateKP(i) {
         document.getElementById('numBig').innerText=i; document.getElementById('numBig').style.color=cfg.clrs[i]; document.getElementById('txtBig').innerText=cfg.words[i];
