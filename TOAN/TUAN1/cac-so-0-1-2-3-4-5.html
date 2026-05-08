@@ -199,6 +199,32 @@
     }
 
     window.onload = init;
+       // Tôi đã sửa lại đường dẫn để nó tìm từ thư mục gốc của trang web
+    // Thay vì dùng ../../ tôi dùng dấu / ở đầu
+    
+    function drawT(n) {
+        curNum = n; if(!canvas) return;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.font = `bold ${canvas.height * 0.8}px Arial`; ctx.fillStyle = "#f3f3f3"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillText(n, canvas.width/2, canvas.height/2);
+        
+        // SỬA TẠI ĐÂY: Thêm dấu / để trỏ về gốc
+        document.getElementById('guideImg').src = "/img/so" + n + ".PNG";
+    }
+
+    function updateKP(i) {
+        document.getElementById('numBig').innerText=i; 
+        document.getElementById('numBig').style.color=cfg.clrs[i]; 
+        document.getElementById('txtBig').innerText=cfg.words[i];
+        const t=document.getElementById('tank'); 
+        t.innerHTML=''; 
+        for(let j=0; j<i; j++) t.innerHTML+=`<span style="font-size:30px">${cfg.fishes[j%3]}</span>`;
+        
+        // SỬA TẠI ĐÂY: Thêm dấu / để trỏ về gốc
+        new Audio("/audio/" + i + ".mp3").play().catch(()=>{});
+    }
+
+<div class="quiz-item"><div class="img-wrap"><img src="/img/meo.PNG"></div><div class="ans" onclick="ask(this,1)">?</div></div>
 </script>
 </body>
 </html>
