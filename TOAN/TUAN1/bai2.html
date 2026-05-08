@@ -1,1 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Các số 6, 7, 8, 9, 10</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
+    <style>
+        :root { --sky: #e3f2fd; --blue: #0288d1; --red: #f44336; }
+        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: var(--sky); overflow-x: hidden; touch-action: manipulation; }
+        
+        .header { background: white; height: 50px; display: flex; align-items: center; justify-content: center; border-bottom: 3px solid #ffca28; position: sticky; top: 0; z-index: 100; }
+        .header h2 { color: var(--red); margin: 0; font-size: 18px; text-transform: uppercase; }
+        .btn-exit { position: absolute; left: 10px; border: none; background: var(--red); color: white; border-radius: 12px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 3px #b71c1c; }
 
+        .quiz-container { position: relative; width: 95%; max-width: 700px; margin: 15px auto; background: white; border-radius: 20px; border: 4px solid #90caf9; padding: 5px; box-sizing: border-box; }
+        .quiz-img { width: 100%; display: block; border-radius: 15px; }
+
+        /* Vùng chạm hiển thị số */
+        .touch-zone {
+            position: absolute;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        /* Số hiện lên khi chạm */
+        .number-display {
+            font-size: 45px;
+            font-weight: bold;
+            color: #0288d1;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: scale(0.5);
+            pointer-events: none;
+            text-shadow: 2px 2px white;
+        }
+        .number-display.show {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .instruction { text-align: center; color: #555; font-size: 14px; margin-top: 10px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <button class="btn-exit" onclick="location.href='index.html'">⬅ THOÁT</button>
+    <h2>SỐ 6, 7, 8, 9, 10</h2>
+</div>
+
+<p class="instruction">Bé hãy chạm vào từng nhóm hình để đếm số nhé!</p>
+
+<div class="quiz-container">
+    <img src="../../img/bai2-14.PNG" class="quiz-img">
+
+    <div class="touch-zone" style="top: 2%; left: 5%; width: 55%; height: 18%;" onclick="reveal(this)">
+        <span class="number-display">6</span>
+    </div>
+
+    <div class="touch-zone" style="top: 22%; left: 5%; width: 55%; height: 18%;" onclick="reveal(this)">
+        <span class="number-display">7</span>
+    </div>
+
+    <div class="touch-zone" style="top: 42%; left: 5%; width: 55%; height: 18%;" onclick="reveal(this)">
+        <span class="number-display">8</span>
+    </div>
+
+    <div class="touch-zone" style="top: 62%; left: 5%; width: 55%; height: 18%;" onclick="reveal(this)">
+        <span class="number-display">9</span>
+    </div>
+
+    <div class="touch-zone" style="top: 82%; left: 5%; width: 55%; height: 16%;" onclick="reveal(this)">
+        <span class="number-display">10</span>
+    </div>
+</div>
+
+<script>
+    const sndCorrect = '../../audio/dung.mp3';
+
+    function reveal(el) {
+        const display = el.querySelector('.number-display');
+        if (display.classList.contains('show')) return;
+
+        // Hiện số
+        display.classList.add('show');
+        
+        // Hiệu ứng pháo hoa 3 điểm
+        fireTripleConfetti();
+        
+        // Âm thanh
+        playSound(sndCorrect);
+    }
+
+    function fireTripleConfetti() {
+        if (typeof confetti !== 'function') return;
+        const positions = [{ x: 0.2, y: 0.5 }, { x: 0.8, y: 0.5 }, { x: 0.5, y: 0.3 }];
+        positions.forEach((pos, i) => {
+            setTimeout(() => {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: pos,
+                    zIndex: 3000,
+                    colors: ['#ffeb3b', '#4caf50', '#2196f3', '#f44336', '#ff9800']
+                });
+            }, i * 300);
+        });
+    }
+
+    function playSound(src) {
+        try {
+            const audio = new Audio(src);
+            audio.play().catch(e => console.log("Audio play blocked"));
+        } catch(e) {}
+    }
+</script>
+</body>
+</html>
