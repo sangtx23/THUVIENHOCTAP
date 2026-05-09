@@ -3,121 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Các số 6, 7, 8, 9, 10</title>
+    <title>Luyện tập số 6, 7, 8, 9, 10</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
     <style>
-        :root { --sky: #e3f2fd; --blue: #0288d1; --red: #f44336; }
-        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: var(--sky); overflow-x: hidden; touch-action: manipulation; }
+        :root { --sky: #e3f2fd; --blue: #0288d1; --red: #f44336; --green: #2e7d32; --amber: #ffca28; }
+        body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: var(--sky); touch-action: manipulation; }
         
-        .header { background: white; height: 50px; display: flex; align-items: center; justify-content: center; border-bottom: 3px solid #ffca28; position: sticky; top: 0; z-index: 100; }
-        .header h2 { color: var(--red); margin: 0; font-size: 18px; text-transform: uppercase; }
-        .btn-exit { position: absolute; left: 10px; border: none; background: var(--red); color: white; border-radius: 12px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 3px #b71c1c; }
+        .header { background: white; height: 50px; display: flex; align-items: center; justify-content: center; border-bottom: 3px solid var(--amber); position: sticky; top: 0; z-index: 100; }
+        .header h2 { color: var(--red); margin: 0; font-size: 16px; text-transform: uppercase; }
+        .btn-exit { position: absolute; left: 10px; border: none; background: var(--red); color: white; border-radius: 12px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
-        .quiz-container { position: relative; width: 95%; max-width: 700px; margin: 15px auto; background: white; border-radius: 20px; border: 4px solid #90caf9; padding: 5px; box-sizing: border-box; }
-        .quiz-img { width: 100%; display: block; border-radius: 15px; }
+        .page { display: none; width: 100vw; flex-direction: column; align-items: center; padding: 10px 0; }
+        .page.active { display: flex; }
+        .quiz-container { position: relative; width: 95%; max-width: 650px; background: white; border-radius: 20px; border: 4px solid #90caf9; padding: 5px; box-sizing: border-box; }
+        .quiz-img { width: 100%; display: block; border-radius: 15px; pointer-events: none; }
 
-        /* Vùng chạm hiển thị số */
-        .touch-zone {
-            position: absolute;
-            background: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 5;
+        /* Bài 1: Vùng chạm hiện số */
+        .touch-zone { position: absolute; background: transparent; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
+        .number-reveal { font-size: 35px; font-weight: bold; color: var(--blue); opacity: 0; transform: scale(0.5); transition: all 0.4s ease; text-shadow: 2px 2px white; }
+        .number-reveal.show { opacity: 1; transform: scale(1.1); }
+
+        /* Bài 2 & 3: Ô điền số */
+        .box-ans { 
+            position: absolute; width: 8%; height: 8%; 
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; font-weight: bold; color: #ff5722;
+            cursor: pointer; z-index: 20; border-radius: 8px;
+            background: rgba(255, 255, 255, 0.6);
         }
+        .box-ans.filled { color: var(--green); background: white; border: 2px solid var(--green); }
 
-        /* Số hiện lên khi chạm */
-        .number-display {
-            font-size: 45px;
-            font-weight: bold;
-            color: #0288d1;
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: scale(0.5);
-            pointer-events: none;
-            text-shadow: 2px 2px white;
-        }
-        .number-display.show {
-            opacity: 1;
-            transform: scale(1.2);
-        }
+        /* Bài 3: Điểm chạm trắc nghiệm A/B */
+        .choice-point { position: absolute; border-radius: 50%; cursor: pointer; z-index: 15; border: 3px solid transparent; }
+        .choice-point.correct-active { border-color: var(--green); background: rgba(76, 175, 80, 0.2); }
+        .choice-point.wrong-flash { animation: flash-red 0.4s ease; }
+        @keyframes flash-red { 50% { background: rgba(244, 67, 54, 0.4); border-color: var(--red); } }
 
-        .instruction { text-align: center; color: #555; font-size: 14px; margin-top: 10px; font-style: italic; }
+        /* Picker bảng số */
+        #picker { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 3000; }
+        .picker-content { background: white; padding: 20px; border-radius: 20px; width: 85%; max-width: 320px; text-align: center; }
+        .picker-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+        .picker-btn { padding: 12px; font-size: 20px; font-weight: bold; border-radius: 10px; border: none; background: #f5f5f5; color: var(--blue); }
+
+        .nav-bar { width: 90%; display: flex; gap: 10px; margin: 15px 0; }
+        .btn-nav { flex: 1; padding: 12px; border-radius: 25px; border: none; color: white; font-weight: bold; cursor: pointer; box-shadow: 0 4px #ccc; }
     </style>
 </head>
 <body>
 
 <div class="header">
     <button class="btn-exit" onclick="location.href='index.html'">⬅ THOÁT</button>
-    <h2>SỐ 6, 7, 8, 9, 10</h2>
+    <h2>BÀI TẬP SỐ 6 - 10</h2>
 </div>
 
-<p class="instruction">Bé hãy chạm vào từng nhóm hình để đếm số nhé!</p>
-
-<div class="quiz-container">
-    <img src="../../img/bai2-14.PNG" class="quiz-img">
-
-    <div class="touch-zone" style="top: 2%; left: 5%; width: 55%; height: 18%;" onclick="reveal(this)">
-        <span class="number-display">6</span>
+<!-- BÀI 1: TẬP VIẾT SỐ (CHẠM ĐỂ HIỆN) -->
+<div id="p1" class="page active">
+    <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 1: Bé chạm vào ô để xem cách viết nhé!</p>
+    <div class="quiz-container">
+        <img src="../../img/b1-15.PNG" class="quiz-img">
+        <div class="touch-zone" style="top:40%; left:36%; width:8%; height:30%;" onclick="revealNum(this)"><span class="number-reveal">6</span></div>
+        <div class="touch-zone" style="top:40%; left:48.5%; width:8%; height:30%;" onclick="revealNum(this)"><span class="number-reveal">7</span></div>
+        <div class="touch-zone" style="top:40%; left:60.5%; width:8%; height:30%;" onclick="revealNum(this)"><span class="number-reveal">8</span></div>
+        <div class="touch-zone" style="top:40%; left:72.5%; width:8%; height:30%;" onclick="revealNum(this)"><span class="number-reveal">9</span></div>
+        <div class="touch-zone" style="top:40%; left:84.5%; width:10%; height:30%;" onclick="revealNum(this)"><span class="number-reveal">10</span></div>
     </div>
-
-    <div class="touch-zone" style="top: 22%; left: 5%; width: 55%; height: 18%;" onclick="reveal(this)">
-        <span class="number-display">7</span>
+    <div class="nav-bar">
+        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('p2')">BÀI 2 ➡</button>
     </div>
+</div>
 
-    <div class="touch-zone" style="top: 42%; left: 5%; width: 55%; height: 18%;" onclick="reveal(this)">
-        <span class="number-display">8</span>
+<!-- BÀI 2: ĐIỀN SỐ THÍCH HỢP -->
+<div id="p2" class="page">
+    <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 2: Bé đếm bánh rồi điền số vào ô trống nhé!</p>
+    <div class="quiz-container">
+        <img src="../../img/b2-15.PNG" class="quiz-img">
+        <!-- Bánh mì dài đã có số 5 -->
+        <div class="box-ans" style="top:41%; left:51.5%;" onclick="openPicker(this, 6)">?</div> <!-- Bánh tròn 6 -->
+        <div class="box-ans" style="top:41%; left:83.5%;" onclick="openPicker(this, 7)">?</div> <!-- Bánh mì 7 -->
+        <div class="box-ans" style="top:85%; left:18.5%;" onclick="openPicker(this, 8)">?</div> <!-- Cupcake 8 -->
+        <div class="box-ans" style="top:85%; left:51.5%;" onclick="openPicker(this, 9)">?</div> <!-- Bánh nhỏ 9 -->
+        <div class="box-ans" style="top:85%; left:83.5%;" onclick="openPicker(this, 10)">?</div> <!-- Donut 10 -->
     </div>
-
-    <div class="touch-zone" style="top: 62%; left: 5%; width: 55%; height: 18%;" onclick="reveal(this)">
-        <span class="number-display">9</span>
+    <div class="nav-bar">
+        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p1')">⬅ BÀI 1</button>
+        <button class="btn-nav" style="background:var(--amber);" onclick="goPage('p3')">BÀI 3 ➡</button>
     </div>
+</div>
 
-    <div class="touch-zone" style="top: 82%; left: 5%; width: 55%; height: 16%;" onclick="reveal(this)">
-        <span class="number-display">10</span>
+<!-- BÀI 3: CHỌN CÂU TRẢ LỜI ĐÚNG -->
+<div id="p3" class="page">
+    <p style="text-align:center; font-weight:bold; color:var(--blue); margin:5px;">Bài 3: Chọn thêm bao nhiêu bánh để đủ số lượng?</p>
+    <div class="quiz-container">
+        <img src="../../img/b3-15.PNG" class="quiz-img">
+        <!-- Câu a: Cần 6 bánh (đã có 4, chọn B - thêm 2) -->
+        <div class="choice-point" style="top:88%; left:11%; width:15%; height:10%;" onclick="checkABC(this, false)"></div> <!-- a-A sai -->
+        <div class="choice-point" style="top:88%; left:33%; width:15%; height:10%;" onclick="checkABC(this, true)"></div> <!-- a-B đúng -->
+
+        <!-- Câu b: Cần 9 bánh (đã có 6, chọn A - thêm 3) -->
+        <div class="choice-point" style="top:75%; left:62%; width:15%; height:20%;" onclick="checkABC(this, true)"></div> <!-- b-A đúng -->
+        <div class="choice-point" style="top:75%; left:83%; width:15%; height:20%;" onclick="checkABC(this, false)"></div> <!-- b-B sai -->
+    </div>
+    <div class="nav-bar">
+        <button class="btn-nav" style="background:#90a4ae;" onclick="goPage('p2')">⬅ BÀI 2</button>
+    </div>
+</div>
+
+<!-- Picker bảng số (1-10) -->
+<div id="picker">
+    <div class="picker-content">
+        <p style="font-weight:bold; color:var(--blue);">Bé chọn số mấy?</p>
+        <div class="picker-grid" id="picker-grid"></div>
+        <button onclick="closePicker()" style="margin-top:15px; border:none; background:#eee; padding:8px 20px; border-radius:10px;">Đóng</button>
     </div>
 </div>
 
 <script>
-    const sndCorrect = '../../audio/dung.mp3';
+    const sndDung = new Audio('../../audio/dung.mp3');
+    const sndSai = new Audio('../../audio/sai.mp3');
+    let currentBox = null;
+    let correctAnswer = null;
 
-    function reveal(el) {
-        const display = el.querySelector('.number-display');
-        if (display.classList.contains('show')) return;
-
-        // Hiện số
-        display.classList.add('show');
-        
-        // Hiệu ứng pháo hoa 3 điểm
-        fireTripleConfetti();
-        
-        // Âm thanh
-        playSound(sndCorrect);
+    // Khởi tạo bảng số 1-10 cho bài 2
+    function initPicker() {
+        const grid = document.getElementById('picker-grid');
+        grid.innerHTML = '';
+        for(let i=1; i<=10; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'picker-btn';
+            btn.innerText = i;
+            btn.onclick = () => checkResult(i);
+            grid.appendChild(btn);
+        }
     }
 
+    // Bài 1: Hiện số khi chạm
+    function revealNum(el) {
+        const txt = el.querySelector('.number-reveal');
+        if(!txt.classList.contains('show')) {
+            txt.classList.add('show');
+            play(sndDung);
+            fireTripleConfetti();
+        }
+    }
+
+    // Bài 2: Picker
+    function openPicker(box, ans) {
+        if(box.classList.contains('filled')) return;
+        currentBox = box;
+        correctAnswer = ans;
+        document.getElementById('picker').style.display = 'flex';
+    }
+    function closePicker() { document.getElementById('picker').style.display = 'none'; }
+    function checkResult(num) {
+        if(num === correctAnswer) {
+            currentBox.innerText = num;
+            currentBox.classList.add('filled');
+            play(sndDung);
+            fireTripleConfetti();
+            closePicker();
+        } else {
+            play(sndSai);
+        }
+    }
+
+    // Bài 3: Trắc nghiệm đúng/sai
+    function checkABC(el, isCorrect) {
+        if(el.classList.contains('correct-active')) return;
+        if(isCorrect) {
+            el.classList.add('correct-active');
+            play(sndDung);
+            fireTripleConfetti();
+        } else {
+            el.classList.add('wrong-flash');
+            play(sndSai);
+            setTimeout(() => el.classList.remove('wrong-flash'), 400);
+        }
+    }
+
+    // Hiệu ứng pháo hoa 3 lần
     function fireTripleConfetti() {
-        if (typeof confetti !== 'function') return;
-        const positions = [{ x: 0.2, y: 0.5 }, { x: 0.8, y: 0.5 }, { x: 0.5, y: 0.3 }];
-        positions.forEach((pos, i) => {
-            setTimeout(() => {
-                confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: pos,
-                    zIndex: 3000,
-                    colors: ['#ffeb3b', '#4caf50', '#2196f3', '#f44336', '#ff9800']
-                });
-            }, i * 300);
-        });
+        let count = 0;
+        const interval = setInterval(() => {
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, zIndex: 4000 });
+            count++;
+            if(count >= 3) clearInterval(interval);
+        }, 400);
     }
 
-    function playSound(src) {
-        try {
-            const audio = new Audio(src);
-            audio.play().catch(e => console.log("Audio play blocked"));
-        } catch(e) {}
+    function play(s) { s.pause(); s.currentTime = 0; s.play().catch(e=>{}); }
+    function goPage(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
     }
+
+    window.onload = initPicker;
 </script>
 </body>
 </html>
